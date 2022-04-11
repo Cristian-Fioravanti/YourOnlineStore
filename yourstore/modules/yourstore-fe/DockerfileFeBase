@@ -1,8 +1,0 @@
-FROM openjdk:11.0-jdk
-RUN cd / && wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.55/bin/apache-tomcat-9.0.55.zip && unzip apache-tomcat-9.0.55.zip && chmod +x /apache-tomcat-9.0.55/bin/*.sh && mkdir /apache-tomcat-9.0.55/webapps/frontend/
-RUN apt-get update && apt-get install nano sudo curl git -y
-RUN curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -  && apt-get install nodejs -y 
-RUN yes | npm install npm install -g @angular/cli@11 ; exit 0
-ADD  package.json /angular/
-RUN cd /angular && npm install --legacy-peer-deps  ; exit 0 
-CMD /apache-tomcat-9.0.55/bin/./startup.sh && tail -f /apache-tomcat-9.0.55/logs/catalina.out
