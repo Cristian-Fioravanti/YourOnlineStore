@@ -1,0 +1,35 @@
+[comment encoding = UTF-8 /]
+[module main('http://www.eclipse.org/uml2/5.0.0/UML')/]
+
+[import it::micegroup::voila2::cartridge::library::javaservice::wrapper::modelUtils/]
+[import it::micegroup::voila2::cartridge::library::javaservice::wrapper::entityUtils/]
+[import it::micegroup::voila2::cartridge::library::javaservice::wrapper::exceptionHandlerUtils/]
+
+[comment]LOGGER[/comment]
+[import it::micegroup::voila2::cartridge::library::logger::consoleUtils/]
+[import it::micegroup::voila2::cartridge::library::logger::severityLevel/]
+
+[comment]JAVA SPRINGBOOT[/comment]
+[import it::mice::voila2::acceleogenerator::core::springboot::main/]
+
+[comment]ECLIPSE[/comment]
+[import it::mice::voila2::acceleogenerator::core::eclipse::main/]
+
+[comment]REPORTS[/comment]
+[import it::mice::voila2::acceleogenerator::reports::main/]
+
+[comment]Microservice[/comment]
+[import it::mice::voila2::acceleogenerator::core::microservice::main/]
+
+[template public mainClass(aModel : Model){cExceptions: Boolean = aModel.hasDiagramExceptions();}]
+[comment @main /]
+
+[if(aModel.isRoot())]
+	[consoleMessage(getInfoSeverity(), '***ROOT GENERATION***')/]
+	[genMicroServiceMain()/]
+[/if]
+
+
+[consoleMessage(getInfoSeverity(), 'Transformation Completed')/]
+
+[/template]

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="OrderItem" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="573bb848-08f6-3196-bf38-65f76287b7d7">
+	<template><![CDATA[$P{REPORT_DIR} + "/templates/default.jrtx"]]></template>
+	<style name="RowLeft" hTextAlign="Left" vTextAlign="Middle">
+		<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="2">
+			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F9F9F9"/>
+		</conditionalStyle>
+	</style>
+	<style name="RowRight" hTextAlign="Right" vTextAlign="Middle">
+		<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="2">
+			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+		</box>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[new Boolean($V{REPORT_COUNT}.intValue() % 2 == 0)]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F9F9F9"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="REPORT_DIR" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="amount" class="java.lang.Integer"/>
+	<field name="theOrder.objectKey" class="java.lang.String"/>
+	<field name="theOrder.objectTitle" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="TableHeader" x="0" y="0" width="555" height="20" uuid="9ff53049-0450-31ad-9b05-966fc14fa1ec"/>
+				<textFieldExpression><![CDATA[$R{orderItem.jasperReports.tableHeader}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="15" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="0" y="0" width="185" height="15" uuid="a884a538-dad6-3975-9561-b5005cdeb01e"/>
+				<textFieldExpression><![CDATA[$R{orderItem.amount}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="185" y="0" width="185" height="15" uuid="e4a47c47-0eac-3a8f-9931-a57e89560731"/>
+				<textFieldExpression><![CDATA[$R{order.objectKey}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="370" y="0" width="185" height="15" uuid="48ee3032-130e-3216-88b8-6e3de17a2db5"/>
+				<textFieldExpression><![CDATA[$R{order.objectTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="RowRight" x="0" y="0" width="185" height="15" uuid="7cd183d4-fe92-3a67-92d7-27bbf84f3181"/>
+				<textFieldExpression><![CDATA[$F{amount}]]>
+				</textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="RowLeft" x="185" y="0" width="185" height="15" uuid="74b05feb-50a9-3f3d-809b-848bccbf2814"/>	
+				<textFieldExpression><![CDATA[$F{theOrder.objectKey}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="RowLeft" x="370" y="0" width="185" height="15" uuid="815f1f44-9c44-359f-bf2b-61a12ed840cb"/>	
+				<textFieldExpression><![CDATA[$F{theOrder.objectTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

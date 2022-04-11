@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperTemplate xmlns="http://jasperreports.sourceforge.net/jasperreports/template" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports/template http://jasperreports.sourceforge.net/xsd/jaspertemplate.xsd">
+	<style name="Default" isDefault="true" fontName="Noto Sans" fontSize="10">
+		<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="2"/>
+	</style>
+	<style name="Title" hTextAlign="Center" vTextAlign="Top" fontSize="18" isBold="true"/>
+	<style name="SubTitle" mode="Opaque" forecolor="#666666" hTextAlign="Center" vTextAlign="Middle" fontSize="10" isBold="false" isItalic="true"/>
+	<style name="Date" hTextAlign="Right"  vTextAlign="Top"  fontSize="8"/>
+	<style name="Label" mode="Opaque" backcolor="#EEEEEE" hTextAlign="Left" vTextAlign="Middle" isBold="true">
+		<box>
+			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="Field" hTextAlign="Left" vTextAlign="Middle">
+		<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="2">
+			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="TableHeader2" mode="Opaque" backcolor="#CCCCCC" hTextAlign="Center" vTextAlign="Middle" isBold="true">
+		<box topPadding="0" leftPadding="2" bottomPadding="0" rightPadding="2">
+			<pen lineWidth="1.0" lineStyle="Solid" lineColor="#CCCCCC"/>
+		</box>
+	</style>
+	<style name="TableHeader" hTextAlign="Left" vTextAlign="Middle" fontName="Noto Sans" isBold="true"/>
+	<style name="PageNumber" hTextAlign="Right" vTextAlign="Middle" fontSize="8"/>
+	<style name="Footer" hTextAlign="Left" vTextAlign="Middle" fontSize="8"/>
+	<style name="ImageLeft" hImageAlign="Right" vImageAlign="Middle"/>
+	<style name="ImageCenter" hImageAlign="Center" vImageAlign="Middle"/>
+	<style name="ImageRight" hImageAlign="Right" vImageAlign="Middle"/>
+</jasperTemplate>

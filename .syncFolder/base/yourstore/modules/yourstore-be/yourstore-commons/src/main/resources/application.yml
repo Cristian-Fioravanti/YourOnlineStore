@@ -1,0 +1,7 @@
+jasperreports:
+  dir: reports
+  debug: true
+
+spring: 
+  messages:
+     basename: i18n/res

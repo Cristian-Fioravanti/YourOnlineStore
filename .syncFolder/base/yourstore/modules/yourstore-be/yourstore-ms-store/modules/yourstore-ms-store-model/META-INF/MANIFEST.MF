@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: store
+Bundle-SymbolicName: store
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: store
+Bundle-RequiredExecutionEnvironment: JavaSE-15
+Export-Package: it.yourstore.store.model
+Require-Bundle: org.eclipse.acceleo.engine,
+ it.micegroup.voila2.cartridge.library;bundle-version="1.0.0",
+ it.micegroup.voila2.cartridge.angular;bundle-version="1.0.0",
+ it.mice.voila2.acceleogenerator;bundle-version="1.0.0"
+
