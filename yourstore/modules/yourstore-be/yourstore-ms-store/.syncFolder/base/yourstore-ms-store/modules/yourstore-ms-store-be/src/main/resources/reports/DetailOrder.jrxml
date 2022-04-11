@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Order" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="33af43e9-97ba-377e-902c-5f74273fa336">
+	<template><![CDATA[$P{REPORT_DIR} + "/templates/default.jrtx"]]></template>
+	<parameter name="REPORT_DIR" class="java.lang.String"/>
+	<parameter name="ListOrderItemForOrder" class="net.sf.jasperreports.engine.JasperReport"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="theUser.objectTitle" class="java.lang.String"/>
+	<field name="orderId" class="java.lang.Integer"/>
+	<field name="date" class="java.time.LocalDate"/>
+	<field name="totalCost" class="java.lang.Integer"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="theOrderItem" class="java.util.Collection"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="50" splitType="Stretch">
+			<image>
+				<reportElement style="ImageLeft" x="0" y="0" width="130" height="50" uuid="1857c7e0-d959-306f-9ff3-abdf8f194e75"/>
+				<imageExpression><![CDATA[$P{REPORT_DIR} + "/images/" + $R{jasperReports.logo}]]></imageExpression>
+			</image>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Title" x="130" y="0" width="295" height="30" uuid="37a4c91f-6dc9-3696-93d8-05efe71f5427"/>
+				<textFieldExpression><![CDATA[$R{order.jasperReports.title}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="SubTitle" x="130" y="30" width="295" height="20" uuid="6f7d458e-7ad6-3bde-bb92-8c1b61b05591"/>
+				<textFieldExpression><![CDATA[$R{order.jasperReports.subTitle}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Date" x="425" y="0" width="130" height="50" uuid="775f2649-2157-3b1f-83e5-aa4b4a25b591"/>
+				<textFieldExpression><![CDATA[new SimpleDateFormat($R{jasperReports.date.format}).format(new Date())]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="30" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="TableHeader" x="0" y="0" width="555" height="20" uuid="e36e4777-5ef7-37ef-8076-1ba596db15ff"/>
+				<textFieldExpression><![CDATA[$R{order.jasperReports.tableHeader}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="0" y="0" width="180" height="15" uuid="3137437a-4d53-3623-8541-1ff06cf99c65"/>
+				<textFieldExpression><![CDATA[$R{user.objectTitle}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Field" x="180" y="0" width="375" height="15" uuid="3137437a-4d53-3623-8541-1ff06cf99c65"/>
+				<textFieldExpression><![CDATA[$F{theUser.objectTitle}]]></textFieldExpression>
+			</textField>
+		</band>
+		<band height="15" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="0" y="0" width="180" height="15" uuid="f2c85eb4-379c-3721-8dc3-05ae5021813c"/>
+				<textFieldExpression><![CDATA[$R{order.orderId}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Field" x="180" y="0" width="375" height="15" uuid="3e04a0ea-cbaa-3da2-8098-2228182d8ea3"/>
+				<textFieldExpression><![CDATA[$F{orderId}]]>
+				</textFieldExpression>
+			</textField>
+		</band>
+		<band height="15" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="0" y="0" width="180" height="15" uuid="a33cbff5-46b5-3a5c-ba60-a31edab6689e"/>
+				<textFieldExpression><![CDATA[$R{order.date}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Field" x="180" y="0" width="375" height="15" uuid="85eb00a8-5ad4-3f75-8c14-ecaf3e3f602f"/>
+				<textFieldExpression><![CDATA[$F{date}.format(java.time.format.DateTimeFormatter.ofPattern($R{jasperReports.date.format}))]]>
+				</textFieldExpression>
+			</textField>
+		</band>
+		<band height="15" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="0" y="0" width="180" height="15" uuid="099bb0f2-ffe0-39ba-938c-927ea58a15ee"/>
+				<textFieldExpression><![CDATA[$R{order.totalCost}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Field" x="180" y="0" width="375" height="15" uuid="c1af070c-a7e4-3847-8694-cd61958ec59e"/>
+				<textFieldExpression><![CDATA[$F{totalCost}]]>
+				</textFieldExpression>
+			</textField>
+		</band>
+		<band height="15" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Label" x="0" y="0" width="180" height="15" uuid="ad2b230b-b0ca-3bc6-80a7-06196d46acf3"/>
+				<textFieldExpression><![CDATA[$R{order.address}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Field" x="180" y="0" width="375" height="15" uuid="57ad9119-29f5-3ce2-80ff-69fbcb0e7a7d"/>
+				<textFieldExpression><![CDATA[$F{address}]]>
+				</textFieldExpression>
+			</textField>
+		</band>
+		<band height="100" splitType="Stretch">
+			<subreport>
+				<reportElement x="-20" y="0" width="595" height="100" uuid="e7e67161-6394-3d67-bcd9-1d589c0052ff"/>
+				<subreportParameter name="REPORT_RESOURCE_BUNDLE">
+					<subreportParameterExpression><![CDATA[$P{REPORT_RESOURCE_BUNDLE}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="REPORT_DIR">
+					<subreportParameterExpression><![CDATA[$P{REPORT_DIR}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{theOrderItem})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{ListOrderItemForOrder}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="20" splitType="Stretch">
+			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+				<reportElement style="Footer" x="0" y="0" width="480" height="20" uuid="925d08a9-1381-3c09-9ea0-ab22548b40ab"/>
+				<textFieldExpression><![CDATA[$R{jasperReports.footer.text}]]></textFieldExpression>
+			</textField>
+			<textField textAdjust="StretchHeight" evaluationTime="Master" isBlankWhenNull="true">
+				<reportElement style="PageNumber" x="480" y="0" width="75" height="20" uuid="092e3915-c478-3469-852e-f81956f81c56"/>
+				<textFieldExpression><![CDATA[$R{jasperReports.pageNumber.label} + " " + $V{MASTER_CURRENT_PAGE} + " " + $R{jasperReports.pageNumber.separator} + " " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

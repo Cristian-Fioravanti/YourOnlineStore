@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:Voila2Profile="http://www.micegroup.it/micegen/1.0/profiles/vittorio.profile.uml" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http://www.micegroup.it/micegen/1.0/profiles/vittorio.profile.uml profile/Voila2Profile.profile.uml#_2B4tILHGEey3R-rGUHEufw">
+  <uml:Model xmi:id="_zjjJgIu9EeuAaL1R9lkoyQ" name="yourstore_model">
+    <packagedElement xmi:type="uml:Component" xmi:id="_HmGR0Iu-EeuAaL1R9lkoyQ" name="Gateway">
+      <interfaceRealization xmi:type="uml:InterfaceRealization" xmi:id="_d7EIsIu-EeuAaL1R9lkoyQ" client="_HmGR0Iu-EeuAaL1R9lkoyQ" supplier="_YGDdIIu-EeuAaL1R9lkoyQ" contract="_YGDdIIu-EeuAaL1R9lkoyQ"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Interface" xmi:id="_YGDdIIu-EeuAaL1R9lkoyQ" name="Comunication"/>
+    <packagedElement xmi:type="uml:Component" xmi:id="_ZLEt4LmdEeyG_daDSTy9uQ" name="Store">
+      <packagedElement xmi:type="uml:Usage" xmi:id="_jzQ0kLmdEeyG_daDSTy9uQ" client="_ZLEt4LmdEeyG_daDSTy9uQ" supplier="_YGDdIIu-EeuAaL1R9lkoyQ"/>
+    </packagedElement>
+    <profileApplication xmi:type="uml:ProfileApplication" xmi:id="_8sd10Iu9EeuAaL1R9lkoyQ">
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_nKQpMPq5Eeuvi_VjgkLOhg" source="PapyrusVersion">
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_p_fIgS2_Eey7is5p_AQmgg" key="Version" value="0.1.94"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_p_fIgi2_Eey7is5p_AQmgg" key="Comment" value=" "/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_p_fIgy2_Eey7is5p_AQmgg" key="Copyright" value="Micegroup"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_p_fIhC2_Eey7is5p_AQmgg" key="Date" value="2022-04-01"/>
+        <details xmi:type="ecore:EStringToStringMapEntry" xmi:id="_p_fIhS2_Eey7is5p_AQmgg" key="Author" value="Vittorio Niespolo"/>
+      </eAnnotations>
+      <eAnnotations xmi:type="ecore:EAnnotation" xmi:id="_8sfD8Iu9EeuAaL1R9lkoyQ" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="profile/Voila2Profile.profile.uml#_2B4tILHGEey3R-rGUHEufw"/>
+      </eAnnotations>
+      <appliedProfile xmi:type="uml:Profile" href="profile/Voila2Profile.profile.uml#_4bYY0HGpEemXefQhp2Zwuw"/>
+    </profileApplication>
+  </uml:Model>
+  <Voila2Profile:Gateway xmi:id="_HmIuEIu-EeuAaL1R9lkoyQ" base_NamedElement="_HmGR0Iu-EeuAaL1R9lkoyQ" base_Component="_HmGR0Iu-EeuAaL1R9lkoyQ" portNumber="8090" url="http://localhost"/>
+  <Voila2Profile:Interface xmi:id="_YGF5YIu-EeuAaL1R9lkoyQ" base_NamedElement="_YGDdIIu-EeuAaL1R9lkoyQ" base_Interface="_YGDdIIu-EeuAaL1R9lkoyQ"/>
+  <Voila2Profile:InterfaceRealization xmi:id="_d7FW0Iu-EeuAaL1R9lkoyQ" base_NamedElement="_d7EIsIu-EeuAaL1R9lkoyQ" base_InterfaceRealization="_d7EIsIu-EeuAaL1R9lkoyQ"/>
+  <Voila2Profile:Model xmi:id="_DgUtgJ69EeuKxaOmic0sLQ" base_NamedElement="_zjjJgIu9EeuAaL1R9lkoyQ" base_Model="_zjjJgIu9EeuAaL1R9lkoyQ" category="root"/>
+  <Voila2Profile:MicroService xmi:id="_ZLNQwLmdEeyG_daDSTy9uQ" base_NamedElement="_ZLEt4LmdEeyG_daDSTy9uQ" id="1649684619213" base_Component="_ZLEt4LmdEeyG_daDSTy9uQ" portNumber="8081"/>
+  <Voila2Profile:InterfaceUsage xmi:id="_jzSCsLmdEeyG_daDSTy9uQ" base_NamedElement="_jzQ0kLmdEeyG_daDSTy9uQ" base_Usage="_jzQ0kLmdEeyG_daDSTy9uQ"/>
+</xmi:XMI>
