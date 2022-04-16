@@ -16,22 +16,22 @@ import org.springframework.data.domain.Pageable;
 import it.yourstore.store.domain.OrderItem;
 import it.yourstore.store.domain.OrderItemKey;
 
-import it.yourstore.store.domain.Order;
+import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.domain.Product;
 
 @Repository
 @EnableJpaRepositories
 public interface OrderItemRepository extends JpaRepository<OrderItem, OrderItemKey>,  JpaSpecificationExecutor<OrderItem> {
 
-	@EntityGraph(attributePaths = { "orderItemKey.theOrder", "orderItemKey.theProduct" }, type = EntityGraphType.FETCH)
+	@EntityGraph(attributePaths = { "orderItemKey.theOrdine", "orderItemKey.theProduct" }, type = EntityGraphType.FETCH)
 
 	Optional<OrderItem> findByOrderItemKey(OrderItemKey id);
 
-	@EntityGraph(attributePaths = { "orderItemKey.theOrder", "orderItemKey.theProduct" }, type = EntityGraphType.FETCH)
+	@EntityGraph(attributePaths = { "orderItemKey.theOrdine", "orderItemKey.theProduct" }, type = EntityGraphType.FETCH)
 
-	Page<OrderItem> findByOrderItemKeyTheOrder(Order parentEntity, Pageable pageable);
+	Page<OrderItem> findByOrderItemKeyTheOrdine(Ordine parentEntity, Pageable pageable);
 
-	@EntityGraph(attributePaths = { "orderItemKey.theOrder", "orderItemKey.theProduct" }, type = EntityGraphType.FETCH)
+	@EntityGraph(attributePaths = { "orderItemKey.theOrdine", "orderItemKey.theProduct" }, type = EntityGraphType.FETCH)
 
 	Page<OrderItem> findByOrderItemKeyTheProduct(Product parentEntity, Pageable pageable);
 

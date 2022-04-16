@@ -64,7 +64,7 @@ public class Product implements Serializable {
 		theOrderItem.add(orderItem);
 	}
 	
-	// Equals / HashCode
+	// Equals
 	@Override
 	public boolean equals(Object o) {
 		if (this == o)

@@ -34,16 +34,17 @@ import it.yourstore.store.service.OrderItemService;
 import it.yourstore.store.service.ProductService;
 import lombok.RequiredArgsConstructor;
 
+//@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/product", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProductController {
 	/// ENTITY SERVICE
 	@Autowired
-	private ProductService productService;
+	ProductService productService;
 
 	// CHILD SERVICES
 	@Autowired
-	private OrderItemService orderItemService;
+	OrderItemService orderItemService;
 
 	// API
 	/**

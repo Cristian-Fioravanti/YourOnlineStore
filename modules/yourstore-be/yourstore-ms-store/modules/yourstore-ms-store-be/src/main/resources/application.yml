@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8081}
+  port: ${PORT:8090}
   servlet:
    context-path: /store
 
@@ -12,6 +12,7 @@ spring:
   liquibase:
     enabled: false
   security:
+    basic.enable: false
     oauth2:      
       resourceserver:
         jwt:
@@ -50,8 +51,8 @@ spring:
 #    org.hibernate.SQL: TRACE
 #    org.springframework: DEBUG
 
-gateway:
-  baseuri: http://localhost:8080
+#gateway:
+#  baseuri: http://localhost:8080
 #8090
 
 jasperreports:

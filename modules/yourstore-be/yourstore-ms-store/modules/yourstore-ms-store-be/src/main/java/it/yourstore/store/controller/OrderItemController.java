@@ -14,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,20 +27,21 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.turkraft.springfilter.boot.Filter;
 
 import io.swagger.v3.oas.annotations.Operation;
-import it.yourstore.store.domain.Order;
 import it.yourstore.store.domain.OrderItem;
 import it.yourstore.store.domain.OrderItemKey;
+import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.domain.Product;
 import it.yourstore.store.exception.ResourceNotFoundException;
 import it.yourstore.store.service.OrderItemService;
 import lombok.RequiredArgsConstructor;
 
+//@RequiredArgsConstructor
 @RestController
 @RequestMapping(value = "/order-item", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderItemController{
 	/// ENTITY SERVICE
 	@Autowired
-	private OrderItemService orderItemService;
+	OrderItemService orderItemService;
 	// API
 	/**
 	 * {@code GET /order-item} : Get all order-item.
@@ -145,11 +145,11 @@ public class OrderItemController{
 	 */
 	@GetMapping("/findByTheOrder/{orderObjectKey:.+}")
 	@Operation(summary = "Get all OrderItem for the given Order (parent)")
-	public ResponseEntity<Page<OrderItem>> findByOrder(@PathVariable Integer orderObjectKey,
+	public ResponseEntity<Page<OrderItem>> findByOrdine(@PathVariable Integer orderObjectKey,
 			Pageable pageable) {
-		Order key = new Order();
-		key.setOrderId(orderObjectKey);
-		Page<OrderItem> collModel = orderItemService.findByTheOrder(key, pageable);
+		Ordine key = new Ordine();
+		key.setOrdineId(orderObjectKey);
+		Page<OrderItem> collModel = orderItemService.findByTheOrdine(key, pageable);
 		return toResponseEntityPaged(collModel, null);
 	}
 
@@ -163,7 +163,6 @@ public class OrderItemController{
 	 */
 	@GetMapping("/findByTheProduct/{productObjectKey:.+}")
 	@Operation(summary = "Get all OrderItem for the given Product (parent)")
-	@PreAuthorize("hasRole(@permissionHolder.ORDER_ITEM_FIND_BY_PRODUCT.toString())")
 	public ResponseEntity<Page<OrderItem>> findByProduct(@PathVariable Integer productObjectKey,
 			Pageable pageable) {
 		Product key = new Product();

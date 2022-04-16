@@ -52,18 +52,18 @@ public class OrderItem implements Serializable {
 	/**
 	 * @return the Order
 	 */
-	public Order getTheOrder() {
-		return orderItemKey != null ? orderItemKey.getTheOrder() : null;
+	public Ordine getTheOrdine() {
+		return orderItemKey != null ? orderItemKey.getTheOrdine() : null;
 	}
 
 	/**
 	 * @param aOrder to set
 	 */
-	public void setTheOrder(Order aOrder) {
+	public void setTheOrdine(Ordine aOrder) {
 		if (orderItemKey == null) {
 			orderItemKey = new OrderItemKey();
 		}
-		orderItemKey.setTheOrder(aOrder);
+		orderItemKey.setTheOrdine(aOrder);
 	}
 
 	/**

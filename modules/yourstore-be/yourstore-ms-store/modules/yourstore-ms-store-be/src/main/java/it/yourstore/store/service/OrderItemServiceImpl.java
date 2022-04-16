@@ -13,9 +13,9 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import it.yourstore.store.domain.Order;
 import it.yourstore.store.domain.OrderItem;
 import it.yourstore.store.domain.OrderItemKey;
+import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.domain.Product;
 import it.yourstore.store.repository.OrderItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 @Transactional
-public class OrderItemServiceImpl {
+public class OrderItemServiceImpl implements OrderItemService{
 
 	private final OrderItemRepository orderItemRepository;
 
@@ -79,8 +79,8 @@ public class OrderItemServiceImpl {
 		return update;
 	}
 
-	public Page<OrderItem> findByTheOrder(Order parentEntity, Pageable pageable) {
-		return orderItemRepository.findByOrderItemKeyTheOrder(parentEntity, pageable);
+	public Page<OrderItem> findByTheOrdine(Ordine parentEntity, Pageable pageable) {
+		return orderItemRepository.findByOrderItemKeyTheOrdine(parentEntity, pageable);
 	}
 
 	public Page<OrderItem> findByTheProduct(Product parentEntity, Pageable pageable) {
@@ -88,17 +88,17 @@ public class OrderItemServiceImpl {
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Order> findTheOrderByTheProduct(Product product, Pageable pageable) {
+	public Page<Ordine> findTheOrdineByTheProduct(Product product, Pageable pageable) {
 		Page<OrderItem> orderItemPage = orderItemRepository.findByOrderItemKeyTheProduct(product, pageable);
-		List<Order> content = orderItemPage.getContent().stream().map(OrderItem::getTheOrder)
+		List<Ordine> content = orderItemPage.getContent().stream().map(OrderItem::getTheOrdine)
 				.collect(Collectors.toList());
-		Page<Order> result = new PageImpl<Order>(content, pageable, orderItemPage.getTotalElements());
+		Page<Ordine> result = new PageImpl<Ordine>(content, pageable, orderItemPage.getTotalElements());
 		return result;
 	}
 
 	@Transactional(readOnly = true)
-	public Page<Product> findTheProductByTheOrder(Order order, Pageable pageable) {
-		Page<OrderItem> orderItemPage = orderItemRepository.findByOrderItemKeyTheOrder(order, pageable);
+	public Page<Product> findTheProductByTheOrdine(Ordine order, Pageable pageable) {
+		Page<OrderItem> orderItemPage = orderItemRepository.findByOrderItemKeyTheOrdine(order, pageable);
 		List<Product> content = orderItemPage.getContent().stream().map(OrderItem::getTheProduct)
 				.collect(Collectors.toList());
 		Page<Product> result = new PageImpl<Product>(content, pageable, orderItemPage.getTotalElements());

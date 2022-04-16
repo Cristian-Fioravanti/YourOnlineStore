@@ -9,14 +9,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Repository;
 
-import it.yourstore.store.domain.User;
+import it.yourstore.store.domain.Utente;
 
 @Repository
 @EnableJpaRepositories
-public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
+public interface UtenteRepository extends JpaRepository<Utente, Integer>, JpaSpecificationExecutor<Utente> {
 
-	Optional<User> findByUserId(Integer id);
+	Optional<Utente> findByUtenteId(Integer id);
 
-	@Query("DELETE FROM User WHERE userId IN ?1")
+	@Query("DELETE FROM Utente WHERE utenteId IN ?1")
 	void deleteByIdIn(Collection<Integer> ids);
 }

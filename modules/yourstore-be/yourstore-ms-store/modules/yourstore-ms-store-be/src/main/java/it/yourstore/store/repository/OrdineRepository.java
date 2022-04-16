@@ -13,22 +13,22 @@ import org.springframework.data.jpa.repository.EntityGraph.EntityGraphType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import it.yourstore.store.domain.Order;
+import it.yourstore.store.domain.Ordine;
 
-import it.yourstore.store.domain.User;
+import it.yourstore.store.domain.Utente;
 
 @Repository
 @EnableJpaRepositories
-public interface OrderRepository extends JpaRepository<Order, Integer>, JpaSpecificationExecutor<Order> {
+public interface OrdineRepository extends JpaRepository<Ordine, Integer>, JpaSpecificationExecutor<Ordine> {
 
-	@EntityGraph(attributePaths = { "theUser" }, type = EntityGraphType.FETCH)
+	@EntityGraph(attributePaths = { "theUtente" }, type = EntityGraphType.FETCH)
 
-	Optional<Order> findByOrderId(Integer id);
+	Optional<Ordine> findByOrdineId(Integer id);
 
-	@EntityGraph(attributePaths = { "theUser" }, type = EntityGraphType.FETCH)
+	@EntityGraph(attributePaths = { "theUtente" }, type = EntityGraphType.FETCH)
 
-	Page<Order> findByTheUser(User parentEntity, Pageable pageable);
+	Page<Ordine> findByTheUtente(Utente parentEntity, Pageable pageable);
 
-	@Query("DELETE FROM Order WHERE orderId IN ?1")
+	@Query("DELETE FROM Ordine WHERE ordineId IN ?1")
 	void deleteByIdIn(Collection<Integer> ids);
 }

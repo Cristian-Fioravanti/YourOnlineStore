@@ -25,7 +25,7 @@ import lombok.ToString;
 @Setter
 @Entity
 @Table(name = "utente")
-public class User implements Serializable {
+public class Utente implements Serializable {
 
 	// Generated SERIAL VERSION UID
 	private static final long serialVersionUID = 3181774896L;
@@ -33,8 +33,8 @@ public class User implements Serializable {
 	// ATTRIBUTES
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "user_id", columnDefinition = "INTEGER")
-	private Integer userId;
+	@Column(name = "utente_id", columnDefinition = "INTEGER")
+	private Integer utenteId;
 	@Column(name = "oauth_id", columnDefinition = "INTEGER")
 	private Integer oauthId;
 	@Column(name = "name", columnDefinition = "VARCHAR(80)")
@@ -47,43 +47,43 @@ public class User implements Serializable {
 	private Boolean isAdmin;
 
 	// CONSTRUCTORS
-	public User() {
+	public Utente() {
 		super();
 	}
 
-	public User(Integer oauthId, String name, String surname, String email, Boolean isAdmin, Integer userId) {
+	public Utente(Integer oauthId, String name, String surname, String email, Boolean isAdmin, Integer utenteId) {
 		super();
 		this.oauthId = oauthId;
 		this.name = name;
 		this.surname = surname;
 		this.email = email;
 		this.isAdmin = isAdmin;
-		this.userId = userId;
+		this.utenteId = utenteId;
 	}
 
 	// CHILDREN
-	@OneToMany(mappedBy = "theUser", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "theUtente", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ToString.Exclude
-	private Collection<Order> theOrder = new ArrayList<>();
+	private Collection<Ordine> theOrdine = new ArrayList<>();
 
 	// CHILD GETTER/SETTER
 	/**
-	 * @return the Order
+	 * @return the Ordine
 	 */
-	public Collection<Order> getTheOrder() {
-		return theOrder;
+	public Collection<Ordine> getTheOrdine() {
+		return theOrdine;
 	}
 
 	/**
-	 * @param aOrderList to set
+	 * @param aOrdineList to set
 	 */
-	public void setTheOrder(Collection<Order> aOrderList) {
-		theOrder = aOrderList;
+	public void setTheOrdine(Collection<Ordine> aOrdineList) {
+		theOrdine = aOrdineList;
 	}
 
 	// ADD CHILD
-	public void addOrder(Order order) {
-		theOrder.add(order);
+	public void addOrdine(Ordine ordine) {
+		theOrdine.add(ordine);
 	}
 
 	// Equals
@@ -93,6 +93,6 @@ public class User implements Serializable {
 			return true;
 		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
 			return false;
-		User that = (User) o;
-		return userId != null && Objects.equals(userId, that.userId);
+		Utente that = (Utente) o;
+		return utenteId != null && Objects.equals(utenteId, that.utenteId);
 	}}

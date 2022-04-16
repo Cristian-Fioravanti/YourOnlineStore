@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<!-- ARTIFACT INFO -->
 	<artifactId>yourstore-ms-store-be</artifactId>
 	<name>yourstore-ms-store-be module</name>
-	<url>http://www.micegroup.it</url>
 	<!-- PARENT -->
-	<parent>
+	<!--<parent>
 		<groupId>it</groupId>
 		<artifactId>yourstore-ms-store</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>../../pom.xml</relativePath>
+	<parent>-->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.6.2</version>
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<packaging>jar</packaging>
 	<!-- DEPENDENCIES -->
@@ -22,51 +25,63 @@
 		<!-- <artifactId>hibernate-jpamodelgen</artifactId> -->
 		<!-- <scope>provided</scope> -->
 		<!--</dependency> -->
-		<dependency>
+		<!--<dependency>
 			<groupId>it</groupId>
 			<artifactId>yourstore-commons</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>-->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>it.micegroup</groupId> -->
+		<!-- 			<artifactId>voila2runtime-core</artifactId> -->
+		<!-- 			<version>${voila2.runtime.version}</version> -->
+		<!-- 			<exclusions> -->
+		<!-- 				<exclusion> -->
+		<!-- 					<groupId>io.springfox</groupId> -->
+		<!-- 					<artifactId>springfox-swagger2</artifactId> -->
+		<!-- 				</exclusion> -->
+		<!-- 			</exclusions> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>it.micegroup</groupId> -->
+		<!-- 			<artifactId>voila2runtime-mail-core</artifactId> -->
+		<!-- 			<version>${voila2.runtime.version}</version> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>it.micegroup</groupId> -->
+		<!-- 			<artifactId>voila2runtime-bi-core</artifactId> -->
+		<!-- 			<version>${voila2.runtime.version}</version> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>it.micegroup</groupId> -->
+		<!-- 			<artifactId>voila2runtime-impl</artifactId> -->
+		<!-- 			<version>${voila2.runtime.version}</version> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>it.micegroup</groupId> -->
+		<!-- 			<artifactId>voila2runtime-mail-impl</artifactId> -->
+		<!-- 			<version>${voila2.runtime.version}</version> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>it.micegroup</groupId> -->
+		<!-- 			<artifactId>voila2runtime-bi-impl</artifactId> -->
+		<!-- 			<version>${voila2.runtime.version}</version> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>it.micegroup</groupId> -->
+		<!-- 			<artifactId>voila2runtime-web</artifactId> -->
+		<!-- 			<version>${voila2.runtime.version}</version> -->
+		<!-- 		</dependency> -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>it.micegroup</groupId>
-			<artifactId>voila2runtime-core</artifactId>
-			<version>${voila2.runtime.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>io.springfox</groupId>
-					<artifactId>springfox-swagger2</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>it.micegroup</groupId>
-			<artifactId>voila2runtime-mail-core</artifactId>
-			<version>${voila2.runtime.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>it.micegroup</groupId>
-			<artifactId>voila2runtime-bi-core</artifactId>
-			<version>${voila2.runtime.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>it.micegroup</groupId>
-			<artifactId>voila2runtime-impl</artifactId>
-			<version>${voila2.runtime.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>it.micegroup</groupId>
-			<artifactId>voila2runtime-mail-impl</artifactId>
-			<version>${voila2.runtime.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>it.micegroup</groupId>
-			<artifactId>voila2runtime-bi-impl</artifactId>
-			<version>${voila2.runtime.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>it.micegroup</groupId>
-			<artifactId>voila2runtime-web</artifactId>
-			<version>${voila2.runtime.version}</version>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.liquibase</groupId>
@@ -84,31 +99,48 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-hateoas</artifactId>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-jmx</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-registry-prometheus</artifactId>
-		</dependency>
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>org.springframework.boot</groupId> -->
+		<!-- 			<artifactId>spring-boot-starter-hateoas</artifactId> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>org.springframework.boot</groupId> -->
+		<!-- 			<artifactId>spring-boot-starter-actuator</artifactId> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>io.micrometer</groupId> -->
+		<!-- 			<artifactId>micrometer-registry-jmx</artifactId> -->
+		<!-- 		</dependency> -->
+		<!-- 		<dependency> -->
+		<!-- 			<groupId>io.micrometer</groupId> -->
+		<!-- 			<artifactId>micrometer-registry-prometheus</artifactId> -->
+		<!-- 		</dependency> -->
 		<dependency>
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.6</version>
 		</dependency>
-	</dependencies>    <!-- BUILD -->
+	</dependencies> <!-- BUILD -->
 	<build>
 		<defaultGoal>spring-boot:run</defaultGoal>
 		<finalName>yourstore-ms-store</finalName>
 		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -133,7 +165,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-	</build>    <!-- PROFILES -->
+	</build> <!-- PROFILES -->
 	<profiles>
 		<profile>
 			<id>dev</id>
@@ -145,38 +177,18 @@
 					<groupId>com.h2database</groupId>
 					<artifactId>h2</artifactId>
 				</dependency>
-
-<!-- Introduzione ehcache -->
-				<dependency>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-cache</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>javax.cache</groupId>
-					<artifactId>cache-api</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.ehcache</groupId>
-					<artifactId>ehcache</artifactId>
-				</dependency>
-				<dependency>
-					<groupId>org.springframework.boot</groupId>
-					<artifactId>spring-boot-starter-test</artifactId>
-					<scope>test</scope>
-				</dependency>
-
-
 			</dependencies>
-			<properties>                <!-- default Spring profiles -->
+			<properties>
+				<!-- default Spring profiles -->
 				<spring.profiles.active>dev</spring.profiles.active>
 			</properties>
 		</profile>
 		<profile>
 			<id>prod</id>
-			<properties>                <!-- default Spring profiles -->
+			<properties>
+				<!-- default Spring profiles -->
 				<spring.profiles.active>prod</spring.profiles.active>
 			</properties>
 		</profile>
 	</profiles>
 </project>
-

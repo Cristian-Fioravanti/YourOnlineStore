@@ -29,7 +29,7 @@ import lombok.ToString;
 @Setter
 @Entity
 @Table(name = "ordine")
-public class Order implements Serializable {
+public class Ordine implements Serializable {
 
 	// Generated SERIAL VERSION UID
 	private static final long serialVersionUID = 1625209308L;
@@ -38,8 +38,8 @@ public class Order implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 
-	@Column(name = "order_id", columnDefinition = "INTEGER")
-	private Integer orderId;
+	@Column(name = "ordine_id", columnDefinition = "INTEGER")
+	private Integer ordineId;
 	@Column(name = "date", columnDefinition = "DATE")
 	private LocalDate date;
 	@Column(name = "total_cost", columnDefinition = "INTEGER")
@@ -48,77 +48,77 @@ public class Order implements Serializable {
 	private String address;
 
 	// CONSTRUCTORS
-	public Order() {
+	public Ordine() {
 		super();
 	}
 
-	public Order(LocalDate date, Integer totalCost, String address, Integer orderId) {
+	public Ordine(LocalDate date, Integer totalCost, String address, Integer ordineId) {
 		super();
 		this.date = date;
 		this.totalCost = totalCost;
 		this.address = address;
-		this.orderId = orderId;
+		this.ordineId = ordineId;
 	}
 
 	// CHILDREN
-	@OneToMany(mappedBy = "orderItemKey.theOrder", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "orderItemKey.theOrdine", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@ToString.Exclude
 	private Collection<OrderItem> theOrderItem = new ArrayList<>();
 
 	// PARENTS
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = false)
-	private User theUser;
+	@JoinColumn(name = "utente_id", referencedColumnName = "utente_id", nullable = false)
+	private Utente theUtente;
 
 	// CHILD GETTER/SETTER
 	/**
-	 * @return the OrderItem
+	 * @return the OrdineItem
 	 */
 	public Collection<OrderItem> getTheOrderItem() {
 		return theOrderItem;
 	}
 
 	/**
-	 * @param aOrderItemList to set
+	 * @param aOrdineItemList to set
 	 */
-	public void setTheOrderItem(Collection<OrderItem> aOrderItemList) {
-		theOrderItem = aOrderItemList;
+	public void setTheOrdineerItem(Collection<OrderItem> aOrdineItemList) {
+		theOrderItem = aOrdineItemList;
 	}
 
 	// ADD CHILD
-	public void addOrderItem(OrderItem orderItem) {
-		theOrderItem.add(orderItem);
+	public void addOrderItem(OrderItem ordineItem) {
+		theOrderItem.add(ordineItem);
 	}
 
 	// PARENT GETTER/SETTER
 	/**
-	 * @return the User
+	 * @return the Utente
 	 */
-	public User getTheUser() {
-		return theUser;
+	public Utente getTheUtente() {
+		return theUtente;
 	}
 
 	/**
-	 * @param aUserList to set
+	 * @param aUtenteList to set
 	 */
-	public void setTheUser(User aUser) {
-		theUser = aUser;
+	public void setTheUtente(Utente aUtente) {
+		theUtente = aUtente;
 	}
 
 	// PARENT ID GETTER/SETTER
 	/**
-	 * Return the userId from theUser.
+	 * Return the utenteId from theUtente.
 	 * 
-	 * @return userId from theUser.
+	 * @return utenteId from theUtente.
 	 */
-	public Integer getUserId() {
+	public Integer getUtenteId() {
 		// If the parent entity object is null, then return null
-		if (getTheUser() == null) {
+		if (getTheUtente() == null) {
 			return null;
 		}
 		// Return requested attribute
-		return theUser.getUserId();
+		return theUtente.getUtenteId();
 	}
 	
 	// Equals
@@ -128,8 +128,8 @@ public class Order implements Serializable {
 			return true;
 		if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o))
 			return false;
-		Order that = (Order) o;
-		return orderId != null && Objects.equals(orderId, that.orderId);
+		Ordine that = (Ordine) o;
+		return ordineId != null && Objects.equals(ordineId, that.ordineId);
 	}
 
 }

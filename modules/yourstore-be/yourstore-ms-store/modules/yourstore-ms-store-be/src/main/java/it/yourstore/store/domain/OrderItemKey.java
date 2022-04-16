@@ -25,8 +25,8 @@ public class OrderItemKey implements Serializable {
 	// ATTRIBUTES
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false, insertable = false, updatable = false)
-	private Order theOrder;
+	@JoinColumn(name = "ordine_id", referencedColumnName = "ordine_id", nullable = false, insertable = false, updatable = false)
+	private Ordine theOrdine;
 	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "product_id", referencedColumnName = "product_id", nullable = false, insertable = false, updatable = false)
@@ -34,17 +34,17 @@ public class OrderItemKey implements Serializable {
 
 	// GETTER/SETTER
 	/**
-	 * Return the orderId from theOrder.
+	 * Return the ordineId from theOrdine.
 	 * 
-	 * @return orderId from theOrder.
+	 * @return ordineId from theOrdine.
 	 */
-	public Integer getOrderId() {
+	public Integer getOrdineId() {
 		// If the parent entity object is null, then return null
-		if (getTheOrder() == null) {
+		if (getTheOrdine() == null) {
 			return null;
 		}
 		// Return requested attribute
-		return theOrder.getOrderId();
+		return theOrdine.getOrdineId();
 	}
 
 	/**
@@ -62,19 +62,19 @@ public class OrderItemKey implements Serializable {
 	}
 
 	/**
-	 * Imposta il valore dell'attributo orderId, appartenente all'oggetto theOrder,
+	 * Imposta il valore dell'attributo ordineId, appartenente all'oggetto theOrdine,
 	 * nell'entity corrente.
 	 * 
-	 * @param aOrderId
+	 * @param aOrdineId
 	 *
 	 */
-	public void setOrderId(Integer aOrderId) {
+	public void setOrdineId(Integer aOrdineId) {
 		// If the parent entity object is null, then create a new one
-		if (theOrder == null) {
-			theOrder = new Order();
+		if (theOrdine == null) {
+			theOrdine = new Ordine();
 		}
 		// Set value to the attribute
-		theOrder.setOrderId(aOrderId);
+		theOrdine.setOrdineId(aOrdineId);
 	}
 
 	/**
@@ -94,14 +94,14 @@ public class OrderItemKey implements Serializable {
 	}
 
 	// FIELD CONSTRUCTOR
-	public OrderItemKey(Integer orderId, Integer productId) {
-		this.setOrderId(orderId);
+	public OrderItemKey(Integer ordineId, Integer productId) {
+		this.setOrdineId(ordineId);
 		this.setProductId(productId);
 	}
 
 	// OF CONSTRUCTOR
-	public static OrderItemKey of(Integer orderId, Integer productId) {
-		return new OrderItemKey(orderId, productId);
+	public static OrderItemKey of(Integer ordineId, Integer productId) {
+		return new OrderItemKey(ordineId, productId);
 	}
 
 	@Override
@@ -111,7 +111,7 @@ public class OrderItemKey implements Serializable {
 		if (obj == null || getClass() != obj.getClass())
 			return false;
 		OrderItemKey that = (OrderItemKey) obj;
-		if (!Objects.equals(theOrder, that.theOrder))
+		if (!Objects.equals(theOrdine, that.theOrdine))
 			return false;
 		if (!Objects.equals(theProduct, that.theProduct))
 			return false;
