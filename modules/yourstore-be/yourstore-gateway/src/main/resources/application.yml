@@ -2,6 +2,12 @@ server:
   port: ${PORT:8080}
 
 spring:
+  main:
+    web-application-type: reactive
+  mvc:
+    view:
+      prefix: /views/
+      suffix: .jsp
   application:
     name: yourstore-gateway-service
   cloud:

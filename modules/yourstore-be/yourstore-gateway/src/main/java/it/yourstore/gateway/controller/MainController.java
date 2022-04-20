@@ -1,4 +1,4 @@
-package it.yourstore.gateway;
+package it.yourstore.gateway.controller;
 
 import java.io.File;
 
@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@SpringBootApplication
-public class YourstoreGatewayApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(YourstoreGatewayApplication.class, args);
-	}
-
+@Controller
+public class MainController {
+	
+	@RequestMapping("/prova")
+    public String prova() {
+		return "prova";
+    } 
 }
