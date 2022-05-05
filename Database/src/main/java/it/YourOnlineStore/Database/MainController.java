@@ -43,7 +43,13 @@ public class MainController {
     public @ResponseBody boolean buyProduct(@RequestParam Integer id){
         Optional<Product> product = productRepository.findById(id);
         product.ifPresent(Product::buy);
+        productRepository.save(product.get());
         return product.isPresent();
+    }
+
+    @GetMapping(path="/get")
+    public @ResponseBody Optional<Product> getProduct(@RequestParam Integer id){
+        return productRepository.findById(id);
     }
 
     @GetMapping(path="/error")

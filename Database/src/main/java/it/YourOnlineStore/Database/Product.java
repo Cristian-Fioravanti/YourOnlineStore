@@ -39,5 +39,5 @@ public class Product {
 
     public String getDescription(){return this.description;}
     public void setDescription(String description){this.description = description;}
-    public void buy(){this.disponibiliy--;}
+    public void buy(){this.disponibiliy-=1;}
 }
