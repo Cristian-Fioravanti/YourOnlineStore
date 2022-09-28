@@ -12,7 +12,6 @@
 	<!-- MODULES -->
 	<modules>
 		<module>modules/yourstore-be</module>
-	<module>modules/yourstore-model</module>
 	</modules>
 </project>
 

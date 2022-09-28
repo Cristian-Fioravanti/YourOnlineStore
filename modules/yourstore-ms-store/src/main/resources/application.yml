@@ -1,0 +1,77 @@
+server:
+  port: ${PORT:8090}
+  servlet:
+   context-path: /store
+
+spring:
+  cache:
+    jcache:
+      config: 'classpath:ehcache.xml'
+  application:
+    name: yourstore-store-service
+  liquibase:
+    enabled: false
+  security:
+    basic.enable: false
+    oauth2: 
+      client:
+        registration.google.client-id: 263224732023-25e5gb80mpcm2niaq8240gmbqasmjvsb.apps.googleusercontent.com
+        registration.google.client-secret: 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
+      resourceserver:
+        jwt:
+          issuer-uri: ${KK_URL:http://localhost}:${KK_PORT:8282}/auth/realms/yourstore
+          jwk-set-uri: ${KK_URL:http://localhost}:${KK_PORT:8282}/auth/realms/yourstore/protocol/openid-connect/certs
+
+#  data:
+#    rest:
+#      basePath: /store
+  jpa:
+     hibernate:
+       show-sql: true
+       ddl-auto: create
+       naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+     database-platform: org.hibernate.dialect.H2Dialect
+#Usare questo dialect x MYSQL     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+  datasource:
+     driverClassName: org.h2.Driver
+     url: jdbc:h2:mem:store;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+     username: store
+     password:
+
+  h2:
+   console:
+    enabled: true
+    settings:
+      web-allow-others: true
+    path: /h2-console
+  devtools:
+    livereload:
+      port: 35830
+
+#logging:
+#  level:
+#    root: INFO
+#    org.hibernate.SQL: TRACE
+#    org.springframework: DEBUG
+
+#gateway:
+#  baseuri: http://localhost:8080
+#8090
+
+jasperreports:
+  dir: reports
+  debug: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+
+springdoc:
+  swagger-ui:
+    path: /api/swagger-ui.html
+  show-actuator: true  

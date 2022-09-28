@@ -15,7 +15,6 @@
 	</parent>
 	<!-- MODULES -->
 	<modules>
-	<module>yourstore-commons</module>
 	<module>yourstore-gateway</module>
 	<module>yourstore-ms-store</module>
 	</modules>

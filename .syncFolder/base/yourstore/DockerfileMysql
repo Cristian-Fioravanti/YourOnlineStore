@@ -1,5 +1,0 @@
-FROM docker.micegroup.it/mysql:5.7
-
-ADD  init/01.sql /docker-entrypoint-initdb.d/01-init.sql
-ADD  modules/yourstore-be/yourstore-ms-store/sql/permissions.sql /docker-entrypoint-initdb.d/02-init.sql
-
