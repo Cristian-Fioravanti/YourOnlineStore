@@ -1,18 +1,18 @@
 version: '3'
 services:
   db:
-    image: dockerpush.micegroup.it/mysql-yourstore:5.7
+    image: mysql-yourstore:5.7
     build:
       context: ./
-      dockerfile: DockerfileMysql
+      dockerfile: 
   yourstore-ms-store:
-    image: dockerpush.micegroup.it/yourstore-ms-store:0.0.1-SNAPSHOT
+    image: yourstore-ms-store:0.0.1-SNAPSHOT
     build:
-      context: modules/yourstore-be/yourstore-ms-store
+      context: yourstore-ms-store
       dockerfile: Dockerfile
   yourstore-gateway:
-    image: dockerpush.micegroup.it/yourstore-gateway:0.0.1-SNAPSHOT
+    image: yourstore-gateway:0.0.1-SNAPSHOT
     build:
-      context: modules/yourstore-be/yourstore-gateway
+      context: yourstore-gateway
       dockerfile: Dockerfile
 

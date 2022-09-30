@@ -6,17 +6,15 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: keycloak
+      MYSQL_DATABASE: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     networks:
       - net
     ports:
       - "3306:3306"
     volumes:
       - databases:/var/lib/mysql
-      - ./init/01.sql:/docker-entrypoint-initdb.d/01-init.sql
-      - ./modules/yourstore-be/yourstore-ms-store/sql/permissions.sql:/docker-entrypoint-initdb.d/02-init.sql
     deploy:
       restart_policy:
         condition: any
@@ -41,36 +39,6 @@ services:
       - PMA_HOSTS=db
     networks:
       - net
-    deploy:
-      restart_policy:
-        condition: any
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints: [ node.role == manager ]
-    logging:
-      driver: "json-file"
-      options:
-        max-file: 5
-        max-size: 20m
-
-  keycloak:
-    image: jboss/keycloak:14.0.0
-    networks:
-      - net
-    ports:
-      - 8282:8080
-    environment:
-      DB_VENDOR: MYSQL
-      DB_DATABASE: keycloak
-      DB_ADDR: db
-      DB_PORT: 3306
-      DB_USER: keycloak
-      DB_PASSWORD: keycloak
-      JDBC_PARAMS: "useSSL=false"
-      PROXY_ADDRESS_FORWARDING: "true"
-    depends_on:
-      - db
     deploy:
       restart_policy:
         condition: any
@@ -117,8 +85,6 @@ services:
     image: yourstore-ms-store:0.0.1-SNAPSHOT
     environment:
       PORT: 8080
-      KK_URL: http://keycloak
-      KK_PORT: 8080
     networks:
       - net
     deploy:
@@ -129,10 +95,8 @@ services:
     ports:
       - "8081:8080/tcp"
     build:
-      context: modules/yourstore-be/yourstore-ms-store
+      context: yourstore-ms-store
       dockerfile: Dockerfile
-    depends_on:
-      - keycloak
   yourstore-gateway:
     image: yourstore-gateway:0.0.1-SNAPSHOT
     environment:
@@ -148,10 +112,8 @@ services:
     ports:
       - "8090:8080/tcp"
     build:
-      context: modules/yourstore-be/yourstore-gateway
+      context: yourstore-gateway
       dockerfile: Dockerfile
-    depends_on:
-      - keycloak
 
 volumes:
   portainer_data:

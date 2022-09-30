@@ -1,14 +1,14 @@
 version: '3'
 services:
   db:
-    image: docker.micegroup.it/mysql-yourstore:5.7
+    image: mysql-yourstore:5.7
     command: --lower_case_table_names=1
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: keycloak
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: keycloak
+      MYSQL_DATABASE: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     networks:
       - net
     ports:
@@ -29,7 +29,7 @@ services:
         max-size: 20m
 
   phpmyadmin:
-    image: docker.micegroup.it/phpmyadmin
+    image: phpmyadmin
     restart: always
     ports:
       - 80:80
@@ -52,38 +52,8 @@ services:
         max-file: 5
         max-size: 20m
 
-  keycloak:
-    image: docker.micegroup.it/jboss/keycloak:14.0.0
-    networks:
-      - net
-    ports:
-      - 8282:8080
-    environment:
-      DB_VENDOR: MYSQL
-      DB_DATABASE: keycloak
-      DB_ADDR: db
-      DB_PORT: 3306
-      DB_USER: keycloak
-      DB_PASSWORD: keycloak
-      JDBC_PARAMS: "useSSL=false"
-      PROXY_ADDRESS_FORWARDING: "true"
-    depends_on:
-      - db
-    deploy:
-      restart_policy:
-        condition: any
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints: [ node.role == manager ]
-    logging:
-      driver: "json-file"
-      options:
-        max-file: 5
-        max-size: 20m
-
   agent:
-    image: docker.micegroup.it/portainer/agent
+    image: portainer/agent
     environment:
       AGENT_CLUSTER_ADDR: tasks.agent
     volumes:
@@ -97,7 +67,7 @@ services:
         constraints: [ node.platform.os == linux ]
 
   portainer:
-    image: docker.micegroup.it/portainer/portainer
+    image: portainer/portainer
     command: -H tcp://tasks.agent:9001 --tlsskipverify
     volumes:
       - portainer_data:/data
@@ -112,7 +82,7 @@ services:
         constraints: [ node.role == manager ]
 
   yourstore-ms-store:
-    image: docker.micegroup.it/yourstore-ms-store:0.0.1-SNAPSHOT
+    image: yourstore-ms-store:0.0.1-SNAPSHOT
     environment:
       PORT: 8080
       KK_URL: keycloak
@@ -127,12 +97,11 @@ services:
     ports:
       - "8081:8080/tcp"
     build:
-      context: modules/yourstore-be/yourstore-ms-store
+      context: yourstore-ms-store
       dockerfile: Dockerfile
-    depends_on:
-      - keycloak
+
   yourstore-gateway:
-    image: docker.micegroup.it/yourstore-gateway:0.0.1-SNAPSHOT
+    image: yourstore-gateway:0.0.1-SNAPSHOT
     environment:
       STORE_URL: yourstore-ms-store
       STORE_PORT: 8080
@@ -146,10 +115,9 @@ services:
     ports:
       - "8090:8080/tcp"
     build:
-      context: modules/yourstore-be/yourstore-gateway
+      context: yourstore-gateway
       dockerfile: Dockerfile
-    depends_on:
-      - keycloak
+
 volumes:
   portainer_data:
   databases:
