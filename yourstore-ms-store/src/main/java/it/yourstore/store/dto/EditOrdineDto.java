@@ -28,7 +28,7 @@ public class EditOrdineDto extends BaseDto {
 	private Integer totalCost;
 
 	@Size(max = 80)
-	private String attribute;
+	private String address;
 
 	@NotNull
 	private String theUtenteObjectKey;

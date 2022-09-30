@@ -54,8 +54,8 @@ public class Ordine extends GenericEntity implements Serializable {
 	private LocalDate date;
 	@Column(name = "total_cost", columnDefinition = "INTEGER")
 	private Integer totalCost;
-	@Column(name = "attribute", columnDefinition = "VARCHAR(80)")
-	private String attribute;
+	@Column(name = "address", columnDefinition = "VARCHAR(80)")
+	private String address;
 
 	// IMPORTED PARENTS
 
@@ -189,7 +189,7 @@ public class Ordine extends GenericEntity implements Serializable {
 	// OBJECT TITLE
 	public String getObjectTitle() {
 		StringBuilder output = new StringBuilder();
-		output.append(getAttribute());
+		output.append(getAddress());
 		return output.toString();
 	}
 

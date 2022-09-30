@@ -25,7 +25,7 @@ public class ViewOrdineDto extends BaseDto {
 
 	private Integer totalCost;
 
-	private String attribute;
+	private String address;
 
 	private String theUtenteObjectKey;
 
