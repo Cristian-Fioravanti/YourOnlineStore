@@ -21,9 +21,9 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class MainController {
 	
-	@RequestMapping("/prova")
+	@RequestMapping("/login")
     public String prova() {
-		return "prova";
+		return "login";
     } 
 	
 	@RequestMapping("/home")
@@ -44,11 +44,6 @@ public class MainController {
 	@RequestMapping("/shipping")
     public String getShipping() {
 		return "shipping";
-    } 
-	
-	@RequestMapping("/listprod")
-    public String getListProduct() {
-		return "listProduct";
     } 
 	
 //	@PostMapping("/addPoduct")
