@@ -12,7 +12,7 @@ services:
         - MYSQL_ROOT_HOST=%
 
     yos_database:
-      image: yos_database
+      image: kanton99/yos_database
       ports:
         - 8080:8080
       networks:
