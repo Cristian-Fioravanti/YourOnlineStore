@@ -12,6 +12,7 @@
 	<modules>
 	<module>yourstore-gateway</module>
 	<module>yourstore-ms-store</module>
+	<module>Database</module>
 	</modules>
 	<!-- PROPERTIES -->
 	<properties>
