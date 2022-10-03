@@ -1,6 +1,6 @@
-test = document.getElementById("dropdownMenu2")
+carello = document.getElementById("dropdownMenu2")
 header = document.getElementById("header")
-test.addEventListener("mouseover", function( event ) {
+carello.addEventListener("mouseover", function( event ) {
     // highlight the mouseenter target
     setTimeout(function() {
         event.target.click()
