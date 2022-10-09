@@ -1,7 +1,7 @@
 version: "3"
 services:
     mysqldb:
-      image: mysql:8.0.30
+      image: mysql:latest
       networks:
         - yos_database-mysql
       environment:
@@ -14,13 +14,14 @@ services:
     yos_database:
       image: kanton99/yos_database
       ports:
-        - 8080:8080
+        - 8070:8080
       networks:
         - yos_database-mysql
       depends_on:
         - mysqldb
       environment:
         SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/yos_database
+        spring_jpa_hibernate_ddl-auto: create
 networks:
   yos_database-mysql: 
     driver: bridge
