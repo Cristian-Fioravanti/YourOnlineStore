@@ -36,7 +36,7 @@
 
 </head>
 
-<body onload=" caricaProdotti()">
+<body onload=" loadProduct()">
 
 	<div class="">
 		<!-- header section strats -->
@@ -74,8 +74,8 @@
 										<li class="">
 											<div class="container dropdown-item"
 												style="width: max-content;">
-												<div class="row">
-													<div class="col-sm-6 col-md-4 col-lg-4">
+												<div class="row" id="dropDownCart">
+													<div class="col-sm-6 col-md-4 col-lg-4 mt-2">
 														<div class="box">
 															<div class="img-box">
 																<img src="images/p1.png" width="50px"
@@ -92,7 +92,6 @@
 														</div>
 													</div>
 
-													<hr>
 												</div>
 
 											</div>
@@ -111,7 +110,9 @@
 									<button
 										style="width: 70px; color: rgb(215, 58, 51); border-color: rgb(215, 58, 51);"
 										class=" form-control btn btn-outline-info my-2 my-sm-0"
-										type="submit"><span style="color: black">Search</button>
+										type="submit">
+										<span style="color: black">Search 
+									</button>
 								</form>
 							</div>
 					</div>
@@ -135,55 +136,7 @@
 					<div class="box">
 						<div class="option_container">
 							<div class="options">
-								<a href="" class="option1"> Add to cart </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p1.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Men's Shirt</h5>
-							<h6>$75</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p2.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Men's Shirt</h5>
-							<h6>$80</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p3.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Women's Dress</h5>
-							<h6>$68</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a>
+								<button class="option1" id="69"> Add To Cart </button>
 							</div>
 						</div>
 						<div class="img-box">
@@ -195,143 +148,10 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p5.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Women's Dress</h5>
-							<h6>$75</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p6.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Women's Dress</h5>
-							<h6>$58</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p7.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Women's Dress</h5>
-							<h6>$80</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a> <a href=""
-									class="option2"> Buy Now </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p8.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Men's Shirt</h5>
-							<h6>$65</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a> <a href=""
-									class="option2"> Buy Now </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p9.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Men's Shirt</h5>
-							<h6>$65</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a> <a href=""
-									class="option2"> Buy Now </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p10.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Men's Shirt</h5>
-							<h6>$65</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a> <a href=""
-									class="option2"> Buy Now </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p11.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Men's Shirt</h5>
-							<h6>$65</h6>
-						</div>
-					</div>
-				</div>
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<a href="" class="option1"> Add To Cart </a> <a href=""
-									class="option2"> Buy Now </a>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p12.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Women's Dress</h5>
-							<h6>$65</h6>
-						</div>
-					</div>
-				</div>
 			</div>
-			<div class="btn-box">
-				<a href=""> View All products </a>
-			</div>
+			<div class="btn btn-dark" id="ViewAllProduct"
+				style="display: flex; justify-content: center;"
+				onclick="addProductAll()">View All products</div>
 		</div>
 	</section>
 	<!-- end product section -->
@@ -348,6 +168,132 @@
 	<!-- custom js -->
 	<script src="js/custom.js"></script>
 </body>
+<script type="text/javascript">
+
+//------------------------------------loadProduct---------------------------------------------------
+	var products
+	function loadProduct(e) {
+		var httpRequest = new XMLHttpRequest();
+		httpRequest.onreadystatechange = reaction;
+		httpRequest.open("GET", "http://localhost:8015/database/product", true);
+		httpRequest.send();
+	}
+	function reaction(e) {
+		if (e.target.readyState == XMLHttpRequest.DONE) {
+			var i = 0;
+			var json = e.target.responseText;
+			var jsonparse = JSON.parse(json)
+			addProduct("elencop", jsonparse.content)
+		}
+	}
+	function addProduct(tableID, content) {
+		var elencop = document.getElementById(tableID);
+		console.log(content.length)
+		products=content
+		for (var i = 0; i < content.length; i++) {
+			if (i==2)
+				break
+			var prod = content[i];
+			// 			if (d.length >= 31)
+			// 				d = d.substring(0, 28) + "...";
+			if (i == 1){
+			elencop.insertAdjacentHTML(
+							"beforeend",
+							'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
+					+ '<div class="box">'
+						+ '<div class="option_container">'
+							+ '<div class="options">'
+								+ '<button onclick="insertProductToCart('+i+')" class="option1" id="'+i+'"> Add to cart </button>'
+							+ '</div>'
+						+ '</div>'
+						+ '<div class="img-box">'
+							+'<img src="'+prod.image+'" alt="">'
+						+ '</div>'
+						+ '<div class="detail-box">'
+							+ '<h5>'+prod.productName+'</h5>'
+							+ '<h6>'+prod.cost+'€</h6>'
+						+ '</div>'
+					+ '</div>'
+				+ '</div>');
+			}
+			else{
+				elencop.insertAdjacentHTML(
+						"beforeend",
+						'<div class="col-sm-6 col-md-4 col-lg-4">'
+				+ '<div class="box">'
+					+ '<div class="option_container">'
+						+ '<div class="options">'
+							+ '<button onclick="insertProductToCart('+i+')" class="option1" id="'+i+'"> Add to cart </button>'
+						+ '</div>'
+					+ '</div>'
+					+ '<div class="img-box">'
+						+'<img src="'+prod.image+'" alt="">'
+					+ '</div>'
+					+ '<div class="detail-box">'
+						+ '<h5>'+prod.productName+'</h5>'
+						+ '<h6>'+prod.cost+'€</h6>'
+					+ '</div>'
+				+ '</div>'
+			+ '</div>');
+			}
+		}
+		
+	}
+	//----------------------ViewAllProduct---------------------------------------------------
+
+	function addProductAll(tableID) {
+		var elencop = document.getElementById("lastProduct");
+		var bnt = document.getElementById("ViewAllProduct");
+		var content = products
+		for (var i = 0; i < content.length; i++) {
+			if (i<2){}
+			else{
+			var prod = content[i];
+			// 			if (d.length >= 31)
+			// 				d = d.substring(0, 28) + "...";
+			elencop.insertAdjacentHTML(
+							"afterend",
+							'<div class="col-sm-6 col-md-4 col-lg-4">'
+					+ '<div class="box">'
+						+ '<div class="option_container">'
+							+ '<div class="options">'
+								+ '<button onclick="insertProductToCart('+i+')" class="option1" id="'+i+'"> Add to cart </button>'
+							+ '</div>'
+						+ '</div>'
+						+ '<div class="img-box">'
+							+'<img src="'+prod.image+'" alt="">'
+						+ '</div>'
+						+ '<div class="detail-box">'
+							+ '<h5>'+prod.productName+'</h5>'
+							+ '<h6>'+prod.cost+'€</h6>'
+						+ '</div>'
+					+ '</div>'
+				+ '</div>');
+			}
+		}
+		bnt.style.visibility = "hidden"
+	}
+	//--------------------------------------------------------------------------------------------
+function insertProductToCart(idIndex) {
+	var dropDownCart = document.getElementById("dropDownCart");
+	dropDownCart.insertAdjacentHTML("beforeend",'<div class="col-sm-6 col-md-4 col-lg-4 mt-2">'
+										+'<div class="box">'
+										+'<div class="img-box">'
+										+'	<img src="'+products[idIndex].image+'" width="50px"'
+										+'		style="margin-left: 20px;">'
+										+'	</div>'
+										+'</div>'
+										+'</div>'
+										+'<div class=" col-lg-8">'
+										+'<div class="box">'
+										+'	<div class=" detail-box">'
+										+'		<h5>'+products[idIndex].productName+'</h5>'
+										+'		<h6>'+products[idIndex].cost+'€</h6>'
+										+'	</div>'
+										+'	</div>'
+										+'</div>')
+}
+</script>
 
 </html>
 <!----[
