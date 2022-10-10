@@ -5,9 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import java.awt.image.BufferedImage;
-import javax.imageio.ImageIO;
-import java.io.*;
 
 @Entity
 public class Product {
@@ -22,7 +19,8 @@ public class Product {
     private String imageUrl;
 
     public Integer getProductId() {return this.productId;}
-
+    public void setProductId(Integer productId){this.productId = productId;}
+    
     public String getProductName(){return this.productName;}
     public void setProductName(String productName){this.productName = productName;}
 
