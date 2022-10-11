@@ -45,20 +45,6 @@ spring:
     livereload:
       port: 35830
 
-#logging:
-#  level:
-#    root: INFO
-#    org.hibernate.SQL: TRACE
-#    org.springframework: DEBUG
-
-#gateway:
-#  baseuri: http://localhost:8080
-#8090
-
-jasperreports:
-  dir: reports
-  debug: true
-
 management:
   endpoints:
     web:

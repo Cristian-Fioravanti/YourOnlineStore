@@ -11,6 +11,7 @@ import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.domain.Product;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface OrderItemService extends GenericEntityService<OrderItem, OrderItemKey> {
@@ -45,5 +46,7 @@ public interface OrderItemService extends GenericEntityService<OrderItem, OrderI
 	Optional<OrderItem> delete(String objectKey);
 
 	Page<OrderItem> search(Specification<OrderItem> specification, Pageable pageable);
+
+	List<OrderItem> findTheOrderItemListByTheOrdine(Ordine ordine);
 
 }

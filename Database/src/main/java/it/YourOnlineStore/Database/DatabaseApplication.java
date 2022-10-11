@@ -8,6 +8,10 @@ public class DatabaseApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(DatabaseApplication.class, args);
+		FromStoreJMSListener listenerStore = new FromStoreJMSListener();
+		ToStoreJMSProducer producer = new ToStoreJMSProducer();
+		listenerStore.start();
+		producer.start();
 	}
 
 }

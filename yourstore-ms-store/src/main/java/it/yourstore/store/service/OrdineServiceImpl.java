@@ -1,11 +1,13 @@
 package it.yourstore.store.service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,7 +20,7 @@ import org.apache.logging.log4j.Logger;
 import it.yourstore.store.domain.Ordine;
 
 import it.yourstore.store.domain.Utente;
-
+import it.yourstore.store.jmsClient.ToDatabaseJMSProducer;
 import it.yourstore.store.repository.OrdineRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -35,6 +37,8 @@ public class OrdineServiceImpl implements OrdineService {
 	private final OrdineRepository ordineRepository;
 	// CHILD SERVICES
 	private final OrderItemService orderItemService;
+	@Autowired
+	private ToDatabaseJMSProducer producer;
 
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LogManager.getLogger(OrdineServiceImpl.class);
@@ -141,6 +145,16 @@ public class OrdineServiceImpl implements OrdineService {
 	@Override
 	public Page<Ordine> findByTheUtente(Utente parentEntity, Pageable pageable) {
 		return ordineRepository.findByTheUtente(parentEntity, pageable);
+	}
+
+	public Ordine buy(Ordine entity) {
+		entity.setDate(LocalDate.now());
+		Ordine update = this.bulkUpdate(entity);
+		List<OrderItem> orderItems = orderItemService.findTheOrderItemListByTheOrdine(entity);
+		for(OrderItem oi : orderItems) {
+			producer.sendPurchasedProductNotification(oi.getProductId(), oi.getAmount());
+		}
+		return update;
 	}
 
 }
