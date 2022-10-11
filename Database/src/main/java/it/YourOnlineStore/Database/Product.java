@@ -14,7 +14,7 @@ public class Product {
 
     private String productName;
     private Float cost;
-    private Integer disponibiliy;
+    private Integer disponibility;
     private String description;
     private String imageUrl;
 
@@ -27,8 +27,8 @@ public class Product {
     public Float getCost(){return this.cost;}
     public void setCost(Float cost){this.cost = cost;}
 
-    public Integer getDisponibiliy(){return this.disponibiliy;}
-    public void setDisponibiliy(Integer disponibility) {this.disponibiliy = disponibility;}
+    public Integer getDisponibility(){return this.disponibility;}
+    public void setDisponibility(Integer disponibility) {this.disponibility = disponibility;}
 
     public String getImageUrl(){return this.imageUrl;}
     public void setImage(String imageUrl){
@@ -37,5 +37,4 @@ public class Product {
 
     public String getDescription(){return this.description;}
     public void setDescription(String description){this.description = description;}
-    public void buy(){this.disponibiliy-=1;}
 }

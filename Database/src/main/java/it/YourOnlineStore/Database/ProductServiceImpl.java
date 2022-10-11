@@ -42,4 +42,14 @@ public class ProductServiceImpl implements ProductService {
 		return productRepository.existsById(id);
 	}
 
+	@Override
+	public void buy(Integer id, Integer amount) {
+		Optional<Product> optProduct = productRepository.findById(id);
+	    if(optProduct.isPresent()) {
+	    	Product product = optProduct.get();
+	    	product.setDisponibility(product.getDisponibility()-amount);
+	    	productRepository.save(product);
+	    }		
+	}
+
 }

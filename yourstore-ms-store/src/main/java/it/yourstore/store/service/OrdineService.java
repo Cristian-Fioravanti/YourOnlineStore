@@ -23,4 +23,6 @@ public interface OrdineService extends GenericEntityService<Ordine, Integer> {
 
 	Page<Ordine> search(Specification<Ordine> specification, Pageable pageable);
 
+	Ordine buy(Ordine entity);
+
 }

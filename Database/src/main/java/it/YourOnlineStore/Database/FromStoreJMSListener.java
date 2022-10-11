@@ -70,28 +70,28 @@ public class FromStoreJMSListener implements MessageListener {
 				messageProduct = this.session.createTextMessage();
 				Integer productId = mex.getIntProperty("ProductId");
 				LOG.info("Getting info product with ID: " + productId);
-//				if(productService.exists(productId)) {
-//					Product product = productService.findByObjectKey(productId).get();
-//					messageProduct.setIntProperty("Disponibility", product.getDisponibility());
-//					messageProduct.setIntProperty("Cost", product.getCost());
-					messageProduct.setIntProperty("Disponibility", 10);
-					messageProduct.setIntProperty("Cost", 20);
+				if(productService.exists(productId)) {
+					Product product = productService.findById(productId).get();
+					messageProduct.setIntProperty("Disponibility", product.getDisponibility());
+					messageProduct.setFloatProperty("Cost", product.getCost());
+//					messageProduct.setIntProperty("Disponibility", 10);
+//					messageProduct.setIntProperty("Cost", 20);
 					messageProduct.setJMSCorrelationID(mex.getJMSCorrelationID());
 
 		            //Send the response to the Destination specified by the JMSReplyTo field of the received message,
 		            //this is presumably a temporary queue created by the client
 		            this.producer.send(mex.getJMSReplyTo(), messageProduct);
-//				}
-//				else {
-//					messageProduct.setText("ERROE, PRODUCT DOESN'T EXISTS");
-//				}
+				}
+				else {
+					messageProduct.setText("ERROE, PRODUCT DOESN'T EXISTS");
+				}
 				break;
 			case "PurchasedProduct":
 				Integer prodId = mex.getIntProperty("ProductId");
 				Integer amount = mex.getIntProperty("Amount");
 				LOG.info("Got Message ProdottoAcquistato with: ( Amount: " + amount + ", prodId: "
 						+ prodId + " )");
-				// UPDATE di db
+				productService.buy(prodId, amount);
 				break;
 			default:
 				break;

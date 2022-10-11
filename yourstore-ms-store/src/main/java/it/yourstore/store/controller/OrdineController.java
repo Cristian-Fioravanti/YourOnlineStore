@@ -2,6 +2,7 @@ package it.yourstore.store.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.LocalDate;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.turkraft.springfilter.boot.Filter;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -97,7 +99,21 @@ public class OrdineController {
 			return ResponseEntity.created(location).body(dto);
 		}
 	}
-
+	
+	@PostMapping
+	@Transactional
+	@Operation(summary = "Buy an Ordine")
+	public ResponseEntity<ViewOrdineDto> buy(@RequestBody @Valid EditOrdineDto requestBody) {
+		Ordine entity = ordineMappers.map(requestBody);
+		if (!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) {
+			throw new ResourceNotFoundException(Ordine.class.getSimpleName(), entity.getObjectKey());
+		} else {
+			entity = ordineService.buy(entity);
+			ViewOrdineDto dto = ordineMappers.map(entity);
+			return ResponseEntity.ok(dto);
+		}
+	}
+	
 	/**
 	 * {@code GET  /ordine/:objectKey} : Get the ordine with given objectKey.
 	 *

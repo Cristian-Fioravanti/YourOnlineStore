@@ -26,9 +26,14 @@ spring:
       routes:
 
         - id: ms-store
-          uri: http://${STORE_URL:127.0.0.1}:${STORE_PORT:8081}
+          uri: http://${STORE_URL:127.0.0.1}:${STORE_PORT:8014}
           predicates:
             - Path=/store/**
+        
+        - id: database
+          uri: http://${DATABASE_URL:127.0.0.1}:${DATABASE_PORT:8015}
+          predicates:
+            - Path=/database/**
 
 
   devtools:

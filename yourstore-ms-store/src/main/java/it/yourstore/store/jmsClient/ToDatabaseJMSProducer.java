@@ -48,17 +48,10 @@ public class ToDatabaseJMSProducer implements MessageListener{
 
 			producer = session.createProducer(queue);
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-//			int i = 0;
-//			int j = 1;
-//			while(true) {
-//				
-			sendInfoProdottoRequest(1);
-//			i+=2;
-//			j+=2;
+
+//			sendInfoProdottoRequest(1);
 //			Thread.sleep(10000);
-//			}
-			Thread.sleep(10000);
-			sendPurchasedProductNotification(1,1);
+//			sendPurchasedProductNotification(1,1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,7 +79,7 @@ public class ToDatabaseJMSProducer implements MessageListener{
 				err.printStackTrace();
 			}
 		} catch (JMSException e) {
-			LOG.error("Exception occurred: " + e);
+			LOG.error("JMSException occurred: " + e);
 		}
 	}
 	
@@ -104,24 +97,22 @@ public class ToDatabaseJMSProducer implements MessageListener{
 				err.printStackTrace();
 			}
 		} catch (JMSException e) {
-			LOG.error("Exception occurred: " + e);
+			LOG.error("JMSException occurred: " + e);
 		}
 	}
 
 	@Override
 	public void onMessage(Message message) {
-		Integer disp;
-		Integer cost;
-        try {
+		try {
             if (message instanceof TextMessage) {
                 TextMessage textMessage = (TextMessage) message;
-                cost = textMessage.getIntProperty("Cost");
-                disp = textMessage.getIntProperty("Disponibility");
+                Integer cost = textMessage.getIntProperty("Cost");
+                Integer disp = textMessage.getIntProperty("Disponibility");
                 LOG.info("Disponibilita = " + disp);
                 LOG.info("Costo = " + cost);
             }
-        } catch (JMSException e) {
-            //Handle the exception appropriately
+        } catch (Exception e) {
+        	LOG.error("Exception occurred: " + e);
         }		
 	}
 	

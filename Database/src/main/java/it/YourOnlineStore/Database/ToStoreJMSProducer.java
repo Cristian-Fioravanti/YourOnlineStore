@@ -21,8 +21,9 @@ import javax.naming.NamingException;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class ToStoreJMSProducer {
 
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ToStoreJMSProducer.class);
@@ -48,9 +49,9 @@ public class ToStoreJMSProducer {
 			producer = session.createProducer(queue);
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 			
-			Product product = new Product();
-			product.setProductId(1);
-			sendInsert(product);
+//			Product product = new Product();
+//			product.setProductId(1);
+//			sendInsert(product);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
