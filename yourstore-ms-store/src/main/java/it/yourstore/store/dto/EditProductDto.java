@@ -6,8 +6,6 @@ import lombok.EqualsAndHashCode;
 
 import java.util.Collection;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * Data transfer object for edit a data element of type Product

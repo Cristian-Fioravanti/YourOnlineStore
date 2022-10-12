@@ -6,7 +6,6 @@ import lombok.EqualsAndHashCode;
 import java.time.LocalDate;
 import java.util.Collection;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 /**

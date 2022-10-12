@@ -7,7 +7,6 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.MapsId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.FetchType;
 
 import javax.persistence.ManyToOne;
@@ -19,8 +18,6 @@ import lombok.Getter;
 import lombok.ToString;
 
 import javax.persistence.Table;
-
-import org.apache.commons.lang3.StringUtils;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

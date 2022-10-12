@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>yourstore-ms-store-be</name>
+	<name>yourstore-ms-store</name>
 	<comment></comment>
 	<projects>
-		<project>yourstore-ms-store</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

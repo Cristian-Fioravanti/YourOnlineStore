@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>yourstore-be</name>
+	<name>yourstore</name>
 	<comment></comment>
 	<projects>
-		<project>yourstore</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

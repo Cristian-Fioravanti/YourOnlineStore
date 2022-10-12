@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.EqualsAndHashCode;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
 
 /**
  * Data transfer object for edit a data element of type OrderItem

@@ -9,7 +9,6 @@
 	</parent>
 	<groupId>it.YourOnlineStore</groupId>
 	<artifactId>Database</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>Database</name>
 	<description>Database handler for YourOnlineStore project</description>
 	<properties>
