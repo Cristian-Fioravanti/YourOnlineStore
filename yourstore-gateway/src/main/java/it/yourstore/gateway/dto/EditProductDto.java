@@ -1,12 +1,9 @@
 package it.yourstore.gateway.dto;
 
-import lombok.Setter;
-import lombok.Getter;
-import lombok.EqualsAndHashCode;
-
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Data transfer object for edit a data element of type Product

@@ -58,7 +58,7 @@ public class FromDatabaseJMSListener implements MessageListener {
 				LOG.info("New product added: " + productId);
 				Product product = new Product();
 				product.setProductId(productId);
-				//productService.insert(product);
+				productService.insert(product);
 				break;
 			default:
 				break;

@@ -1,7 +1,11 @@
 package it.YourOnlineStore.Database;
 
+import java.util.Optional;
+
+import javax.jms.JMSException;
+import javax.naming.NamingException;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -9,13 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import javax.jms.JMSException;
-import javax.naming.NamingException;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/product") // This means URL's start with /Database (after Application path)
@@ -52,14 +49,6 @@ public class MainController {
         // This returns a JSON or XML with the products
         return productRepository.findAll();
     }
-
-//    @GetMapping(path="/buy")
-//    public @ResponseBody boolean buyProduct(@RequestParam Integer id){
-//        Optional<Product> product = productRepository.findById(id);
-//        product.ifPresent(Product::buy);
-//        productRepository.save(product.get());
-//        return product.isPresent();
-//    }
 
     @GetMapping(path="/{id}")
     public @ResponseBody Optional<Product> getProduct(@PathVariable Integer id){
