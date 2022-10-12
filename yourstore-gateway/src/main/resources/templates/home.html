@@ -74,7 +74,7 @@
 										<li class="">
 											<div class="container dropdown-item"
 												style="width: max-content;">
-												<div class="row" id="dropDownCart">
+												<div class="row" id="dropDownCart" style=" width: 300px">
 													<div class="col-sm-6 col-md-4 col-lg-4 mt-2">
 														<div class="box">
 															<div class="img-box">
@@ -85,15 +85,12 @@
 													</div>
 													<div class=" col-lg-8">
 														<div class="box">
-															<div class=" detail-box">
+															<div class=" detail-box" >
 																<h5>Men's Shirt</h5>
 																<h6>$80</h6>
 															</div>
 														</div>
 													</div>
-
-												</div>
-
 											</div>
 										</li> <a href="shipping" class="btn btn-primary"
 											style="margin-top: 10px; margin-left: 10px;">Go to the
@@ -132,28 +129,14 @@
 					style="height: 2px; border-width: 2; color: #000000; background-color: #f7444e; box-shadow: 5px #000000;">
 			</div>
 			<div class="row" id="elencop">
-				<div class="col-sm-6 col-md-4 col-lg-4">
-					<div class="box">
-						<div class="option_container">
-							<div class="options">
-								<button class="option1" id="69"> Add To Cart </button>
-							</div>
-						</div>
-						<div class="img-box">
-							<img src="images/p4.png" alt="">
-						</div>
-						<div class="detail-box">
-							<h5>Women's Dress</h5>
-							<h6>$70</h6>
-						</div>
-					</div>
-				</div>
+				
 			</div>
-			<div class="btn btn-dark" id="ViewAllProduct"
-				style="display: flex; justify-content: center;"
-				onclick="addProductAll()">View All products</div>
+
 		</div>
 	</section>
+	<div class="btn btn-dark " id="ViewAllProduct"
+		style="display: block; margin-left: auto; margin-right: auto; width: 40%; margin-top: -20px; margin-bottom: 30px"
+		onclick="addProductAll()">View All products</div>
 	<!-- end product section -->
 
 
@@ -169,8 +152,7 @@
 	<script src="js/custom.js"></script>
 </body>
 <script type="text/javascript">
-
-//------------------------------------loadProduct---------------------------------------------------
+	//------------------------------------loadProduct---------------------------------------------------
 	var products
 	function loadProduct(e) {
 		var httpRequest = new XMLHttpRequest();
@@ -189,55 +171,48 @@
 	function addProduct(tableID, content) {
 		var elencop = document.getElementById(tableID);
 		console.log(content.length)
-		products=content
+		products = content
 		for (var i = 0; i < content.length; i++) {
-			if (i==2)
+			if (i == 2)
 				break
 			var prod = content[i];
 			// 			if (d.length >= 31)
 			// 				d = d.substring(0, 28) + "...";
-			if (i == 1){
-			elencop.insertAdjacentHTML(
-							"beforeend",
-							'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
-					+ '<div class="box">'
-						+ '<div class="option_container">'
-							+ '<div class="options">'
-								+ '<button onclick="insertProductToCart('+i+')" class="option1" id="'+i+'"> Add to cart </button>'
-							+ '</div>'
-						+ '</div>'
-						+ '<div class="img-box">'
-							+'<img src="'+prod.image+'" alt="">'
-						+ '</div>'
-						+ '<div class="detail-box">'
-							+ '<h5>'+prod.productName+'</h5>'
-							+ '<h6>'+prod.cost+'€</h6>'
-						+ '</div>'
-					+ '</div>'
-				+ '</div>');
-			}
-			else{
-				elencop.insertAdjacentHTML(
-						"beforeend",
+			if (i == 1) {
+				elencop.insertAdjacentHTML("beforeend",
+						'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
+								+ '<div class="box">'
+								+ '<div class="option_container">'
+								+ '<div class="options">'
+								+ '<a style=" font-size:15px;" onclick="insertProductToCart(' + i
+								+ ')" class="option1 btn" id="' + i
+								+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
+								+ '</div>'
+								+ '</div>' + '<div class="img-box">'
+								+ '<img src="'+prod.image+'" alt="">'
+								+ '</div>' + '<div class="detail-box">'
+								+ '<h5>' + prod.productName + '</h5>' + '<h5>'
+								+ prod.cost + '€</h5>' + '</div>' + '</div>'
+								+ '</div>');
+			} else {
+				elencop.insertAdjacentHTML("beforeend",
 						'<div class="col-sm-6 col-md-4 col-lg-4">'
-				+ '<div class="box">'
-					+ '<div class="option_container">'
+						+ '<div class="box">'
+						+ '<div class="option_container">'
 						+ '<div class="options">'
-							+ '<button onclick="insertProductToCart('+i+')" class="option1" id="'+i+'"> Add to cart </button>'
+						+ '<a style=" font-size:15px;" onclick="insertProductToCart(' + i
+						+ ')" class="option1 btn" id="' + i
+						+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
 						+ '</div>'
-					+ '</div>'
-					+ '<div class="img-box">'
-						+'<img src="'+prod.image+'" alt="">'
-					+ '</div>'
-					+ '<div class="detail-box">'
-						+ '<h5>'+prod.productName+'</h5>'
-						+ '<h6>'+prod.cost+'€</h6>'
-					+ '</div>'
-				+ '</div>'
-			+ '</div>');
+						+ '</div>' + '<div class="img-box">'
+						+ '<img src="'+prod.image+'" alt="">'
+						+ '</div>' + '<div class="detail-box">'
+						+ '<h5>' + prod.productName + '</h5>' + '<h5>'
+						+ prod.cost + '€</h5>' + '</div>' + '</div>'
+						+ '</div>');
 			}
 		}
-		
+
 	}
 	//----------------------ViewAllProduct---------------------------------------------------
 
@@ -246,53 +221,48 @@
 		var bnt = document.getElementById("ViewAllProduct");
 		var content = products
 		for (var i = 0; i < content.length; i++) {
-			if (i<2){}
-			else{
-			var prod = content[i];
-			// 			if (d.length >= 31)
-			// 				d = d.substring(0, 28) + "...";
-			elencop.insertAdjacentHTML(
-							"afterend",
-							'<div class="col-sm-6 col-md-4 col-lg-4">'
-					+ '<div class="box">'
+			if (i < 2) {
+			} else {
+				var prod = content[i];
+				// 			if (d.length >= 31)
+				// 				d = d.substring(0, 28) + "...";
+				elencop.insertAdjacentHTML("afterend",
+						'<div class="col-sm-6 col-md-4 col-lg-4" >'
+						+ '<div class="box">'
 						+ '<div class="option_container">'
-							+ '<div class="options">'
-								+ '<button onclick="insertProductToCart('+i+')" class="option1" id="'+i+'"> Add to cart </button>'
-							+ '</div>'
+						+ '<div class="options">'
+						+ '<a style=" font-size:15px;" onclick="insertProductToCart(' + i
+						+ ')" class="option1 btn" id="' + i
+						+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
 						+ '</div>'
-						+ '<div class="img-box">'
-							+'<img src="'+prod.image+'" alt="">'
-						+ '</div>'
-						+ '<div class="detail-box">'
-							+ '<h5>'+prod.productName+'</h5>'
-							+ '<h6>'+prod.cost+'€</h6>'
-						+ '</div>'
-					+ '</div>'
-				+ '</div>');
+						+ '</div>' + '<div class="img-box">'
+						+ '<img src="'+prod.image+'" alt="">'
+						+ '</div>' + '<div class="detail-box">'
+						+ '<h5>' + prod.productName + '</h5>' + '<h5>'
+						+ prod.cost + '€</h5>' + '</div>' + '</div>'
+						+ '</div>');
 			}
 		}
 		bnt.style.visibility = "hidden"
 	}
 	//--------------------------------------------------------------------------------------------
-function insertProductToCart(idIndex) {
-	var dropDownCart = document.getElementById("dropDownCart");
-	dropDownCart.insertAdjacentHTML("beforeend",'<div class="col-sm-6 col-md-4 col-lg-4 mt-2">'
-										+'<div class="box">'
-										+'<div class="img-box">'
-										+'	<img src="'+products[idIndex].image+'" width="50px"'
+	function insertProductToCart(idIndex) {
+		var dropDownCart = document.getElementById("dropDownCart");
+		dropDownCart.insertAdjacentHTML(
+						"beforeend",
+						'<div class="col-sm-6 col-md-4 col-lg-4 mt-2">'
+								+ '<div class="box">'
+								+ '<div class="img-box">'
+								+ '	<img src="'+products[idIndex].image+'" width="50px"'
 										+'		style="margin-left: 20px;">'
-										+'	</div>'
-										+'</div>'
-										+'</div>'
-										+'<div class=" col-lg-8">'
-										+'<div class="box">'
-										+'	<div class=" detail-box">'
-										+'		<h5>'+products[idIndex].productName+'</h5>'
-										+'		<h6>'+products[idIndex].cost+'€</h6>'
-										+'	</div>'
-										+'	</div>'
-										+'</div>')
-}
+								+ '	</div>' + '</div>' + '</div>'
+								+ '<div class=" col-lg-8">'
+								+ '<div class="box">'
+								+ '	<div class=" detail-box">' + '		<h5>'
+								+ products[idIndex].productName + '</h5>'
+								+ '		<h5>' + products[idIndex].cost + '€</h5>'
+								+ '	</div>' + '	</div>' + '</div>')
+	}
 </script>
 
 </html>

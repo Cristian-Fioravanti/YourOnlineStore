@@ -100,7 +100,7 @@ public class OrdineController {
 		}
 	}
 	
-	@PostMapping
+	@PostMapping("/buy")
 	@Transactional
 	@Operation(summary = "Buy an Ordine")
 	public ResponseEntity<ViewOrdineDto> buy(@RequestBody @Valid EditOrdineDto requestBody) {
