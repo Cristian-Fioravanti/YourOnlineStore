@@ -66,7 +66,8 @@
 								</a>
 							</div>
 							<div id="carello" class="mr-sm-2">
-								<div class=" dropdown dropdown-item">
+							
+								<div class=" dropdown dropdown-item" onclick="">
 									<li class="fa fa-shopping-cart " type="button"
 										style="font-size: 30px; margin-right: 10px" id="dropdownMenu2"
 										data-bs-toggle="dropdown" aria-expanded="false"></li>
@@ -74,25 +75,9 @@
 										<li class="">
 											<div class="container dropdown-item"
 												style="width: max-content;">
-												<div class="row" id="dropDownCart" style=" width: 300px">
-													<div class="col-sm-6 col-md-4 col-lg-4 mt-2">
-														<div class="box">
-															<div class="img-box">
-																<img src="images/p1.png" width="50px"
-																	style="margin-left: 20px;">
-															</div>
-														</div>
-													</div>
-													<div class=" col-lg-8">
-														<div class="box">
-															<div class=" detail-box" >
-																<h5>Men's Shirt</h5>
-																<h6>$80</h6>
-															</div>
-														</div>
-													</div>
-											</div>
-										</li> <a href="shipping" class="btn btn-primary"
+												<div class="row" id="dropDownCart" style="width: 300px">
+
+												</div></li> <a href="shipping" class="btn btn-primary"
 											style="margin-top: 10px; margin-left: 10px;">Go to the
 											cart</a>
 									</div>
@@ -157,7 +142,7 @@
 	function loadProduct(e) {
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reaction;
-		httpRequest.open("GET", "http://localhost:8015/database/product", true);
+		httpRequest.open("GET", "http://localhost:8080/database/product/all", true);
 		httpRequest.send();
 	}
 	function reaction(e) {
@@ -165,7 +150,8 @@
 			var i = 0;
 			var json = e.target.responseText;
 			var jsonparse = JSON.parse(json)
-			addProduct("elencop", jsonparse.content)
+			console.log(jsonparse)
+			addProduct("elencop", jsonparse)
 		}
 	}
 	function addProduct(tableID, content) {
@@ -189,7 +175,7 @@
 								+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
 								+ '</div>'
 								+ '</div>' + '<div class="img-box">'
-								+ '<img src="'+prod.image+'" alt="">'
+								+ '<img src="'+prod.imageUrl+'" alt="">'
 								+ '</div>' + '<div class="detail-box">'
 								+ '<h5>' + prod.productName + '</h5>' + '<h5>'
 								+ prod.cost + '€</h5>' + '</div>' + '</div>'
@@ -205,7 +191,7 @@
 						+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
 						+ '</div>'
 						+ '</div>' + '<div class="img-box">'
-						+ '<img src="'+prod.image+'" alt="">'
+						+ '<img src="'+prod.imageUrl+'" alt="">'
 						+ '</div>' + '<div class="detail-box">'
 						+ '<h5>' + prod.productName + '</h5>' + '<h5>'
 						+ prod.cost + '€</h5>' + '</div>' + '</div>'
@@ -236,7 +222,7 @@
 						+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
 						+ '</div>'
 						+ '</div>' + '<div class="img-box">'
-						+ '<img src="'+prod.image+'" alt="">'
+						+ '<img src="'+prod.imageUrl+'" alt="">'
 						+ '</div>' + '<div class="detail-box">'
 						+ '<h5>' + prod.productName + '</h5>' + '<h5>'
 						+ prod.cost + '€</h5>' + '</div>' + '</div>'
@@ -253,7 +239,7 @@
 						'<div class="col-sm-6 col-md-4 col-lg-4 mt-2">'
 								+ '<div class="box">'
 								+ '<div class="img-box">'
-								+ '	<img src="'+products[idIndex].image+'" width="50px"'
+								+ '	<img src="'+products[idIndex].imageUrl+'" width="50px"'
 										+'		style="margin-left: 20px;">'
 								+ '	</div>' + '</div>' + '</div>'
 								+ '<div class=" col-lg-8">'
