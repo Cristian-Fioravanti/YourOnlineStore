@@ -26,9 +26,10 @@
 <link href="/css/style.css" rel="stylesheet" />
 <!-- responsive style -->
 <link href="/css/responsive.css" rel="stylesheet" />
+
 </head>
 
-<body onload="loadRecentOrder()">
+<body onload="loadRecentOrder(),loadUserDetails()">
   <!-- header section strats -->
 		<header class="header_section"
 			style="background-color: rgb(162, 38, 36); box-shadow: 5px 5px 2px; height: 200px;">
@@ -56,7 +57,7 @@
 								<button
 									style="width: 70px; color: rgb(215, 58, 51); border-color: rgb(215, 58, 51);"
 									class=" form-control btn btn-outline-info my-2 my-sm-0"
-									type="submit">
+									>
 									<span style="color: black">Search 
 								</button>
 							</form>
@@ -82,31 +83,30 @@
               <div class="col">
                 <div class="input-group mb-4">
                   <span class="input-group-text" style="width: 30%; font-size: 15px;">First name</span>
-                  <input type="text" id="form7Example1" class="form-control" style="width: 30%;font-size: 15px;"  value="utente.nome" readonly/>
+                  <input type="text"  class="form-control" style="width: 30%;font-size: 15px;" id="nameUser" value="utente.nome" readonly/>
                 </div>
               </div>
               <div class="col">
                 <div class="input-group mb-4">
                   <span class="input-group-text" style="width: 30%; font-size: 15px;">Last name</span>
-                  <input type="text" id="form7Example2" class="form-control" style="width: 30%; font-size: 15px;"  value="utente.cognome" readonly />
+                  <input type="text" class="form-control" style="width: 30%; font-size: 15px;" id="surnameUser"  value="utente.cognome" readonly />
                 </div>
               </div>
             </div>
-			<form action="/addProduct" method="POST">
             <!-- Text input -->
             <div class="input-group mb-4" style="width: 60%;">
               <span class="input-group-text" style="width: 30%;font-size: 15px;">Address</span>
-              <input type="text" id="form7Example4" name="addres" class="form-control" style="width: 30%; font-size: 15px;" required/>
+              <input type="text" id="addres" name="addres" class="form-control" style="width: 30%; font-size: 15px;" required/>
             </div>
 
             <!-- Creation Date input -->
             <div class="input-group mb-4" style="width: 60%;">
               <span class="input-group-text" style="width: 30%; font-size: 15px;">Creation Date</span>
-              <input type="Date" id="form7Example5" name="date" class="form-control" style="width: 30%; font-size: 15px;" readonly value=""/>
+              <input type="Date" id="CurrentDate" name="date" class="form-control" style="width: 30%; font-size: 15px;" readonly value=""/>
             </div>
             <div class="input-group mb-4" style="width: 60%;">
               <span class="input-group-text" style="width: 30%; visibility: hidden;font-size: 15px;">theUtenteObjectKey</span>
-              <input type="utenteId" id="form7Example5" class="form-control" style="width: 30%; visibility: hidden;font-size: 15px;" readonly value=""/>
+              <input type="text" id="theUtenteObjectKey" name="theUtenteObjectKey" class="form-control" style="width: 30%; visibility: hidden;font-size: 15px;" readonly value=""/>
             </div>
 <!--             Number input -->
 <!--             <div class="input-group mb-4" style="width: 40%;"> -->
@@ -137,51 +137,22 @@
         <div class="">
           <div class="container position-absolute top-20 start-20" style="width: fit-content; margin-top: 20px;">
              <div class="row" id="Summary">
-                <div class="col-sm-6 col-md-4 col-lg-4">
-                      <div class="box">
-                         <div class="img-box">
-                            <img src="images/p1.png" width="50px" >
-                         </div>
-                         
-                      </div>
-                   </div>
-                   <div class=" col-lg-4">
-                      <div class="box">
-                         <div class=" detail-box">
-                            <h5>
-                               Men's Shirt
-                            </h5>
-                            <h6>
-                               $80
-                            </h6>
-                            <input type="hidden" value=1 name="productId">
-                         </div>
-                      </div>
-                   </div> 
-                   <div class=" col-lg-4">
-                      <div class="box">
-                         <div class=" detail-box">
-                            <h5 >
-                               x 2
-                            </h5>
-                            <input type="hidden" value=2 name="amount">
-                         </div>
-                      </div>
-                   </div>    
+                    
                 
-                <hr>
+                <!-- Aggiunta dei prodotti dell'rdine corrente -->
                                               
              </div>
              <div style="margin-top: 20px; margin-bottom: 60px;">
              <div class = "col-lg-5" style="font-size: 20px; margin-right: -20px">Total Cost = </div>
-             <div class = "col-lg-2" style="font-size: 20px;margin-right:-30px" id="TotalCost"></div><div style="font-size: 20px; ">€</div> 
+             <div class = "col-lg-5" style="font-size: 20px;" id="TotalCost"></div> 
              </div>
-             <input type="hidden" value=160 name="totalCostInput">
-             <input type="hidden" value=1 name="ordineIdInput">
-               
+             <input type="hidden" value=160 name="totalCost" id="totalCostInput">
+             <input type="hidden" value=1 name="ordineId" id="ordineIdInput">
+             <div onclick="updateCurrentOrder()">
             <button class="btn btn-primary btn-lg btn-block" style="margin-top: 20px;">
             Send Order
             </button>
+            </div>
           </div>
   </div>
 
@@ -190,9 +161,9 @@
   </div>
   </div>
   </div>
-  </form>
   </div>
   
+  <script src="js/moment.js"></script>
 </body>
 <!-- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente  -->
 <script type="text/javascript">
@@ -220,6 +191,8 @@ function loadRecentOrder(e) {
 		}
       //Ultimo Ordine
       objectKeyOrdine = content[indexSelected].objectKey
+      var ordineIdInput = document.getElementById("ordineIdInput")
+      ordineIdInput.value=objectKeyOrdine
       //------------------------
       //chiamata allo store per prendere i prodotti dell'ultimo ordine
 		var httpRequest = new XMLHttpRequest();
@@ -291,18 +264,128 @@ function loadRecentOrder(e) {
 +'                   <div class=" col-lg-4">'
 +'                      <div class="box">'
 +'                         <div class=" detail-box">'
-+'                            <h5 >'
-+'                               x 2'
++'                            <h5 id="AmountProductOnCart'+productDetail.productId+'">'
++'                               x '
 +'                            </h5>'
-+'                            <input type="hidden" value=2 name="amount">'
++'                            <input type="hidden" value=2 name="amount" id="AmountProductOnCartInput'+productDetail.productId+'">'
 +'                         </div>'
 +'                      </div>'
 +'                   </div> '
 +'						<hr>'
 	      )
-      totalCost.innerHTML = totalCostNumber += productDetail.cost;
+
+	  RefreshAmount(productDetail.productId, productDetail.cost)
       }
    
-	   
+   function RefreshAmount(productId,cost){
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8080/store/order-item/"+objectKeyOrdine+"~"
+					+productId,
+			success : function(result) {
+				var totalCost = document.getElementById("TotalCost")
+				var totalCostInput = document.getElementById("totalCostInput")
+				const AmountProductOnCart = document.getElementById("AmountProductOnCart"+productId);
+				AmountProductOnCart.innerHTML = "x "+ result.amount
+				const AmountProductOnCartInput = document.getElementById("AmountProductOnCartInput"+productId);
+				AmountProductOnCart.value = result.amount
+				totalCostNumber += cost * result.amount
+			    totalCost.innerHTML = totalCostNumber + "€";
+				totalCostInput.value = totalCostNumber
+			},
+			error : function(e) {
+				alert("Errore" + e);
+			}
+		})
+		
+	} 
+   function RefreshTotalCost(totalCost,cost,amount){
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8080/store/order-item/"+objectKeyOrdine+"~"
+					+productId,
+			success : function(result) {
+				console.log(result)
+				const AmountProductOnCart = document.getElementById("AmountProductOnCart"+productId);
+				AmountProductOnCart.innerHTML = "x "+ result.amount
+				const AmountProductOnCartInput = document.getElementById("AmountProductOnCartInput"+productId);
+				AmountProductOnCart.value = result.amount
+				
+			},
+			error : function(e) {
+				alert("Errore" + e);
+			}
+		})
+		
+	} 
+</script>
+<!-- Script per acquisire i dati dell'utente  -->
+<script type="text/javascript">
+var UserID = 1;
+function loadUserDetails(e) {
+	
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.onreadystatechange = reaction;
+	httpRequest.open("GET", "http://localhost:8080/store/utente/"+UserID, true);
+	httpRequest.send();
+}
+function reaction(e) {
+	if (e.target.readyState == XMLHttpRequest.DONE) {
+		var i = 0;
+		var json = e.target.responseText;
+		var jsonparse = JSON.parse(json)
+		putDataInTheInput(jsonparse)
+	}
+}
+function putDataInTheInput(content) {
+	var name = document.getElementById("nameUser")
+	name.value = content.name
+	var surname = document.getElementById("surnameUser")
+	surname.value = content.surname
+	var date = document.getElementById("CurrentDate")
+	date.value = new Date().toISOString().split('T')[0]
+	var userId = document.getElementById("theUtenteObjectKey")
+	userId.value = UserID
+}
+</script>
+<script type="text/javascript">
+function updateCurrentOrder(){
+	var date = moment().format("yyyy-MM-DDTHH:mm:ss.SSS")
+	var userId = document.getElementById("theUtenteObjectKey")
+	var totalCostInput = document.getElementById("totalCostInput")
+	var address =document.getElementById("addres")
+    var ordineIdInput = document.getElementById("ordineIdInput")
+	const body = '{"theUtenteObjectKey":'
+		+ userId.value
+		+ ',"address":"'
+		+ address.value
+		+ '","theUtenteObjectKey":'
+		+ userId.value
+		+ ',"totalCost":'
+		+ totalCostInput.value
+		+ ',"date":"'
+		+ date
+		+ '","ordineId":'
+		+ ordineIdInput.value
+		+ '}';
+		console.log(body)
+
+	$.ajax({
+		type : "POST",
+		url : "http://localhost:8080/store/ordine/buy",
+		data : body,
+		contentType : "application/json",
+		success : function(
+				result) {
+			console.log("ajax: Abbiamo ricevuto correttamente l'ordine")
+		},
+		error : function(e) {
+			alert("Errore" + e);
+		}
+	})
+	window.location.replace("http://localhost:8080/home");
+
+}
+
 </script>
 </html>

@@ -3,12 +3,16 @@ package it.yourstore.store.domain;
 import java.io.Serializable;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 import java.util.Collection;
 import java.util.ArrayList;
 import javax.persistence.OneToMany;
@@ -29,6 +33,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.Hibernate;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Objects;
 
 @NoArgsConstructor
@@ -48,10 +55,12 @@ public class Ordine extends GenericEntity implements Serializable {
 
 	// ATTRIBUTES
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "ordine_id", columnDefinition = "INTEGER")
 	private Integer ordineId;
-	@Column(name = "date", columnDefinition = "DATE")
-	private LocalDate date;
+	@Column(name = "date", columnDefinition = "DATETIME")
+	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
+	private LocalDateTime date;
 	@Column(name = "total_cost", columnDefinition = "INTEGER")
 	private Integer totalCost;
 	@Column(name = "address", columnDefinition = "VARCHAR(80)")

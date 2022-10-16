@@ -103,13 +103,18 @@ public class OrdineController {
 	@Operation(summary = "Buy an Ordine")
 	public ResponseEntity<ViewOrdineDto> buy(@RequestBody @Valid EditOrdineDto requestBody) {
 		Ordine entity = ordineMappers.map(requestBody);
-		if (!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) {
+		if ((!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) || entity.getDate()== null) {
 			throw new ResourceNotFoundException(Ordine.class.getSimpleName(), entity.getObjectKey());
 		} else {
 			entity = ordineService.buy(entity);
 			ViewOrdineDto dto = ordineMappers.map(entity);
+			ordineService.update(entity);
+			Ordine newOrder = new Ordine();
+			newOrder.setTheUtente(entity.getTheUtente());
+			ordineService.insert(newOrder);
 			return ResponseEntity.ok(dto);
 		}
+		
 	}
 	
 	/**
