@@ -1,6 +1,8 @@
 package it.yourstore.store.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 
 import java.util.Optional;
@@ -119,11 +121,10 @@ public class OrdineServiceImpl implements OrdineService {
 	}
 
 	public Ordine buy(Ordine entity) {
-		entity.setDate(LocalDate.now());
 		Ordine update = this.bulkUpdate(entity);
 		List<OrderItem> orderItems = orderItemService.findTheOrderItemListByTheOrdine(entity);
 		for(OrderItem oi : orderItems) {
-			producer.sendPurchasedProductNotification(oi.getProductId(), oi.getAmount());
+		//	producer.sendPurchasedProductNotification(oi.getProductId(), oi.getAmount());
 		}
 		return update;
 	}

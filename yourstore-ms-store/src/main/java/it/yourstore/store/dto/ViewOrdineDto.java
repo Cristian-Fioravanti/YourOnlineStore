@@ -4,6 +4,7 @@ import lombok.Setter;
 import lombok.Getter;
 import lombok.EqualsAndHashCode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Data transfer object for view a data element of type Ordine
@@ -21,7 +22,7 @@ public class ViewOrdineDto extends BaseDto {
 
 	private Integer ordineId;
 
-	private LocalDate date;
+	private LocalDateTime date;
 
 	private Integer totalCost;
 

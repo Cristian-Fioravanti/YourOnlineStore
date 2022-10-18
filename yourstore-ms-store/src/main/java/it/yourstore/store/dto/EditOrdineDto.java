@@ -4,6 +4,7 @@ import lombok.Setter;
 import lombok.Getter;
 import lombok.EqualsAndHashCode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -22,7 +23,7 @@ public class EditOrdineDto extends BaseDto {
 	@NotNull
 	private Integer ordineId;
 
-	private LocalDate date;
+	private LocalDateTime date;
 
 	private Integer totalCost;
 

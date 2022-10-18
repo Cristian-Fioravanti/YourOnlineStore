@@ -162,7 +162,7 @@
         function loadProduct(e){
         var httpRequest = new XMLHttpRequest();
         httpRequest.onreadystatechange = reaction;
-        httpRequest.open("GET","http://localhost:8015/database/product/"+id,true); //TODO http://localhost:8080/database/product/{id}
+        httpRequest.open("GET","http://localhost:8080/database/product/"+id,true); //TODO http://localhost:8080/database/product/{id}
         httpRequest.send();
         }
         function reaction(e){
@@ -175,7 +175,7 @@
         }
         function viewProduct(tableID,sond){
          var table = document.getElementById(tableID);
-         const image = sond.image;
+         const image = sond.imageUrl;
          const cost = sond.cost;
          const name = sond.productName
          const desc = sond.description

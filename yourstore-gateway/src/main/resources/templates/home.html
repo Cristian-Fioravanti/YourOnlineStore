@@ -36,7 +36,7 @@
 
 </head>
 
-<body onload=" loadProduct()">
+<body onload=" loadProduct(),loadRecentOrder()">
 
 	<div class="">
 		<!-- header section strats -->
@@ -66,7 +66,8 @@
 								</a>
 							</div>
 							<div id="carello" class="mr-sm-2">
-								<div class=" dropdown dropdown-item">
+
+								<div class=" dropdown dropdown-item" onclick="">
 									<li class="fa fa-shopping-cart " type="button"
 										style="font-size: 30px; margin-right: 10px" id="dropdownMenu2"
 										data-bs-toggle="dropdown" aria-expanded="false"></li>
@@ -74,24 +75,10 @@
 										<li class="">
 											<div class="container dropdown-item"
 												style="width: max-content;">
-												<div class="row" id="dropDownCart" style=" width: 300px">
-													<div class="col-sm-6 col-md-4 col-lg-4 mt-2">
-														<div class="box">
-															<div class="img-box">
-																<img src="images/p1.png" width="50px"
-																	style="margin-left: 20px;">
-															</div>
-														</div>
-													</div>
-													<div class=" col-lg-8">
-														<div class="box">
-															<div class=" detail-box" >
-																<h5>Men's Shirt</h5>
-																<h6>$80</h6>
-															</div>
-														</div>
-													</div>
-											</div>
+												<div class="row" id="dropDownCart"
+													style="width: 300px; overflow-y: auto; white-space: nowrap;">
+
+												</div>
 										</li> <a href="shipping" class="btn btn-primary"
 											style="margin-top: 10px; margin-left: 10px;">Go to the
 											cart</a>
@@ -128,9 +115,7 @@
 				<hr
 					style="height: 2px; border-width: 2; color: #000000; background-color: #f7444e; box-shadow: 5px #000000;">
 			</div>
-			<div class="row" id="elencop">
-				
-			</div>
+			<div class="row" id="elencop"></div>
 
 		</div>
 	</section>
@@ -151,13 +136,16 @@
 	<!-- custom js -->
 	<script src="js/custom.js"></script>
 </body>
+<!-- Script per caricare i prodotti all'interno della home  -->
+
 <script type="text/javascript">
 	//------------------------------------loadProduct---------------------------------------------------
 	var products
 	function loadProduct(e) {
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reaction;
-		httpRequest.open("GET", "http://localhost:8015/database/product", true);
+		httpRequest.open("GET", "http://localhost:8080/database/product/all",
+				true);
 		httpRequest.send();
 	}
 	function reaction(e) {
@@ -165,12 +153,11 @@
 			var i = 0;
 			var json = e.target.responseText;
 			var jsonparse = JSON.parse(json)
-			addProduct("elencop", jsonparse.content)
+			addProduct("elencop", jsonparse)
 		}
 	}
 	function addProduct(tableID, content) {
 		var elencop = document.getElementById(tableID);
-		console.log(content.length)
 		products = content
 		for (var i = 0; i < content.length; i++) {
 			if (i == 2)
@@ -179,37 +166,47 @@
 			// 			if (d.length >= 31)
 			// 				d = d.substring(0, 28) + "...";
 			if (i == 1) {
-				elencop.insertAdjacentHTML("beforeend",
-						'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
-								+ '<div class="box">'
-								+ '<div class="option_container">'
-								+ '<div class="options">'
-								+ '<a style=" font-size:15px;" onclick="insertProductToCart(' + i
-								+ ')" class="option1 btn" id="' + i
-								+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
-								+ '</div>'
-								+ '</div>' + '<div class="img-box">'
-								+ '<img src="'+prod.image+'" alt="">'
-								+ '</div>' + '<div class="detail-box">'
-								+ '<h5>' + prod.productName + '</h5>' + '<h5>'
-								+ prod.cost + '€</h5>' + '</div>' + '</div>'
-								+ '</div>');
+				elencop
+						.insertAdjacentHTML(
+								"beforeend",
+								'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
+										+ '<div class="box">'
+										+ '<div class="option_container">'
+										+ '<div class="options">'
+										+ '<a style=" font-size:15px;" onclick="insertProductToCart('
+										+ i
+										+ ')" class="option1 btn" id="'
+										+ i
+										+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="img-box">'
+										+ '<img src="'+prod.imageUrl+'" alt="">'
+										+ '</div>' + '<div class="detail-box">'
+										+ '<h5>' + prod.productName + '</h5>'
+										+ '<h5>' + prod.cost + '€</h5>'
+										+ '</div>' + '</div>' + '</div>');
 			} else {
-				elencop.insertAdjacentHTML("beforeend",
-						'<div class="col-sm-6 col-md-4 col-lg-4">'
-						+ '<div class="box">'
-						+ '<div class="option_container">'
-						+ '<div class="options">'
-						+ '<a style=" font-size:15px;" onclick="insertProductToCart(' + i
-						+ ')" class="option1 btn" id="' + i
-						+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
-						+ '</div>'
-						+ '</div>' + '<div class="img-box">'
-						+ '<img src="'+prod.image+'" alt="">'
-						+ '</div>' + '<div class="detail-box">'
-						+ '<h5>' + prod.productName + '</h5>' + '<h5>'
-						+ prod.cost + '€</h5>' + '</div>' + '</div>'
-						+ '</div>');
+				elencop
+						.insertAdjacentHTML(
+								"beforeend",
+								'<div class="col-sm-6 col-md-4 col-lg-4">'
+										+ '<div class="box">'
+										+ '<div class="option_container">'
+										+ '<div class="options">'
+										+ '<a style=" font-size:15px;" onclick="insertProductToCart('
+										+ i
+										+ ')" class="option1 btn" id="'
+										+ i
+										+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="img-box">'
+										+ '<img src="'+prod.imageUrl+'" alt="">'
+										+ '</div>' + '<div class="detail-box">'
+										+ '<h5>' + prod.productName + '</h5>'
+										+ '<h5>' + prod.cost + '€</h5>'
+										+ '</div>' + '</div>' + '</div>');
 			}
 		}
 
@@ -226,42 +223,267 @@
 				var prod = content[i];
 				// 			if (d.length >= 31)
 				// 				d = d.substring(0, 28) + "...";
-				elencop.insertAdjacentHTML("afterend",
-						'<div class="col-sm-6 col-md-4 col-lg-4" >'
-						+ '<div class="box">'
-						+ '<div class="option_container">'
-						+ '<div class="options">'
-						+ '<a style=" font-size:15px;" onclick="insertProductToCart(' + i
-						+ ')" class="option1 btn" id="' + i
-						+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
-						+ '</div>'
-						+ '</div>' + '<div class="img-box">'
-						+ '<img src="'+prod.image+'" alt="">'
-						+ '</div>' + '<div class="detail-box">'
-						+ '<h5>' + prod.productName + '</h5>' + '<h5>'
-						+ prod.cost + '€</h5>' + '</div>' + '</div>'
-						+ '</div>');
+				elencop
+						.insertAdjacentHTML(
+								"afterend",
+								'<div class="col-sm-6 col-md-4 col-lg-4" >'
+										+ '<div class="box">'
+										+ '<div class="option_container">'
+										+ '<div class="options">'
+										+ '<a style=" font-size:15px;" onclick="insertProductToCart('
+										+ i
+										+ ')" class="option1 btn" id="'
+										+ i
+										+ '"> Add to cart </a><a style=" font-size:15px;" href="product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="img-box">'
+										+ '<img src="'+prod.imageUrl+'" alt="">'
+										+ '</div>' + '<div class="detail-box">'
+										+ '<h5>' + prod.productName + '</h5>'
+										+ '<h5>' + prod.cost + '€</h5>'
+										+ '</div>' + '</div>' + '</div>');
 			}
 		}
 		bnt.style.visibility = "hidden"
 	}
 	//--------------------------------------------------------------------------------------------
+	var objectKeyOrdine
 	function insertProductToCart(idIndex) {
+		console.log("questo è l'idIndedx del prodotto aggiunto: "+ idIndex)
 		var dropDownCart = document.getElementById("dropDownCart");
-		dropDownCart.insertAdjacentHTML(
+		dropDownCart.innerHTML=""
+		//TODO prendere user id
+		var theUtenteObjectKey = 1;
+		$
+				.ajax({
+					type : "GET",
+					url : "http://localhost:8080/store/ordine/findByTheUtente/"
+							+ theUtenteObjectKey,
+					success : function(result) {
+						const content = result.content
+						var indexSelected
+						for (var i = 0; i < content.length; i++) {
+							if (content[i].date == null)
+								indexSelected = i
+						}
+						console.log("questo è l'ordine corrente: "+ content[indexSelected].objectKey)
+						objectKeyOrdine = content[indexSelected].objectKey
+						$
+								.ajax({
+									type : "GET",
+									url : "http://localhost:8080/store/order-item/findByTheProduct/"
+											+ products[idIndex].productId,
+									success : function(result) {
+										//console.log(result)
+										var amount = 1
+										if (result.content.length > 0 && result.content[result.content.length - 1].objectKey.substring(0, 2) == objectKeyOrdine+"~") {
+											//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
+											const content = result.content[result.content.length - 1]
+											
+											amount = content.amount + 1
+											const body = '{"amount":'
+													+ amount
+													+ ',"theOrdineObjectKey":'
+													+ objectKeyOrdine
+													+ ',"theProductObjectKey":'
+													+ products[idIndex].productId
+													+ '}';
+											//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
+											$.ajax({
+														type : "PUT",
+														url : "http://localhost:8080/store/order-item",
+														data : body,
+														contentType : "application/json",
+														success : function(
+																result) {
+															console.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																			+ content.amount
+																			+ " + 1")
+															loadRecentOrder()
+														},
+														error : function(e) {
+															alert("Errore" + e);
+														}
+													})
+										}
+										else if (result.content.length > 0 && result.content[result.content.length - 1].objectKey.substring(0, 2) != objectKeyOrdine+"~"){
+											amount = 1
+											const body = '{"amount":'
+												+ amount
+												+ ',"theOrdineObjectKey":'
+												+ objectKeyOrdine
+												+ ',"theProductObjectKey":'
+												+ products[idIndex].productId
+												+ '}';
+											$.ajax({
+												type : "PUT",
+												url : "http://localhost:8080/store/order-item",
+												data : body,
+												contentType : "application/json",
+												success : function(
+														result) {
+													console.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																	+ content.amount
+																	+ " + 1")
+													loadRecentOrder()
+												},
+												error : function(e) {
+													alert("Errore" + e);
+												}
+											})
+											
+										
+										} else {
+											const body = '{"amount":'
+													+ amount
+													+ ',"theOrdineObjectKey":'
+													+ objectKeyOrdine
+													+ ',"theProductObjectKey":'
+													+ products[idIndex].productId
+													+ '}';
+											//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
+											$
+													.ajax({
+														type : "POST",
+														url : "http://localhost:8080/store/order-item",
+														data : body,
+														contentType : "application/json",
+														success : function(
+																result) {
+															console.log("ajax: Abbiamo aggiunto il prodotto all'interno dell'ordine")
+															loadRecentOrder()
+														},
+														error : function(e) {
+															alert("Errore" + e);
+														}
+													})
+										}
+
+									},
+									error : function(e) {
+										alert("Errore" + e);
+									}
+								})
+					},
+					error : function(e) {
+						alert("Errore" + e);
+					}
+				})
+	}
+</script>
+
+<!-- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente  -->
+<script type="text/javascript">
+	var objectKeyOrdine
+	function loadRecentOrder(e) {
+		var theUtenteObjectKey = 1;
+		var httpRequest = new XMLHttpRequest();
+		httpRequest.onreadystatechange = reactionFirst;
+		httpRequest.open("GET",
+				"http://localhost:8080/store/ordine/findByTheUtente/"
+						+ theUtenteObjectKey, true);
+		httpRequest.send();
+	}
+	function reactionFirst(e) {
+		if (e.target.readyState == XMLHttpRequest.DONE) {
+			var i = 0;
+			var json = e.target.responseText;
+			var jsonparse = JSON.parse(json)
+			loadProductOfLastOrder(jsonparse.content)
+		}
+	}
+	function loadProductOfLastOrder(content) {
+		var indexSelected
+		for (var i = 0; i < content.length; i++) {
+			if (content[i].date == null)
+				indexSelected = i
+		}
+		//Ultimo Ordine
+		objectKeyOrdine = content[indexSelected].objectKey
+		//------------------------
+		//chiamata allo store per prendere i prodotti dell'ultimo ordine
+		var httpRequest = new XMLHttpRequest();
+		httpRequest.onreadystatechange = reactionSecond;
+		httpRequest.open("GET", "http://localhost:8080/store/order-item", true);
+		httpRequest.send();
+		//------------------------
+	}
+	function reactionSecond(e) {
+		if (e.target.readyState == XMLHttpRequest.DONE) {
+			var i = 0;
+			var json = e.target.responseText;
+			var jsonparse = JSON.parse(json)
+			putTheProductOnPage(jsonparse.content)
+		}
+	}
+	//lista ID prodotti dell'ultimo ordine
+	var productsId = []
+	var totalCostNumber = Number("0")
+	function putTheProductOnPage(content) {
+		for (var i = 0; i < content.length; i++) {
+			if (content[i].theOrdineObjectKey == objectKeyOrdine)
+				productsId.push(content[i].theProductObjectKey)
+		}
+		//chiamata allo stock per prendere i dati dei prodotti, in modo tale da poterli raffigurare front-end
+		for (var i = 0; i < productsId.length; i++) {
+			$
+					.ajax({
+						type : "GET",
+						url : "http://localhost:8080/database/product/"
+								+ productsId[i],
+						success : function(result) {
+							console.log(amountProducts[i])
+							addProductToForm(result)
+						},
+						error : function(e) {
+							alert("Errore" + e);
+						}
+					})
+		}
+		amountProducts= []
+		productsId= []
+	}
+
+	function addProductToForm(productDetail) {
+		var dropDownCart = document.getElementById("dropDownCart");
+		dropDownCart
+				.insertAdjacentHTML(
 						"beforeend",
-						'<div class="col-sm-6 col-md-4 col-lg-4 mt-2">'
+						'<div class="col-sm-6 col-md-4 col-lg-4 mt-2" id="ProductOnCart'+productDetail.productId+'">'
 								+ '<div class="box">'
 								+ '<div class="img-box">'
-								+ '	<img src="'+products[idIndex].image+'" width="50px"'
+								+ '	<img src="'+productDetail.imageUrl+'" width="50px"'
 										+'		style="margin-left: 20px;">'
-								+ '	</div>' + '</div>' + '</div>'
-								+ '<div class=" col-lg-8">'
-								+ '<div class="box">'
-								+ '	<div class=" detail-box">' + '		<h5>'
-								+ products[idIndex].productName + '</h5>'
-								+ '		<h5>' + products[idIndex].cost + '€</h5>'
-								+ '	</div>' + '	</div>' + '</div>')
+								+ '	</div>'
+								+ '</div>'
+								+ '</div>'
+								+ '<div class=" col-lg-4" style="overflow-x: auto;white-space: nowrap;width: 50px;">'
+								+ '<div class="box" >'
+								+ '	<div class=" detail-box" >' + '		<h5>'
+								+ productDetail.productName + '</h5>'
+								+ '		<h5>' + productDetail.cost + '€</h5>'
+								+ '	</div>' + '	</div>' + '</div>'
+								+ '<div class=" col-lg-4">'
+								+ '<div class="detail-box" >' + '<h5 id="AmountOnCart'+productDetail.productId+'">' + "x "
+								+ '</div>' + '</h5>' + '	</div>' + '	</div>')
+		RefreshAmount(productDetail.productId)
+	}
+	
+	function RefreshAmount(productId){
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8080/store/order-item/"+objectKeyOrdine+"~"
+					+productId,
+			success : function(result) {
+				const AmountProductOnCart = document.getElementById("AmountOnCart"+productId);
+						AmountProductOnCart.innerHTML = "x "+ result.amount
+			},
+			error : function(e) {
+				alert("Errore" + e);
+			}
+		})
+		
 	}
 </script>
 

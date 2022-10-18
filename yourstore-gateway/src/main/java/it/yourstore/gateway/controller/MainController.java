@@ -38,5 +38,10 @@ public class MainController {
 	public String getAddProduct() {
 		return "addProduct";
 	}
+	
+	@GetMapping("/Analytics")
+    public String getAnalytics() {
+        return "adminAnalytics";
+    }
 
 }
