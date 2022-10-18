@@ -3,6 +3,7 @@ package it.yourstore.store.service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
+import java.util.Collection;
 import java.util.List;
 
 import java.util.Optional;
@@ -150,12 +151,24 @@ public class OrdineServiceImpl implements OrdineService {
 	}
 
 	public Ordine buy(Ordine entity) {
+		entity.setDate(LocalDateTime.now());
 		Ordine update = this.bulkUpdate(entity);
-		List<OrderItem> orderItems = orderItemService.findTheOrderItemListByTheOrdine(entity);
+		Collection<OrderItem> orderItems = entity.getTheOrderItem();
 		for(OrderItem oi : orderItems) {
-		//	producer.sendPurchasedProductNotification(oi.getProductId(), oi.getAmount());
+			producer.sendPurchasedProductNotification(oi.getProductId(), oi.getAmount());
 		}
 		return update;
+	}
+	
+	public Ordine findCurrentOrdineByTheUtente(String utenteId) {
+		Utente utente = new Utente(utenteId);
+		List<Ordine> listOrdini = findByTheUtente(utente, null).getContent();
+		Ordine currentOrdine = null;
+		for(Ordine o : listOrdini) {
+			if(o.getDate()!=null)
+				currentOrdine = o;
+		}
+		return currentOrdine;
 	}
 
 }

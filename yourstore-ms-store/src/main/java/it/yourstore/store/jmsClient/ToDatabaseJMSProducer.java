@@ -46,10 +46,6 @@ public class ToDatabaseJMSProducer implements MessageListener{
 
 			producer = session.createProducer(queue);
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-
-//			sendInfoProdottoRequest(1);
-//			Thread.sleep(10000);
-//			sendPurchasedProductNotification(1,1);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

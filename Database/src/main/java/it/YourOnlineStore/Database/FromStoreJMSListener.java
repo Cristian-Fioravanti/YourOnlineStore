@@ -72,12 +72,8 @@ public class FromStoreJMSListener implements MessageListener {
 					Product product = productService.findById(productId).get();
 					messageProduct.setIntProperty("Disponibility", product.getDisponibility());
 					messageProduct.setFloatProperty("Cost", product.getCost());
-//					messageProduct.setIntProperty("Disponibility", 10);
-//					messageProduct.setIntProperty("Cost", 20);
 					messageProduct.setJMSCorrelationID(mex.getJMSCorrelationID());
 
-		            //Send the response to the Destination specified by the JMSReplyTo field of the received message,
-		            //this is presumably a temporary queue created by the client
 		            this.producer.send(mex.getJMSReplyTo(), messageProduct);
 				}
 				else {

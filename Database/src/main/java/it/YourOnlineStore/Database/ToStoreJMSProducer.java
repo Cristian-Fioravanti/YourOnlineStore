@@ -44,10 +44,6 @@ public class ToStoreJMSProducer {
 
 			producer = session.createProducer(queue);
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-			
-//			Product product = new Product();
-//			product.setProductId(1);
-//			sendInsert(product);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -69,11 +65,5 @@ public class ToStoreJMSProducer {
 			err.printStackTrace();
 		}
 	}
-
-//	private Integer rmID() {
-//		Random randomGen = new Random();
-//		Integer val = randomGen.nextInt();
-//		return val;
-//	}
 
 }

@@ -2,6 +2,8 @@ package it.yourstore.store.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -29,6 +31,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.turkraft.springfilter.boot.Filter;
 
 import io.swagger.v3.oas.annotations.Operation;
+import it.yourstore.store.domain.OrderItem;
 import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.dto.EditOrdineDto;
 import it.yourstore.store.dto.ViewOrdineDto;
@@ -103,15 +106,12 @@ public class OrdineController {
 	@Operation(summary = "Buy an Ordine")
 	public ResponseEntity<ViewOrdineDto> buy(@RequestBody @Valid EditOrdineDto requestBody) {
 		Ordine entity = ordineMappers.map(requestBody);
-		if ((!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) || entity.getDate()== null) {
+		if ((!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) || entity.getDate() != null) {
 			throw new ResourceNotFoundException(Ordine.class.getSimpleName(), entity.getObjectKey());
 		} else {
 			entity = ordineService.buy(entity);
 			ViewOrdineDto dto = ordineMappers.map(entity);
 			ordineService.update(entity);
-			Ordine newOrder = new Ordine();
-			newOrder.setTheUtente(entity.getTheUtente());
-			ordineService.insert(newOrder);
 			return ResponseEntity.ok(dto);
 		}
 		
@@ -219,6 +219,12 @@ public class OrdineController {
 		Utente key = new Utente(utenteObjectKey);
 		Page<ViewOrdineDto> collModel = ordineMappers.map(ordineService.findByTheUtente(key, pageable));
 		return toResponseEntityPaged(collModel, null);
+	}
+	
+	@GetMapping("/current-ordine/{id:.+}")
+	public ViewOrdineDto currentOrdine(@PathVariable String utenteId) {
+		Ordine currentOrdine = ordineService.findCurrentOrdineByTheUtente(utenteId);
+		return ordineMappers.map(currentOrdine);
 	}
 
 	private ResponseEntity<ViewOrdineDto> toResponseEntity(Optional<Ordine> maybeResponse, HttpHeaders header,
