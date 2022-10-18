@@ -11,9 +11,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import org.springframework.stereotype.Service;
-
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import it.yourstore.store.domain.OrderItem;
 
@@ -40,22 +45,11 @@ public class OrderItemServiceImpl implements OrderItemService {
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LogManager.getLogger(OrderItemServiceImpl.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#findAll(org.
-	 * springframework.data.domain.Pageable)
-	 */
 	@Override
 	public Page<OrderItem> findAll(Pageable pageable) {
 		return orderItemRepository.findAll(pageable);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#findAll()
-	 */
 	@Override
 	public List<OrderItem> findAll() {
 		return orderItemRepository.findAll();
@@ -67,34 +61,16 @@ public class OrderItemServiceImpl implements OrderItemService {
 		return orderItemRepository.findByTheOrderItemKey(orderItem.getTheOrderItemKey());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#exists(java.lang.
-	 * Object)
-	 */
 	@Override
 	public boolean exists(OrderItemKey id) {
 		return orderItemRepository.existsById(id);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#insert(java.
-	 * lang.Object)
-	 */
 	@Override
 	public OrderItem insert(@Valid OrderItem entity) {
 		return orderItemRepository.save(entity);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#update(java.
-	 * lang.Object)
-	 */
 	@Override
 	public OrderItem update(@Valid OrderItem entity) {
 		return orderItemRepository.save(entity);
@@ -141,13 +117,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 		return orderItemRepository.findByTheProduct(parentEntity, pageable);
 	}
 
-	/*
-	 * 
-	 * @see
-	 * it.yourstore.store.service.OrderItemService#findOrdineBytheProduct(it.
-	 * micegroup.prova.demo.entity.Product,
-	 * org.springframework.data.domain.Pageable)
-	 */
 	@Override
 	public Page<Ordine> findTheOrdineByTheProduct(Product product, Pageable pageable) {
 		Page<OrderItem> orderItemPage = orderItemRepository.findByTheProduct(product, pageable);
@@ -157,12 +126,6 @@ public class OrderItemServiceImpl implements OrderItemService {
 		return result;
 	}
 
-	/*
-	 * 
-	 * @see
-	 * it.yourstore.store.service.OrderItemService#findProductBytheOrdine(it.
-	 * micegroup.prova.demo.entity.Ordine, org.springframework.data.domain.Pageable)
-	 */
 	@Override
 	public Page<Product> findTheProductByTheOrdine(Ordine ordine, Pageable pageable) {
 		Page<OrderItem> orderItemPage = orderItemRepository.findByTheOrdine(ordine, pageable);

@@ -36,6 +36,7 @@ import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.dto.EditOrdineDto;
 import it.yourstore.store.dto.ViewOrdineDto;
 import it.yourstore.store.dto.ViewOrderItemDto;
+import it.yourstore.store.exception.DisponibilityException;
 import it.yourstore.store.exception.ResourceAlreadyFoundException;
 import it.yourstore.store.exception.ResourceNotFoundException;
 import it.yourstore.store.mapper.OrdineMappers;
@@ -109,6 +110,11 @@ public class OrdineController {
 		if ((!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) || entity.getDate() != null) {
 			throw new ResourceNotFoundException(Ordine.class.getSimpleName(), entity.getObjectKey());
 		} else {
+			try {
+				ordineService.checkDisponibility(entity);
+			} catch(DisponibilityException e) {
+				throw e;
+			}
 			entity = ordineService.buy(entity);
 			ViewOrdineDto dto = ordineMappers.map(entity);
 			ordineService.update(entity);

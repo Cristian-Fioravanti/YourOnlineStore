@@ -1,5 +1,6 @@
 package it.yourstore.store.service;
 
+import it.yourstore.store.domain.OrderItem;
 import it.yourstore.store.domain.Ordine;
 
 import org.springframework.data.domain.Page;
@@ -9,6 +10,8 @@ import it.yourstore.store.domain.Utente;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Optional;
+
+import javax.validation.constraints.NotNull;
 
 public interface OrdineService extends GenericEntityService<Ordine, Integer> {
 
@@ -26,5 +29,9 @@ public interface OrdineService extends GenericEntityService<Ordine, Integer> {
 	Ordine buy(Ordine entity);
 	
 	Ordine findCurrentOrdineByTheUtente(String utenteId);
+
+	void checkDisponibility(Ordine entity);
+
+	void updateOrdineCost(OrderItem entity);
 
 }

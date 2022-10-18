@@ -34,6 +34,15 @@ public class GlobalExceptionHandler {
 				.body(new ApiCallError("NotFoundException", ex.getBody()));
 	}
 	
+	@ExceptionHandler(DisponibilityException.class)
+	public ResponseEntity<ApiCallError> handleDisponibilityException(HttpServletRequest request,
+			DisponibilityException ex) {
+		logger.error("DisponibilityException {}\n", request.getRequestURI());
+
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+				.body(new ApiCallError("DisponibilityException", ex.getBody()));
+	}
+	
 	@ExceptionHandler(ResourceAlreadyFoundException.class)
 	public ResponseEntity<ApiCallError> handleAlreadyFoundException(HttpServletRequest request,
 			ResourceAlreadyFoundException ex) {

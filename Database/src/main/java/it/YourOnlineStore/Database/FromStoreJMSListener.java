@@ -10,6 +10,7 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.jms.TopicConnection;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class FromStoreJMSListener implements MessageListener {
 
 	private Connection connection;
 	private Session session;
+	private TopicConnection topicConnection;
 	private Destination queue = null;
 	private MessageProducer producer = null;
 	ActiveMQConnectionFactory connectionFactory = null;
@@ -48,7 +50,7 @@ public class FromStoreJMSListener implements MessageListener {
 			connection.start();
 			this.session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
 			queue = this.session.createQueue("StoreToStock");
-
+			
 			this.producer = this.session.createProducer(null);
 			this.producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
 
@@ -63,22 +65,27 @@ public class FromStoreJMSListener implements MessageListener {
 		try {
 			String state = mex.getStringProperty("State");
 			switch (state) {
-			case "ProductInfo":
+			case "CheckProductDisponibility":
 				TextMessage messageProduct = null;
 				messageProduct = this.session.createTextMessage();
 				Integer productId = mex.getIntProperty("ProductId");
 				LOG.info("Getting info product with ID: " + productId);
 				if(productService.exists(productId)) {
+					Integer amount = mex.getIntProperty("Amount");
 					Product product = productService.findById(productId).get();
-					messageProduct.setIntProperty("Disponibility", product.getDisponibility());
-					messageProduct.setFloatProperty("Cost", product.getCost());
+					Integer disponibility = product.getDisponibility();
+					if(disponibility >= amount) {
+						messageProduct.setBooleanProperty("Check", true);
+					} else {
+						messageProduct.setBooleanProperty("Check", false);
+					}
 					messageProduct.setJMSCorrelationID(mex.getJMSCorrelationID());
 
 		            this.producer.send(mex.getJMSReplyTo(), messageProduct);
 				}
-				else {
-					messageProduct.setText("ERROE, PRODUCT DOESN'T EXISTS");
-				}
+//				else {
+//					messageProduct.setText("ERROE, PRODUCT DOESN'T EXISTS");
+//				}
 				break;
 			case "PurchasedProduct":
 				Integer prodId = mex.getIntProperty("ProductId");

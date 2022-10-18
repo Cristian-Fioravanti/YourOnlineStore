@@ -61,8 +61,8 @@ public class Ordine extends GenericEntity implements Serializable {
 	@Column(name = "date", columnDefinition = "DATETIME")
 	@JsonFormat(pattern="yyyy-MM-dd'T'HH:mm:ss.SSS")
 	private LocalDateTime date;
-	@Column(name = "total_cost", columnDefinition = "INTEGER")
-	private Integer totalCost;
+	@Column(name = "total_cost", columnDefinition = "FLOAT")
+	private Float totalCost;
 	@Column(name = "address", columnDefinition = "VARCHAR(80)")
 	private String address;
 
