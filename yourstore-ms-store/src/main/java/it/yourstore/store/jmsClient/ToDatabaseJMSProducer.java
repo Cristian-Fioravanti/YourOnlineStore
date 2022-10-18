@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ToDatabaseJMSProducer implements MessageListener{
+public class ToDatabaseJMSProducer implements MessageListener {
 
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(ToDatabaseJMSProducer.class);
 
@@ -36,9 +36,9 @@ public class ToDatabaseJMSProducer implements MessageListener{
 	String destinationName = "StoreToStock";
 	MessageConsumer responseConsumer = null;
 
-	public void start()  {
+	public void start() {
 		connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
-        try {
+		try {
 			connection = connectionFactory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -53,23 +53,24 @@ public class ToDatabaseJMSProducer implements MessageListener{
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
 
-	public void sendInfoProdottoRequest(Integer productId) {
+	public void sendCheckProductAvailabilityRequest(Integer productId, Integer amount) {
 		try {
 			Destination tempDest = session.createTemporaryQueue();
 			MessageConsumer responseConsumer = session.createConsumer(tempDest);
-            responseConsumer.setMessageListener(this);
-            
-            TextMessage message = session.createTextMessage();
+			responseConsumer.setMessageListener(this);
+
+			TextMessage message = session.createTextMessage();
 			message.setJMSReplyTo(tempDest);
 			String correlationId = this.createRandomString();
-            message.setJMSCorrelationID(correlationId);
-			
-			message.setStringProperty("State", "ProductInfo");
+			message.setJMSCorrelationID(correlationId);
+
+			message.setStringProperty("State", "CheckProductDisponibility");
 			message.setIntProperty("ProductId", productId);
-			
+			message.setIntProperty("Amount", amount);
+
 			LOG.info("Send product info request to Database... Product id: " + productId);
 			try {
 				producer.send(message);
@@ -80,7 +81,7 @@ public class ToDatabaseJMSProducer implements MessageListener{
 			LOG.error("JMSException occurred: " + e);
 		}
 	}
-	
+
 	public void sendPurchasedProductNotification(Integer productId, Integer amount) {
 		try {
 			TextMessage message = session.createTextMessage();
@@ -88,7 +89,8 @@ public class ToDatabaseJMSProducer implements MessageListener{
 			message.setStringProperty("State", "PurchasedProduct");
 			message.setIntProperty("ProductId", productId);
 			message.setIntProperty("Amount", amount);
-			LOG.info("Send purchased product notification to Database... Product id and amount: " + productId + ", " + amount);
+			LOG.info("Send purchased product notification to Database... Product id and amount: " + productId + ", "
+					+ amount);
 			try {
 				producer.send(message);
 			} catch (Exception err) {
@@ -102,21 +104,21 @@ public class ToDatabaseJMSProducer implements MessageListener{
 	@Override
 	public void onMessage(Message message) {
 		try {
-            if (message instanceof TextMessage) {
-                TextMessage textMessage = (TextMessage) message;
-                Integer cost = textMessage.getIntProperty("Cost");
-                Integer disp = textMessage.getIntProperty("Disponibility");
-                LOG.info("Disponibilita = " + disp);
-                LOG.info("Costo = " + cost);
-            }
-        } catch (Exception e) {
-        	LOG.error("Exception occurred: " + e);
-        }		
+			if (message instanceof TextMessage) {
+				TextMessage textMessage = (TextMessage) message;
+				Boolean cost = textMessage.getBooleanProperty("Check");
+				if (!cost) {
+					throw new Exception();
+				}
+			}
+		} catch (Exception e) {
+			LOG.error("Exception occurred: " + e);
+		}
 	}
-	
+
 	private String createRandomString() {
-        Random random = new Random(System.currentTimeMillis());
-        long randomLong = random.nextLong();
-        return Long.toHexString(randomLong);
-    }
+		Random random = new Random(System.currentTimeMillis());
+		long randomLong = random.nextLong();
+		return Long.toHexString(randomLong);
+	}
 }

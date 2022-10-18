@@ -52,8 +52,8 @@ public class Ordine extends GenericEntity implements Serializable {
 	private Integer ordineId;
 	@Column(name = "date", columnDefinition = "DATE")
 	private LocalDate date;
-	@Column(name = "total_cost", columnDefinition = "INTEGER")
-	private Integer totalCost;
+	@Column(name = "total_cost", columnDefinition = "FLOAT")
+	private Float totalCost;
 	@Column(name = "address", columnDefinition = "VARCHAR(80)")
 	private String address;
 

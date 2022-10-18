@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -13,13 +14,19 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import org.springframework.stereotype.Service;
-
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 
 import it.yourstore.store.domain.Ordine;
-
+import it.yourstore.store.domain.Product;
 import it.yourstore.store.domain.Utente;
+import it.yourstore.store.exception.DisponibilityException;
 import it.yourstore.store.jmsClient.ToDatabaseJMSProducer;
 import it.yourstore.store.repository.OrdineRepository;
 
@@ -43,22 +50,11 @@ public class OrdineServiceImpl implements OrdineService {
 	@SuppressWarnings("unused")
 	private static final Logger LOGGER = LogManager.getLogger(OrdineServiceImpl.class);
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#findAll(org.
-	 * springframework.data.domain.Pageable)
-	 */
 	@Override
 	public Page<Ordine> findAll(Pageable pageable) {
 		return ordineRepository.findAll(pageable);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#findAll()
-	 */
 	@Override
 	public List<Ordine> findAll() {
 		return ordineRepository.findAll();
@@ -70,34 +66,16 @@ public class OrdineServiceImpl implements OrdineService {
 		return ordineRepository.findByOrdineId(ordine.getOrdineId());
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#exists(java.lang.
-	 * Object)
-	 */
 	@Override
 	public boolean exists(Integer id) {
 		return ordineRepository.existsById(id);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#insert(java.
-	 * lang.Object)
-	 */
 	@Override
 	public Ordine insert(@Valid Ordine entity) {
 		return ordineRepository.save(entity);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see it.yourstore.store.service.GenericEntityService#update(java.
-	 * lang.Object)
-	 */
 	@Override
 	public Ordine update(@Valid Ordine entity) {
 		return ordineRepository.save(entity);
@@ -116,13 +94,6 @@ public class OrdineServiceImpl implements OrdineService {
 		return ordineRepository.findAll(specification, pageable);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * it.yourstore.store.service.GenericEntityService#deleteById(java.lang.
-	 * Object)
-	 */
 	@Override
 	public void deleteById(Integer id) {
 		ordineRepository.deleteById(id);
@@ -155,6 +126,40 @@ public class OrdineServiceImpl implements OrdineService {
 			producer.sendPurchasedProductNotification(oi.getProductId(), oi.getAmount());
 		}
 		return update;
+	}
+
+	@Override
+	public void checkDisponibility(Ordine entity) {
+		List<OrderItem> orderItems = orderItemService.findTheOrderItemListByTheOrdine(entity);
+		for(OrderItem oi : orderItems) {
+			try {
+				producer.sendCheckProductAvailabilityRequest(oi.getProductId(), oi.getAmount());
+			} catch(Exception e) {
+				throw new DisponibilityException(oi.getTheProductObjectKey(), oi.getAmount().toString());
+			}
+		}
+	}
+	
+	@Override
+	public void updateOrdineCost(OrderItem entity) {
+		Ordine ordine = entity.getTheOrdine();
+		Product product = entity.getTheProduct();
+		Integer amount = entity.getAmount();
+		Float oldCost = ordine.getTotalCost();
+		try(CloseableHttpClient closeableHttpclient = HttpClients.createDefault()) { 
+	        HttpGet httpGet = new HttpGet("http://localhost:8080/database/product/" + product.getProductId());
+	        CloseableHttpResponse httpResponse = closeableHttpclient.execute(httpGet);
+	        if (httpResponse.getStatusLine().getStatusCode() == 200) {
+	        	JSONObject result = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
+	        	Float cost = result.getFloat("cost");
+	        	Float tmpCost = cost*amount;
+	        	ordine.setTotalCost(oldCost + tmpCost);
+	        	update(ordine);
+	        } else {
+	            return;
+	        }
+		} catch (Exception e) {
+		}
 	}
 
 }

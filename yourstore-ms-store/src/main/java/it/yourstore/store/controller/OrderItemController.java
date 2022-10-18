@@ -37,7 +37,7 @@ import it.yourstore.store.exception.ResourceAlreadyFoundException;
 import it.yourstore.store.exception.ResourceNotFoundException;
 import it.yourstore.store.mapper.OrderItemMappers;
 import it.yourstore.store.service.OrderItemService;
-
+import it.yourstore.store.service.OrdineService;
 import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.domain.Product;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +51,9 @@ public class OrderItemController {
 
 	/// ENTITY SERVICE
 	private final OrderItemService orderItemService;
-
+	
+	private final OrdineService ordineService;
+	
 	private final OrderItemMappers orderItemMappers;
 	// CHILD SERVICES
 
@@ -90,6 +92,7 @@ public class OrderItemController {
 			throw new ResourceAlreadyFoundException(OrderItem.class.getSimpleName(), entity.getObjectKey());
 		} else {
 			entity = orderItemService.insert(entity);
+			ordineService.updateOrdineCost(entity);
 			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 					.buildAndExpand(entity.getTheOrderItemKey()).toUri();
 			ViewOrderItemDto dto = orderItemMappers.map(entity);
