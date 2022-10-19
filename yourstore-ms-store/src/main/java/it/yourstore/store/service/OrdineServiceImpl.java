@@ -144,7 +144,7 @@ public class OrdineServiceImpl implements OrdineService {
 
 	@Override
 	public void checkDisponibility(Ordine entity) {
-		List<OrderItem> orderItems = orderItemService.findTheOrderItemListByTheOrdine(entity);
+		Collection<OrderItem> orderItems = entity.getTheOrderItem();
 		for(OrderItem oi : orderItems) {
 			try {
 				producer.sendCheckProductAvailabilityRequest(oi.getProductId(), oi.getAmount());
@@ -160,20 +160,10 @@ public class OrdineServiceImpl implements OrdineService {
 		Product product = entity.getTheProduct();
 		Integer amount = entity.getAmount();
 		Float oldCost = ordine.getTotalCost();
-		try(CloseableHttpClient closeableHttpclient = HttpClients.createDefault()) { 
-	        HttpGet httpGet = new HttpGet("http://localhost:8080/database/product/" + product.getProductId());
-	        CloseableHttpResponse httpResponse = closeableHttpclient.execute(httpGet);
-	        if (httpResponse.getStatusLine().getStatusCode() == 200) {
-	        	JSONObject result = new JSONObject(EntityUtils.toString(httpResponse.getEntity()));
-	        	Float cost = result.getFloat("cost");
-	        	Float tmpCost = cost*amount;
-	        	ordine.setTotalCost(oldCost + tmpCost);
-	        	update(ordine);
-	        } else {
-	            return;
-	        }
-		} catch (Exception e) {
-		}
+		Float cost = product.getCost();
+		Float newCost = cost*amount;
+		ordine.setTotalCost(oldCost + newCost);
+		update(ordine);
 	}
 
 }

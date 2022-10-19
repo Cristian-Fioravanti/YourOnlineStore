@@ -2,8 +2,6 @@ package it.yourstore.store.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Collection;
-import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -31,19 +29,18 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.turkraft.springfilter.boot.Filter;
 
 import io.swagger.v3.oas.annotations.Operation;
-import it.yourstore.store.domain.OrderItem;
 import it.yourstore.store.domain.Ordine;
+import it.yourstore.store.domain.Utente;
 import it.yourstore.store.dto.EditOrdineDto;
-import it.yourstore.store.dto.ViewOrdineDto;
 import it.yourstore.store.dto.ViewOrderItemDto;
+import it.yourstore.store.dto.ViewOrdineDto;
 import it.yourstore.store.exception.DisponibilityException;
 import it.yourstore.store.exception.ResourceAlreadyFoundException;
 import it.yourstore.store.exception.ResourceNotFoundException;
-import it.yourstore.store.mapper.OrdineMappers;
 import it.yourstore.store.mapper.OrderItemMappers;
-import it.yourstore.store.service.OrdineService;
+import it.yourstore.store.mapper.OrdineMappers;
 import it.yourstore.store.service.OrderItemService;
-import it.yourstore.store.domain.Utente;
+import it.yourstore.store.service.OrdineService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -101,7 +98,7 @@ public class OrdineController {
 			return ResponseEntity.created(location).body(dto);
 		}
 	}
-	
+
 	@PostMapping("/buy")
 	@Transactional
 	@Operation(summary = "Buy an Ordine")
@@ -112,7 +109,7 @@ public class OrdineController {
 		} else {
 			try {
 				ordineService.checkDisponibility(entity);
-			} catch(DisponibilityException e) {
+			} catch (DisponibilityException e) {
 				throw e;
 			}
 			entity = ordineService.buy(entity);
@@ -120,9 +117,9 @@ public class OrdineController {
 			ordineService.update(entity);
 			return ResponseEntity.ok(dto);
 		}
-		
+
 	}
-	
+
 	/**
 	 * {@code GET  /ordine/:objectKey} : Get the ordine with given objectKey.
 	 *
@@ -226,7 +223,7 @@ public class OrdineController {
 		Page<ViewOrdineDto> collModel = ordineMappers.map(ordineService.findByTheUtente(key, pageable));
 		return toResponseEntityPaged(collModel, null);
 	}
-	
+
 	@GetMapping("/current-ordine/{id:.+}")
 	public ViewOrdineDto currentOrdine(@PathVariable String utenteId) {
 		Ordine currentOrdine = ordineService.findCurrentOrdineByTheUtente(utenteId);

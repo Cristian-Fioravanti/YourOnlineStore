@@ -55,9 +55,11 @@ public class FromDatabaseJMSListener implements MessageListener {
 			switch (state) {
 			case "NewProduct":
 				Integer productId = mex.getIntProperty("ProductId");
+				Float cost = mex.getFloatProperty("Cost");
 				LOG.info("New product added: " + productId);
 				Product product = new Product();
 				product.setProductId(productId);
+				product.setCost(cost);
 				productService.insert(product);
 				break;
 			default:

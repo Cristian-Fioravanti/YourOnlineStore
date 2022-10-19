@@ -46,7 +46,4 @@ public interface OrderItemService extends GenericEntityService<OrderItem, OrderI
 	Optional<OrderItem> delete(String objectKey);
 
 	Page<OrderItem> search(Specification<OrderItem> specification, Pageable pageable);
-
-	List<OrderItem> findTheOrderItemListByTheOrdine(Ordine ordine);
-
 }

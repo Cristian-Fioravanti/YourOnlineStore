@@ -102,8 +102,8 @@ public class ToDatabaseJMSProducer implements MessageListener {
 		try {
 			if (message instanceof TextMessage) {
 				TextMessage textMessage = (TextMessage) message;
-				Boolean cost = textMessage.getBooleanProperty("Check");
-				if (!cost) {
+				Boolean check = textMessage.getBooleanProperty("Check");
+				if (!check) {
 					throw new Exception();
 				}
 			}

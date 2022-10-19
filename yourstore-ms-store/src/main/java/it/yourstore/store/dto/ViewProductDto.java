@@ -19,5 +19,7 @@ public class ViewProductDto extends BaseDto {
 	private String objectTitle;
 
 	private Integer productId;
+	
+	private Float cost;
 
 }

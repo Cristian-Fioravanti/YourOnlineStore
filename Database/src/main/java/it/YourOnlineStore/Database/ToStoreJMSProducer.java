@@ -54,10 +54,12 @@ public class ToStoreJMSProducer {
 		TextMessage message = null;
 		message = session.createTextMessage();
 		Integer productId = product.getProductId();
+		Float cost = product.getCost();
 		String state = "NewProduct";
 		try {
 			message.setStringProperty("State", state);
 			message.setIntProperty("ProductId", productId);
+			message.setFloatProperty("Cost", cost);
 			LOG.info("Invio idProdotto: " + productId);
 
 			producer.send(message);
