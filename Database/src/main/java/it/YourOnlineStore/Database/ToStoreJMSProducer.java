@@ -44,10 +44,7 @@ public class ToStoreJMSProducer {
 
 			producer = session.createProducer(queue);
 			producer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-			
-//			Product product = new Product();
-//			product.setProductId(1);
-//			sendInsert(product);
+			LOG.info("Producer To Store avviato.....");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

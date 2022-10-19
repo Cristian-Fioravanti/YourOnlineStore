@@ -12,6 +12,7 @@ import javax.jms.Session;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import it.yourstore.store.domain.Product;
 import it.yourstore.store.service.ProductService;
@@ -20,6 +21,7 @@ import it.yourstore.store.service.ProductService;
 public class FromDatabaseJMSListener implements MessageListener {
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(FromDatabaseJMSListener.class);
 	
+	@Autowired
 	public ProductService productService;
 	
 	private Connection connection;
@@ -44,6 +46,7 @@ public class FromDatabaseJMSListener implements MessageListener {
 
 			MessageConsumer consumer = this.session.createConsumer(queue);
 			consumer.setMessageListener(this);
+			LOG.info("Listener From Database avviato.....");
 		} catch (JMSException err) {
 			err.printStackTrace();
 		}

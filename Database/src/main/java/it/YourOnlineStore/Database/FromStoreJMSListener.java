@@ -56,6 +56,7 @@ public class FromStoreJMSListener implements MessageListener {
 
 			MessageConsumer consumer = this.session.createConsumer(queue);
 			consumer.setMessageListener(this);
+			LOG.info("Listener From Store avviato.....");
 		} catch (JMSException err) {
 			err.printStackTrace();
 		}
