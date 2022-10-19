@@ -4,6 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.Primary;
+
 import it.yourstore.store.jmsClient.FromDatabaseJMSListener;
 import it.yourstore.store.jmsClient.ToDatabaseJMSProducer;
 
@@ -21,6 +23,7 @@ public class YourstoreMsStore {
 		return listener;
 	}
 	
+	@Primary
 	@Bean
 	public ToDatabaseJMSProducer jMSProducer() throws Exception {
 		ToDatabaseJMSProducer producer = new ToDatabaseJMSProducer();

@@ -108,13 +108,13 @@ public class OrdineController {
 			throw new ResourceNotFoundException(Ordine.class.getSimpleName(), entity.getObjectKey());
 		} else {
 			try {
+				entity = ordineService.findByObjectKey(entity.getObjectKey()).get();
 				ordineService.checkDisponibility(entity);
 			} catch (DisponibilityException e) {
 				throw e;
 			}
 			entity = ordineService.buy(entity);
 			ViewOrdineDto dto = ordineMappers.map(entity);
-			ordineService.update(entity);
 			return ResponseEntity.ok(dto);
 		}
 

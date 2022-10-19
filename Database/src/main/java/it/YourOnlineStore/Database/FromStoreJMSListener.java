@@ -10,7 +10,6 @@ import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
-import javax.jms.TopicConnection;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
@@ -24,7 +23,6 @@ public class FromStoreJMSListener implements MessageListener {
 
 	private Connection connection;
 	private Session session;
-	private TopicConnection topicConnection;
 	private Destination queue = null;
 	private MessageProducer producer = null;
 	ActiveMQConnectionFactory connectionFactory = null;

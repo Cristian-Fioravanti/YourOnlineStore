@@ -3,6 +3,7 @@ package it.YourOnlineStore.Database;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Primary;
 
 @SpringBootApplication
 public class DatabaseApplication {
@@ -18,6 +19,7 @@ public class DatabaseApplication {
 		return listener;
 	}
 	
+	@Primary
 	@Bean
 	public ToStoreJMSProducer jMSProducer() throws Exception {
 		ToStoreJMSProducer producer = new ToStoreJMSProducer();
