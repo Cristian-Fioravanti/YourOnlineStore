@@ -30,17 +30,17 @@ import com.turkraft.springfilter.boot.Filter;
 
 import io.swagger.v3.oas.annotations.Operation;
 import it.yourstore.store.domain.Ordine;
+import it.yourstore.store.domain.Utente;
 import it.yourstore.store.dto.EditOrdineDto;
-import it.yourstore.store.dto.ViewOrdineDto;
 import it.yourstore.store.dto.ViewOrderItemDto;
+import it.yourstore.store.dto.ViewOrdineDto;
 import it.yourstore.store.exception.DisponibilityException;
 import it.yourstore.store.exception.ResourceAlreadyFoundException;
 import it.yourstore.store.exception.ResourceNotFoundException;
-import it.yourstore.store.mapper.OrdineMappers;
 import it.yourstore.store.mapper.OrderItemMappers;
-import it.yourstore.store.service.OrdineService;
+import it.yourstore.store.mapper.OrdineMappers;
 import it.yourstore.store.service.OrderItemService;
-import it.yourstore.store.domain.Utente;
+import it.yourstore.store.service.OrdineService;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -98,31 +98,28 @@ public class OrdineController {
 			return ResponseEntity.created(location).body(dto);
 		}
 	}
-	
+
 	@PostMapping("/buy")
 	@Transactional
 	@Operation(summary = "Buy an Ordine")
 	public ResponseEntity<ViewOrdineDto> buy(@RequestBody @Valid EditOrdineDto requestBody) {
 		Ordine entity = ordineMappers.map(requestBody);
-		if ((!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) || entity.getDate()== null) {
+		if ((!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) || entity.getDate() != null) {
 			throw new ResourceNotFoundException(Ordine.class.getSimpleName(), entity.getObjectKey());
 		} else {
 			try {
 				ordineService.checkDisponibility(entity);
-			} catch(DisponibilityException e) {
+			} catch (DisponibilityException e) {
 				throw e;
 			}
 			entity = ordineService.buy(entity);
 			ViewOrdineDto dto = ordineMappers.map(entity);
 			ordineService.update(entity);
-			Ordine newOrder = new Ordine();
-			newOrder.setTheUtente(entity.getTheUtente());
-			ordineService.insert(newOrder);
 			return ResponseEntity.ok(dto);
 		}
-		
+
 	}
-	
+
 	/**
 	 * {@code GET  /ordine/:objectKey} : Get the ordine with given objectKey.
 	 *
@@ -225,6 +222,12 @@ public class OrdineController {
 		Utente key = new Utente(utenteObjectKey);
 		Page<ViewOrdineDto> collModel = ordineMappers.map(ordineService.findByTheUtente(key, pageable));
 		return toResponseEntityPaged(collModel, null);
+	}
+
+	@GetMapping("/current-ordine/{id:.+}")
+	public ViewOrdineDto currentOrdine(@PathVariable String utenteId) {
+		Ordine currentOrdine = ordineService.findCurrentOrdineByTheUtente(utenteId);
+		return ordineMappers.map(currentOrdine);
 	}
 
 	private ResponseEntity<ViewOrdineDto> toResponseEntity(Optional<Ordine> maybeResponse, HttpHeaders header,

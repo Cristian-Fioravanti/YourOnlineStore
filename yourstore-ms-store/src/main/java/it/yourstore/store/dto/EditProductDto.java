@@ -20,6 +20,8 @@ public class EditProductDto extends BaseDto {
 
 	@NotNull
 	private Integer productId;
+	
+	private Float cost;
 
 	private Collection<EditOrderItemDto> theOrderItem;
 }

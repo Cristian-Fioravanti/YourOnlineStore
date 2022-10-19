@@ -93,10 +93,8 @@ public class OrderItemController {
 		} else {
 			entity = orderItemService.insert(entity);
 			ordineService.updateOrdineCost(entity);
-			URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
-					.buildAndExpand(entity.getTheOrderItemKey()).toUri();
 			ViewOrderItemDto dto = orderItemMappers.map(entity);
-			return ResponseEntity.created(location).body(dto);
+			return ResponseEntity.ok(dto);
 		}
 	}
 

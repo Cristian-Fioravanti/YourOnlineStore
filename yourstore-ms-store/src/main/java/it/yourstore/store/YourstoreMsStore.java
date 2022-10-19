@@ -12,18 +12,17 @@ import it.yourstore.store.jmsClient.ToDatabaseJMSProducer;
 public class YourstoreMsStore {
 	public static void main(String[] args) {
 		SpringApplication.run(YourstoreMsStore.class, args);
-		
 	}
 	
 	@Bean
-	public FromDatabaseJMSListener listener() {
+	public FromDatabaseJMSListener jMSListener() throws Exception {
 		FromDatabaseJMSListener listener = new FromDatabaseJMSListener();
 		listener.start();
 		return listener;
 	}
 	
 	@Bean
-	public ToDatabaseJMSProducer producer() {
+	public ToDatabaseJMSProducer jMSProducer() throws Exception {
 		ToDatabaseJMSProducer producer = new ToDatabaseJMSProducer();
 		producer.start();
 		return producer;

@@ -12,14 +12,14 @@ public class DatabaseApplication {
 	}
 	
 	@Bean
-	public FromStoreJMSListener listener() {
+	public FromStoreJMSListener jMSListener() throws Exception {
 		FromStoreJMSListener listener = new FromStoreJMSListener();
 		listener.start();
 		return listener;
 	}
 	
 	@Bean
-	public ToStoreJMSProducer producer() {
+	public ToStoreJMSProducer jMSProducer() throws Exception {
 		ToStoreJMSProducer producer = new ToStoreJMSProducer();
 		producer.start();
 		return producer;

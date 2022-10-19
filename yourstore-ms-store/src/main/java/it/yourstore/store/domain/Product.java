@@ -45,6 +45,9 @@ public class Product extends GenericEntity implements Serializable {
 	@Id
 	@Column(name = "product_id", columnDefinition = "INTEGER")
 	private Integer productId;
+	
+	@Column(name = "cost", columnDefinition = "FLOAT")
+	private Float cost;
 
 	// IMPORTED PARENTS
 
