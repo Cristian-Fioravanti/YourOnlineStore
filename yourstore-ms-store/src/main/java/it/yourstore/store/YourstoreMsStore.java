@@ -23,7 +23,6 @@ public class YourstoreMsStore {
 		return listener;
 	}
 	
-	@Primary
 	@Bean
 	public ToDatabaseJMSProducer jMSProducer() throws Exception {
 		ToDatabaseJMSProducer producer = new ToDatabaseJMSProducer();

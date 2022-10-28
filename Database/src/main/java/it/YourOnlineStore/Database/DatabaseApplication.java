@@ -19,7 +19,6 @@ public class DatabaseApplication {
 		return listener;
 	}
 	
-	@Primary
 	@Bean
 	public ToStoreJMSProducer jMSProducer() throws Exception {
 		ToStoreJMSProducer producer = new ToStoreJMSProducer();

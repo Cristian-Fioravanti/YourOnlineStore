@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -48,6 +49,7 @@ public class OrdineServiceImpl implements OrdineService {
 	// CHILD SERVICES
 	private final OrderItemService orderItemService;
 	@Autowired
+	@Qualifier("jMSProducer")
 	private ToDatabaseJMSProducer producer;
 
 	@SuppressWarnings("unused")

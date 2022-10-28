@@ -37,7 +37,7 @@ public class ToDatabaseJMSProducer implements MessageListener {
 	MessageConsumer responseConsumer = null;
 
 	public void start() {
-		connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+		connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61626");
 		try {
 			connection = connectionFactory.createConnection();
 			connection.start();
@@ -100,16 +100,15 @@ public class ToDatabaseJMSProducer implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
+		TextMessage textMessage = (TextMessage) message;
+		Boolean check;
 		try {
-			if (message instanceof TextMessage) {
-				TextMessage textMessage = (TextMessage) message;
-				Boolean check = textMessage.getBooleanProperty("Check");
-				if (!check) {
-					throw new Exception();
-				}
+			check = textMessage.getBooleanProperty("Check");
+			if (!check) {
+				throw new Exception();
 			}
 		} catch (Exception e) {
-			LOG.error("Exception occurred: " + e);
+			e.printStackTrace();
 		}
 	}
 

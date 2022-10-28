@@ -27,9 +27,6 @@ public class FromStoreJMSListener implements MessageListener {
 	private MessageProducer producer = null;
 	ActiveMQConnectionFactory connectionFactory = null;
 
-	/**
-	 * Chiude la ricezione dei messaggi sulla topic quotazioni
-	 */
 	public void stop() {
 		try {
 			connection.stop();
@@ -38,12 +35,9 @@ public class FromStoreJMSListener implements MessageListener {
 		}
 	}
 
-	/**
-	 * Apre la ricezione dei messaggi sulla topic quotazioni
-	 */
 	public void start() {
 		try {
-			connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+			connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61626");
 			connection = connectionFactory.createConnection();
 			connection.start();
 			this.session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
@@ -82,9 +76,6 @@ public class FromStoreJMSListener implements MessageListener {
 
 		            this.producer.send(mex.getJMSReplyTo(), messageProduct);
 				}
-//				else {
-//					messageProduct.setText("ERROE, PRODUCT DOESN'T EXISTS");
-//				}
 				break;
 			case "PurchasedProduct":
 				Integer prodId = mex.getIntProperty("ProductId");

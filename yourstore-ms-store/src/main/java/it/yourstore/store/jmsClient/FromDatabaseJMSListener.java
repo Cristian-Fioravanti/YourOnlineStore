@@ -30,9 +30,6 @@ public class FromDatabaseJMSListener implements MessageListener {
 	private MessageProducer producer = null;
 	ActiveMQConnectionFactory connectionFactory = null;
 
-	/**
-	 * Apre la ricezione dei messaggi sulla topic quotazioni
-	 */
 	public void start() {
 		try {
 			connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
@@ -59,11 +56,11 @@ public class FromDatabaseJMSListener implements MessageListener {
 			case "NewProduct":
 				Integer productId = mex.getIntProperty("ProductId");
 				Float cost = mex.getFloatProperty("Cost");
-				LOG.info("New product added: " + productId);
 				Product product = new Product();
 				product.setProductId(productId);
 				product.setCost(cost);
 				productService.insert(product);
+				LOG.info("New product added: " + productId);
 				break;
 			default:
 				break;
