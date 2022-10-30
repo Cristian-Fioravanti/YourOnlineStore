@@ -141,6 +141,12 @@ public class OrdineServiceImpl implements OrdineService {
 			if(o.getDate()!=null)
 				currentOrdine = o;
 		}
+		if(currentOrdine == null) {
+			currentOrdine = new Ordine();
+			currentOrdine.setTheUtente(utente);
+			currentOrdine.setTotalCost(0.00f);
+			insert(currentOrdine);
+		}
 		return currentOrdine;
 	}
 
