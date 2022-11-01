@@ -224,7 +224,7 @@ public class OrdineController {
 		return toResponseEntityPaged(collModel, null);
 	}
 
-	@GetMapping("/current-ordine/{id:.+}")
+	@GetMapping("/current-ordine/{utenteId:.+}")
 	public ViewOrdineDto currentOrdine(@PathVariable String utenteId) {
 		Ordine currentOrdine = ordineService.findCurrentOrdineByTheUtente(utenteId);
 		return ordineMappers.map(currentOrdine);

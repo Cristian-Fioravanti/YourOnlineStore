@@ -64,11 +64,7 @@
       <groupId>org.apache.httpcomponents</groupId>
       <artifactId>httpclient</artifactId>
     </dependency>
-    <dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20220320</version>
-		</dependency>
+
 	</dependencies> <!-- BUILD -->
 	<build>
 		<defaultGoal>spring-boot:run</defaultGoal>
@@ -145,7 +141,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.h2database</groupId>
-					<artifactId>h2</artifactId>
+					<artifactId>h2</artifactId> 
 				</dependency>
 			</dependencies>
 			<properties>

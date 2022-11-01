@@ -24,7 +24,7 @@ public class ViewOrdineDto extends BaseDto {
 
 	private LocalDateTime date;
 
-	private Integer totalCost;
+	private Float totalCost;
 
 	private String address;
 

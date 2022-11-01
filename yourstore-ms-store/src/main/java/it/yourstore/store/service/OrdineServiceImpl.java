@@ -25,7 +25,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 
 import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.domain.Product;
@@ -127,21 +126,21 @@ public class OrdineServiceImpl implements OrdineService {
 		entity.setDate(LocalDateTime.now());
 		Ordine update = this.bulkUpdate(entity);
 		Collection<OrderItem> orderItems = entity.getTheOrderItem();
-		for(OrderItem oi : orderItems) {
+		for (OrderItem oi : orderItems) {
 			producer.sendPurchasedProductNotification(oi.getProductId(), oi.getAmount());
 		}
 		return update;
 	}
-	
+
 	public Ordine findCurrentOrdineByTheUtente(String utenteId) {
 		Utente utente = new Utente(utenteId);
 		List<Ordine> listOrdini = findByTheUtente(utente, null).getContent();
 		Ordine currentOrdine = null;
-		for(Ordine o : listOrdini) {
-			if(o.getDate()!=null)
+		for (Ordine o : listOrdini) {
+			if (o.getDate() == null)
 				currentOrdine = o;
 		}
-		if(currentOrdine == null) {
+		if (currentOrdine == null) {
 			currentOrdine = new Ordine();
 			currentOrdine.setTheUtente(utente);
 			currentOrdine.setTotalCost(0.00f);
@@ -153,21 +152,23 @@ public class OrdineServiceImpl implements OrdineService {
 	@Override
 	public void checkDisponibility(Ordine entity) {
 		Collection<OrderItem> orderItems = entity.getTheOrderItem();
-		for(OrderItem oi : orderItems) {
+		for (OrderItem oi : orderItems) {
 			try {
 				producer.sendCheckProductAvailabilityRequest(oi.getProductId(), oi.getAmount());
-			} catch(Exception e) {
+			} catch (Exception e) {
 				throw new DisponibilityException(oi.getTheProductObjectKey(), oi.getAmount().toString());
 			}
 		}
 	}
-	
+
 	@Override
 	public void updateOrdineCost(OrderItem entity) {
 		Ordine ordine = entity.getTheOrdine();
 		Product product = entity.getTheProduct();
 		Integer amount = entity.getAmount();
-		Float oldCost = ordine.getTotalCost();
+		Float oldCost=0F;
+		if (ordine.getTotalCost()!=null)
+			oldCost= ordine.getTotalCost();
 		Float cost = product.getCost();
 		Float newCost = cost*amount;
 		ordine.setTotalCost(oldCost + newCost);
