@@ -26,7 +26,7 @@ public class MainController {
     private ToStoreJMSProducer producer;
     
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody Integer addNewProduct (@RequestParam String productName
+    public @ResponseBody void addNewProduct (@RequestParam String productName
             , @RequestParam Float cost, @RequestParam Integer disponibility, @RequestParam String imageUrl, @RequestParam String description) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
@@ -42,18 +42,22 @@ public class MainController {
 		} catch (NamingException | JMSException | InterruptedException e) {
 			e.printStackTrace();
 		}
-        return product.getProductId();
+        
     }
 
     @GetMapping(path="/all")
     public @ResponseBody Iterable<Product> getAllProducts() {
         // This returns a JSON or XML with the products
+    	
         return productRepository.findAll();
     }
 
     @GetMapping(path="/{id}")
-    public @ResponseBody Optional<Product> getProduct(@PathVariable Integer id){
-        return productRepository.findById(id);
+    public @ResponseBody Product getProduct(@PathVariable Integer id){
+    	if(productRepository.findById(id).isPresent())
+    		return productRepository.findById(id).get();
+    	else
+    		return null;
     }
 
     @GetMapping(path="/error")
