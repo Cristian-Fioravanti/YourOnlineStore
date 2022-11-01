@@ -102,7 +102,7 @@
             <!-- Creation Date input -->
             <div class="input-group mb-4" style="width: 60%;">
               <span class="input-group-text" style="width: 30%; font-size: 15px;">Creation Date</span>
-              <input type="Date" id="CurrentDate" name="date" class="form-control" style="width: 30%; font-size: 15px;" readonly value=""/>
+              <input type="Date" id="CurrentDate" name="date" class="form-control" style="width: 30%; font-size: 15px;"  value=""/>
             </div>
             <div class="input-group mb-4" style="width: 60%;">
               <span class="input-group-text" style="width: 30%; visibility: hidden;font-size: 15px;">theUtenteObjectKey</span>
@@ -172,7 +172,7 @@ function loadRecentOrder(e) {
 		var theUtenteObjectKey = 1;
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reactionFirst;
-		httpRequest.open("GET", "http://localhost:8080/store/ordine/findByTheUtente/"+theUtenteObjectKey, true);
+		httpRequest.open("GET", "http://localhost:8080/store/ordine/current-ordine/"+theUtenteObjectKey, true);
 		httpRequest.send();
 	}
 	function reactionFirst(e) {
@@ -180,17 +180,12 @@ function loadRecentOrder(e) {
 			var i = 0;
 			var json = e.target.responseText;
 			var jsonparse = JSON.parse(json)
-			loadProductOfLastOrder(jsonparse.content)
+			loadProductOfLastOrder(jsonparse)
 		}
 	}
 	function loadProductOfLastOrder(content) {
-      var indexSelected
-		for (var i = 0; i < content.length; i++) {
-         if (content[i].date == null)
-            indexSelected = i
-		}
       //Ultimo Ordine
-      objectKeyOrdine = content[indexSelected].objectKey
+      objectKeyOrdine = content.ordineId
       var ordineIdInput = document.getElementById("ordineIdInput")
       ordineIdInput.value=objectKeyOrdine
       //------------------------
@@ -355,8 +350,8 @@ function updateCurrentOrder(){
 	var totalCostInput = document.getElementById("totalCostInput")
 	var address =document.getElementById("addres")
     var ordineIdInput = document.getElementById("ordineIdInput")
-	const body = '{"theUtenteObjectKey":'
-		+ userId.value
+	const body = '{"ordineId":'
+		+ ordineIdInput.value
 		+ ',"address":"'
 		+ address.value
 		+ '","theUtenteObjectKey":'
@@ -365,8 +360,8 @@ function updateCurrentOrder(){
 		+ totalCostInput.value
 		+ ',"date":"'
 		+ date
-		+ '","ordineId":'
-		+ ordineIdInput.value
+		+ '","theOrderItem":'
+		+ "[]"
 		+ '}';
 		console.log(body)
 
@@ -378,12 +373,13 @@ function updateCurrentOrder(){
 		success : function(
 				result) {
 			console.log("ajax: Abbiamo ricevuto correttamente l'ordine")
+			window.location.replace("http://localhost:8080/home");
 		},
 		error : function(e) {
-			alert("Errore" + e);
+			alert("Errore - non è stato possibile effettuare l'ordine RIPROVARE" + e);
 		}
 	})
-	window.location.replace("http://localhost:8080/home");
+	
 
 }
 

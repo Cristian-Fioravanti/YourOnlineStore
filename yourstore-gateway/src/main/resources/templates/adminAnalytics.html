@@ -226,7 +226,7 @@
 								bars.insertAdjacentHTML("beforeend",'<li><div id="Product'+listProductId[j]+'"class="bar" data-percentage="'+Math.floor(listaPercentuali[j]*100)+'" ></div><span >'+dizProductId_Name[listProductId[j]]+'</span></li>')
 
 						}
-						<!--script per far muovere le barre start-->
+						//<!--script per far muovere le barre start-->
 						$(function(){
 						      $('.bars li .bar').each(function(key, bar){
 						        var percentage = $(this).data('percentage');
@@ -235,7 +235,7 @@
 						        },1000);
 						      });
 						    });
-						<!--fine script-->
+						//<!--fine script-->
 					},
 					error : function(e) {
 						alert("Errore" + e);
@@ -288,7 +288,7 @@
 									var bars = document.getElementById("bars2");
 									
 									bars.insertAdjacentHTML("beforeend",'<li><div class="bar"  data-percentage="'+Math.floor(parseInt(result.content.length)/totalOrdini)*100+'" ></div><span >'+name+'</span></li>')
-									<!--script per far muovere le barre start-->
+									//<!--script per far muovere le barre start-->
 									$(function(){
 									      $('.bars li .bar').each(function(key, bar){
 									        var percentage = $(this).data('percentage');
@@ -297,7 +297,7 @@
 									        },1000);
 									      });
 									    });
-									<!--fine script-->
+									//	<!--fine script-->
 									}
 								},
 								error : function(e) {

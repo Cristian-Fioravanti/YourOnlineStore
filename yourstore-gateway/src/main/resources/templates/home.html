@@ -36,7 +36,7 @@
 
 </head>
 
-<body onload=" loadProduct(),loadRecentOrder()">
+<body onload="loadProduct(),loadRecentOrder()">
 
 	<div class="">
 		<!-- header section strats -->
@@ -247,40 +247,48 @@
 		}
 		bnt.style.visibility = "hidden"
 	}
-	//--------------------------------------------------------------------------------------------
+	//------------------------------------insertProductToCart--------------------------------------------------------
+	
 	var objectKeyOrdine
 	function insertProductToCart(idIndex) {
-		console.log("questo è l'idIndedx del prodotto aggiunto: "+ idIndex)
+		console.log("questo è l'idIndedx del prodotto aggiunto: " + idIndex)
 		var dropDownCart = document.getElementById("dropDownCart");
-		dropDownCart.innerHTML=""
+		dropDownCart.innerHTML = ""
 		//TODO prendere user id
-		var theUtenteObjectKey = 1;
+		var theUtenteObjectKey = "1";
+
 		$
 				.ajax({
 					type : "GET",
-					url : "http://localhost:8080/store/ordine/findByTheUtente/"
+					url : "http://localhost:8080/store/ordine/current-ordine/"
 							+ theUtenteObjectKey,
 					success : function(result) {
-						const content = result.content
-						var indexSelected
-						for (var i = 0; i < content.length; i++) {
-							if (content[i].date == null)
-								indexSelected = i
-						}
-						console.log("questo è l'ordine corrente: "+ content[indexSelected].objectKey)
-						objectKeyOrdine = content[indexSelected].objectKey
+						// 						var indexSelected
+						// 						for (var i = 0; i < content.length; i++) {
+						// 							if (content[i].date == null)
+						// 								indexSelected = i
+						// 						}
+						objectKeyOrdine = result.ordineId
+						console.log(result)
+						console.log("questo è l'ordine corrente: "+ objectKeyOrdine)
+						console.log( products[idIndex].productId)
+						// 				console.log(content)
 						$
 								.ajax({
 									type : "GET",
-									url : "http://localhost:8080/store/order-item/findByTheProduct/"
-											+ products[idIndex].productId,
+									url : "http://localhost:8080/store/order-item/findByTheProduct/"+ products[idIndex].productId,
 									success : function(result) {
-										//console.log(result)
+										console
+												.log("http://localhost:8080/store/order-item/findByTheProduct/")
+										console.log(result)
 										var amount = 1
-										if (result.content.length > 0 && result.content[result.content.length - 1].objectKey.substring(0, 2) == objectKeyOrdine+"~") {
+										if (result.content.length > 0
+												&& result.content[result.content.length - 1].objectKey
+														.substring(0, 2) == objectKeyOrdine
+														+ "~") {
 											//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
 											const content = result.content[result.content.length - 1]
-											
+
 											amount = content.amount + 1
 											const body = '{"amount":'
 													+ amount
@@ -290,15 +298,17 @@
 													+ products[idIndex].productId
 													+ '}';
 											//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
-											$.ajax({
+											$
+													.ajax({
 														type : "PUT",
 														url : "http://localhost:8080/store/order-item",
 														data : body,
 														contentType : "application/json",
 														success : function(
 																result) {
-															console.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
-																			+ content.amount
+															console
+																	.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																			+ result.amount
 																			+ " + 1")
 															loadRecentOrder()
 														},
@@ -306,34 +316,37 @@
 															alert("Errore" + e);
 														}
 													})
-										}
-										else if (result.content.length > 0 && result.content[result.content.length - 1].objectKey.substring(0, 2) != objectKeyOrdine+"~"){
+										} else if (result.content.length > 0
+												&& result.content[result.content.length - 1].objectKey
+														.substring(0, 2) != objectKeyOrdine
+														+ "~") {
 											amount = 1
 											const body = '{"amount":'
-												+ amount
-												+ ',"theOrdineObjectKey":'
-												+ objectKeyOrdine
-												+ ',"theProductObjectKey":'
-												+ products[idIndex].productId
-												+ '}';
-											$.ajax({
-												type : "PUT",
-												url : "http://localhost:8080/store/order-item",
-												data : body,
-												contentType : "application/json",
-												success : function(
-														result) {
-													console.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
-																	+ content.amount
-																	+ " + 1")
-													loadRecentOrder()
-												},
-												error : function(e) {
-													alert("Errore" + e);
-												}
-											})
-											
-										
+													+ amount
+													+ ',"theOrdineObjectKey":'
+													+ objectKeyOrdine
+													+ ',"theProductObjectKey":'
+													+ products[idIndex].productId
+													+ '}';
+											$
+													.ajax({
+														type : "PUT",
+														url : "http://localhost:8080/store/order-item",
+														data : body,
+														contentType : "application/json",
+														success : function(
+																result) {
+															console
+																	.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																			+ result.amount
+																			+ " + 1")
+															loadRecentOrder()
+														},
+														error : function(e) {
+															alert("Errore" + e);
+														}
+													})
+
 										} else {
 											const body = '{"amount":'
 													+ amount
@@ -351,11 +364,12 @@
 														contentType : "application/json",
 														success : function(
 																result) {
-															console.log("ajax: Abbiamo aggiunto il prodotto all'interno dell'ordine")
+															console
+																	.log("ajax: Abbiamo aggiunto il prodotto all'interno dell'ordine")
 															loadRecentOrder()
 														},
 														error : function(e) {
-															alert("Errore" + e);
+															alert("Errore non è stato possibile aggiungere il prodotto" + e);
 														}
 													})
 										}
@@ -381,7 +395,7 @@
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reactionFirst;
 		httpRequest.open("GET",
-				"http://localhost:8080/store/ordine/findByTheUtente/"
+				"http://localhost:8080/store/ordine/current-ordine/"
 						+ theUtenteObjectKey, true);
 		httpRequest.send();
 	}
@@ -390,50 +404,41 @@
 			var i = 0;
 			var json = e.target.responseText;
 			var jsonparse = JSON.parse(json)
-			loadProductOfLastOrder(jsonparse.content)
-		}
-	}
-	function loadProductOfLastOrder(content) {
-		var indexSelected
-		for (var i = 0; i < content.length; i++) {
-			if (content[i].date == null)
-				indexSelected = i
-		}
-		//Ultimo Ordine
-		objectKeyOrdine = content[indexSelected].objectKey
-		//------------------------
-		//chiamata allo store per prendere i prodotti dell'ultimo ordine
-		var httpRequest = new XMLHttpRequest();
-		httpRequest.onreadystatechange = reactionSecond;
-		httpRequest.open("GET", "http://localhost:8080/store/order-item", true);
-		httpRequest.send();
-		//------------------------
-	}
-	function reactionSecond(e) {
-		if (e.target.readyState == XMLHttpRequest.DONE) {
-			var i = 0;
-			var json = e.target.responseText;
-			var jsonparse = JSON.parse(json)
-			putTheProductOnPage(jsonparse.content)
+			putTheProductOnPage(jsonparse)
 		}
 	}
 	//lista ID prodotti dell'ultimo ordine
 	var productsId = []
 	var totalCostNumber = Number("0")
 	function putTheProductOnPage(content) {
-		for (var i = 0; i < content.length; i++) {
-			if (content[i].theOrdineObjectKey == objectKeyOrdine)
-				productsId.push(content[i].theProductObjectKey)
-		}
-		//chiamata allo stock per prendere i dati dei prodotti, in modo tale da poterli raffigurare front-end
+		objectKeyOrdine = content.ordineId
+		console.log(objectKeyOrdine)
+		console.log(content)
+		$.ajax({
+						type : "GET",
+						url : "http://localhost:8080/store/order-item/findByTheOrdine/"
+								+ objectKeyOrdine,
+						success : function(result) {
+							console.log("http://localhost:8080/store/order-item/findByTheOrdine/")
+							console.log(result.content)
+							for (var i = 0; i < result.content.length; i++) {
+								if (result.content[i].theOrdineObjectKey == objectKeyOrdine){
+									console.log(objectKeyOrdine)
+									productsId.push(result.content[i].theProductObjectKey)
+								}
+							}
+							console.log(productsId)
+		
+
+// // 		//chiamata allo stock per prendere i dati dei prodotti, in modo tale da poterli raffigurare front-end
 		for (var i = 0; i < productsId.length; i++) {
-			$
-					.ajax({
+			
+			$.ajax({
 						type : "GET",
 						url : "http://localhost:8080/database/product/"
 								+ productsId[i],
 						success : function(result) {
-							console.log(amountProducts[i])
+							console.log(result)
 							addProductToForm(result)
 						},
 						error : function(e) {
@@ -441,8 +446,13 @@
 						}
 					})
 		}
-		amountProducts= []
-		productsId= []
+		productsId = []
+						},
+						error : function(e) {
+							alert("Errore" + e);
+						}
+					})
+		
 	}
 
 	function addProductToForm(productDetail) {
@@ -460,30 +470,42 @@
 								+ '</div>'
 								+ '<div class=" col-lg-4" style="overflow-x: auto;white-space: nowrap;width: 50px;">'
 								+ '<div class="box" >'
-								+ '	<div class=" detail-box" >' + '		<h5>'
-								+ productDetail.productName + '</h5>'
-								+ '		<h5>' + productDetail.cost + '€</h5>'
-								+ '	</div>' + '	</div>' + '</div>'
+								+ '	<div class=" detail-box" >'
+								+ '		<h5>'
+								+ productDetail.productName
+								+ '</h5>'
+								+ '		<h5>'
+								+ productDetail.cost
+								+ '€</h5>'
+								+ '	</div>'
+								+ '	</div>'
+								+ '</div>'
 								+ '<div class=" col-lg-4">'
-								+ '<div class="detail-box" >' + '<h5 id="AmountOnCart'+productDetail.productId+'">' + "x "
-								+ '</div>' + '</h5>' + '	</div>' + '	</div>')
+								+ '<div class="detail-box" >'
+								+ '<h5 id="AmountOnCart'+productDetail.productId+'">'
+								+ "x "
+								+ '</div>'
+								+ '</h5>'
+								+ '	</div>'
+								+ '	</div>')
 		RefreshAmount(productDetail.productId)
 	}
-	
-	function RefreshAmount(productId){
+
+	function RefreshAmount(productId) {
 		$.ajax({
 			type : "GET",
-			url : "http://localhost:8080/store/order-item/"+objectKeyOrdine+"~"
-					+productId,
+			url : "http://localhost:8080/store/order-item/" + objectKeyOrdine
+					+ "~" + productId,
 			success : function(result) {
-				const AmountProductOnCart = document.getElementById("AmountOnCart"+productId);
-						AmountProductOnCart.innerHTML = "x "+ result.amount
+				const AmountProductOnCart = document
+						.getElementById("AmountOnCart" + productId);
+				AmountProductOnCart.innerHTML = "x " + result.amount
 			},
 			error : function(e) {
 				alert("Errore" + e);
 			}
 		})
-		
+
 	}
 </script>
 
