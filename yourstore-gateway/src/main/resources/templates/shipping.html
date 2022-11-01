@@ -46,24 +46,7 @@
 					aria-controls="navbarSupportedContent" aria-expanded="false"
 					aria-label="Toggle navigation"></button>
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav">
-						<div
-							style="display: -ms-flexbox; display: flex; -ms-flex-align: center; align-items: center;">
-							<form class="input-group">
-
-								<input style="width: 180px;" class="form-control mr-sm-2 "
-									type="search" placeholder="Search" aria-label="Search">
-								<button
-									style="width: 70px; color: rgb(215, 58, 51); border-color: rgb(215, 58, 51);"
-									class=" form-control btn btn-outline-info my-2 my-sm-0"
-									>
-									<span style="color: black">Search 
-								</button>
-							</form>
-						</div>
-				</div>
-				</ul>
+				
 	</div>
 	</nav>
 	</header>
@@ -345,31 +328,31 @@ function putDataInTheInput(content) {
 </script>
 <script type="text/javascript">
 function updateCurrentOrder(){
-	var date = moment().format("yyyy-MM-DDTHH:mm:ss.SSS")
+	var date = document.getElementById("CurrentDate")
 	var userId = document.getElementById("theUtenteObjectKey")
 	var totalCostInput = document.getElementById("totalCostInput")
 	var address =document.getElementById("addres")
     var ordineIdInput = document.getElementById("ordineIdInput")
-	const body = '{"ordineId":'
-		+ ordineIdInput.value
-		+ ',"address":"'
-		+ address.value
-		+ '","theUtenteObjectKey":'
-		+ userId.value
-		+ ',"totalCost":'
-		+ totalCostInput.value
-		+ ',"date":"'
-		+ date
-		+ '","theOrderItem":'
-		+ "[]"
-		+ '}';
-		console.log(body)
+// 	const body = '{"ordineId":'
+// 		+ ordineIdInput.value
+// 		+ ',"address":"'
+// 		+ address.value
+// 		+ '","theUtenteObjectKey":'
+// 		+ userId.value
+// 		+ ',"totalCost":'
+// 		+ totalCostInput.value
+// 		+ ',"date":"'
+// 		+ date
+// 		+ '","theOrderItem":'
+// 		+ "[]"
+// 		+ '}';
+// 		console.log(body)
 
 	$.ajax({
-		type : "POST",
-		url : "http://localhost:8080/store/ordine/buy",
-		data : body,
-		contentType : "application/json",
+		type : "get",
+		url : "http://localhost:8080/store/ordine/buy/"+ordineIdInput.value+"/"+date.value,
+// 		data : body,
+// 		contentType : "application/json",
 		success : function(
 				result) {
 			console.log("ajax: Abbiamo ricevuto correttamente l'ordine")
