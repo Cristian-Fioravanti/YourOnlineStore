@@ -29,7 +29,7 @@
 <!-- responsive style -->
 <link href="/css/responsive.css" rel="stylesheet" />
 </head>
-<body onload="loadProduct()">
+<body onload="loadProduct(),loadReleatedProduct()">
 
 	<div class="">
 		<!-- header section strats -->
@@ -114,7 +114,7 @@
 		<div class="container">
 			<h2>Releated Product</h2>
 
-			<div class="row">
+			<div class="row" id="tabellaReleatedProduct">
 				<div class="col-sm-6 col-md-4 col-lg-4">
 					<div class="box">
 						<div class="option_container">
@@ -154,74 +154,179 @@
 	</section>
 	<script src="/js/custom.js"></script>
 	<script>
-         const url = window.location.href
-       	 const urlStrip = url.split('/');
-         const id = urlStrip.at(-1)
-         console.log("Questo è l'id del prodotto:" + id)
-         
-        function loadProduct(e){
-        var httpRequest = new XMLHttpRequest();
-        httpRequest.onreadystatechange = reaction;
-        httpRequest.open("GET","http://localhost:8080/database/product/"+id,true); //TODO http://localhost:8080/database/product/{id}
-        httpRequest.send();
-        }
-        function reaction(e){
-        if (e.target.readyState == XMLHttpRequest.DONE){
-        var i=0;
-        var prod= e.target.responseText;
-        var prodparse= JSON.parse(prod)
-        viewProduct("selectionProduct",prodparse)
-        }
-        }
-        function viewProduct(tableID,sond){
-         var table = document.getElementById(tableID);
-         const image = sond.imageUrl;
-         const cost = sond.cost;
-         const name = sond.productName
-         const desc = sond.description
-         table.insertAdjacentHTML(
-					"beforeend",
-					'<section class="product_choosed layout_padding" width="100px">'
-		        + '         <div class="container">'
-		        + '            <div class="row" >'
-		        + '               <div class="col-sm-6 col-md-4 col-lg-4" >'
-		        + '                  <div class="box" >'
-		        + '                     <div class="img-box" >'
-		        + '                        <img src="'+image+'" alt="">'
-		        + '                     </div>'
-		        + '                  </div>'
-		        + '               </div>'
-		        + '               <div class=" col-lg-8" >'
-		        + '                  <div class="box">'
-		        + '                     <div class=" detail-box">'
-		        + '                        <p style="font-size:35px;">'
-		        + '                           '+name+''
-		        + '                        </p>'
-		        + '                        <p style="font-size:35px;">'
-		        + '                           '+cost+'€'
-		        + '                        </p>'
-		        + '                     </div>'
-		        + '                     <hr>'
-		        + '                     <br><p style="font-size:20px;">'
-		        + '                        '+desc+''
-		        + '                     </p>'
-		        + '                     <div style="width: 100px; margin-top: 50px;" >'
-		        + '                        <input style="width: 200px; font-size:20px;" type="number" aria-label="First name" class="form-control quantita" value="1" >'
-		        + '                     </div>'
-		        + '                     <div style="width: 250px;">'
-		        + '                        <hr>'
-		        + '                        <input style="width: 200px; font-size:20px;" type="button" aria-label="First name" class="form-control btn-primary " value="Add to Cart">'
-		        + '                     </div>'
-		        + '                  </div>'
-		        + '               </div>'
-		        + '            </div>'
-		        + '         </div>'
-		        + '         </section>')
-        console.info(sond)
+		const url = window.location.href
+		const urlStrip = url.split('/');
+		const id = urlStrip.at(-1)
+		console.log("Questo è l'id del prodotto:" + id)
 
-        }
-        console.log("ciao pippo2")
-    </script>
+		function loadProduct(e) {
+			var httpRequest = new XMLHttpRequest();
+			httpRequest.onreadystatechange = reaction;
+			httpRequest.open("GET", "http://localhost:8080/database/product/"
+					+ id, true); //TODO http://localhost:8080/database/product/{id}
+			httpRequest.send();
+		}
+		function reaction(e) {
+			if (e.target.readyState == XMLHttpRequest.DONE) {
+				var i = 0;
+				var prod = e.target.responseText;
+				var prodparse = JSON.parse(prod)
+				viewProduct("selectionProduct", prodparse)
+			}
+		}
+		function viewProduct(tableID, sond) {
+			var table = document.getElementById(tableID);
+			const image = sond.imageUrl;
+			const cost = sond.cost;
+			const name = sond.productName
+			const desc = sond.description
+			table
+					.insertAdjacentHTML(
+							"beforeend",
+							'<section class="product_choosed layout_padding" width="100px">'
+									+ '         <div class="container">'
+									+ '            <div class="row" >'
+									+ '               <div class="col-sm-6 col-md-4 col-lg-4" >'
+									+ '                  <div class="box" >'
+									+ '                     <div class="img-box" >'
+									+ '                        <img src="'+image+'" alt="">'
+									+ '                     </div>'
+									+ '                  </div>'
+									+ '               </div>'
+									+ '               <div class=" col-lg-8" >'
+									+ '                  <div class="box">'
+									+ '                     <div class=" detail-box">'
+									+ '                        <p style="font-size:35px;">'
+									+ '                           '
+									+ name
+									+ ''
+									+ '                        </p>'
+									+ '                        <p style="font-size:35px;">'
+									+ '                           '
+									+ cost
+									+ '€'
+									+ '                        </p>'
+									+ '                     </div>'
+									+ '                     <hr>'
+									+ '                     <br><p style="font-size:20px;">'
+									+ '                        '
+									+ desc
+									+ ''
+									+ '                     </p>'
+									+ '                     <div style="width: 100px; margin-top: 50px;" >'
+									+ '                        <input style="width: 200px; font-size:20px;" type="number" aria-label="First name" class="form-control quantita" value="1" >'
+									+ '                     </div>'
+									+ '                     <div style="width: 250px;">'
+									+ '                        <hr>'
+									+ '                        <input style="width: 200px; font-size:20px;" type="button" aria-label="First name" class="form-control btn-primary " value="Add to Cart">'
+									+ '                     </div>'
+									+ '                  </div>'
+									+ '               </div>'
+									+ '            </div>'
+									+ '         </div>'
+									+ '         </section>')
+			console.info(sond)
 
+		}
+		console.log("ciao pippo2")
+	</script>
+	<script>
+		function loadReleatedProduct() {
+		      var tabellaReleatedProduct = document.getElementById("tabellaReleatedProduct")
+		       $.ajax({
+                    type: "GET",
+                    url: "http://localhost:8080/database/product/all",
+                    success: function(result){
+                    	const contentAllProduct = result
+                    	var mapAllProduct = new Map();
+                    	for (var i = 0; i < contentAllProduct.length; i++) {
+                    		mapAllProduct.set(contentAllProduct[i].productName,contentAllProduct[i].productId)
+                    	}
+                    	$.ajax({
+    						type : "GET",
+    						url : "http://localhost:5000/recommend",
+    						success : function(result) {
+    						//TODO da modificare con result
+    						result= JSON.parse(resultProva)
+    						const json = '{"ciao": 1, "hola": 2}';
+    						console.log(mapAllProduct)
+    						var mapResultEngine = new Map();
+    						const obj = JSON.parse(resultProva, (key, value) => {
+    							mapResultEngine.set(value,key)
+    						  return value;
+    						});
+    						mapResultEngine = mapResultEngine.sort();
+    						const iterator = mapResultEngine.keys();
+    						var res = iterator.next().value
+    						while (res != null){
+    							console.log(mapResultEngine.get(res))
+    							tabellaReleatedProduct.insertAdjacentHTML(
+    									"beforeend",
+    									'<div class="col-sm-6 col-md-4 col-lg-4">'
+    									+'<div class="box">'
+    									+'<div class="option_container">'
+    										+'<div class="options">'											//fa in modo di prendere l'id attraverso il nome del prodotto
+    											+'<a href="" class="option1"> Add to Cart</a> <a href="product/'+mapAllProduct.get(mapResultEngine.get(res))+'" '
+    												+'class="option2"> View The Product </a>'
+    										+'</div>'
+    									+'</div>'
+    									+'<div class="img-box">'
+    										+'<img src="/images/p1.png" alt="">'
+    									+'</div>'
+    									+'<div class="detail-box">'
+    										+'<h5>'+mapResultEngine.get(res)+'</h5>'
+    									+'</div>'
+    								+'</div>'
+    							+'</div>')
+    							res = iterator.next().value
+    							}
+    							
+    						},
+    						error : function(e) {
+    							resultProva = "{"
+    								  +"\"Scarpe\": 1,"
+    								 +"\"Pizza\": 0.2"
+    								+"}"
+    						const map = new Map();
+    						const obj = JSON.parse(resultProva, (key, value) => {
+    						  map.set(value,key)
+    						  return value;
+    						});
+    						const sortedMap = new Map([map].sort())
+    						const iterator = map.keys();
+    						var res = iterator.next().value
+    						while (res >= 0){
+    							console.log(map.get(res))
+    							tabellaReleatedProduct.insertAdjacentHTML(
+    									"beforeend",
+    									'<div class="col-sm-6 col-md-4 col-lg-4">'
+    									+'<div class="box">'
+    									+'<div class="option_container">'
+    										+'<div class="options">'
+    											+'<a href="" class="option1"> Add to Cart</a> <a href="product/'+mapAllProduct.get(mapResultEngine.get(res))+'" '
+												+'class="option2"> View The Product </a>'
+    										+'</div>'
+    									+'</div>'
+    									+'<div class="img-box">'
+    										+'<img src="/images/p1.png" alt="">'
+    									+'</div>'
+    									+'<div class="detail-box">'
+    										+'<h5>'+map.get(res)+'</h5>'
+    									+'</div>'
+    								+'</div>'
+    							+'</div>')
+    							res = iterator.next().value
+    							alert("Errore" + e);
+    						}
+    						}
+    					})
+                    },
+                    error: function(e){
+                        alert("Errore"+e);
+                    }
+                })
+			
+		}
+	</script>
 </body>
 </html>
