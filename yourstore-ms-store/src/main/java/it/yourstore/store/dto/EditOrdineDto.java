@@ -25,7 +25,7 @@ public class EditOrdineDto extends BaseDto {
 
 	private LocalDateTime date;
 
-	private Integer totalCost;
+	private Float totalCost;
 
 	@Size(max = 80)
 	private String address;

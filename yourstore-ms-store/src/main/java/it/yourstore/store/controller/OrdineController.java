@@ -2,6 +2,7 @@ package it.yourstore.store.controller;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Date;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -11,6 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -99,16 +101,18 @@ public class OrdineController {
 		}
 	}
 
-	@PostMapping("/buy")
+	@GetMapping("/buy/{objectKey}/{date}")
 	@Transactional
 	@Operation(summary = "Buy an Ordine")
-	public ResponseEntity<ViewOrdineDto> buy(@RequestBody @Valid EditOrdineDto requestBody) {
-		Ordine entity = ordineMappers.map(requestBody);
-		if ((!ordineService.findByObjectKey(entity.getObjectKey()).isPresent()) || entity.getDate() != null) {
+	public ResponseEntity<ViewOrdineDto> buy(@PathVariable String objectKey, @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+		LOGGER.info(objectKey);
+		LOGGER.info(date);
+		Optional<Ordine> entityOptional = ordineService.findByObjectKey(objectKey);
+		Ordine entity = entityOptional.get();
+		if ((!entityOptional.isPresent()) || entity.getDate() != null) {
 			throw new ResourceNotFoundException(Ordine.class.getSimpleName(), entity.getObjectKey());
 		} else {
 			try {
-				entity = ordineService.findByObjectKey(entity.getObjectKey()).get();
 				ordineService.checkDisponibility(entity);
 			} catch (DisponibilityException e) {
 				throw e;
@@ -224,7 +228,7 @@ public class OrdineController {
 		return toResponseEntityPaged(collModel, null);
 	}
 
-	@GetMapping("/current-ordine/{id:.+}")
+	@GetMapping("/current-ordine/{utenteId:.+}")
 	public ViewOrdineDto currentOrdine(@PathVariable String utenteId) {
 		Ordine currentOrdine = ordineService.findCurrentOrdineByTheUtente(utenteId);
 		return ordineMappers.map(currentOrdine);

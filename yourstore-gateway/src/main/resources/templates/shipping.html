@@ -46,24 +46,7 @@
 					aria-controls="navbarSupportedContent" aria-expanded="false"
 					aria-label="Toggle navigation"></button>
 
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav">
-						<div
-							style="display: -ms-flexbox; display: flex; -ms-flex-align: center; align-items: center;">
-							<form class="input-group">
-
-								<input style="width: 180px;" class="form-control mr-sm-2 "
-									type="search" placeholder="Search" aria-label="Search">
-								<button
-									style="width: 70px; color: rgb(215, 58, 51); border-color: rgb(215, 58, 51);"
-									class=" form-control btn btn-outline-info my-2 my-sm-0"
-									>
-									<span style="color: black">Search 
-								</button>
-							</form>
-						</div>
-				</div>
-				</ul>
+				
 	</div>
 	</nav>
 	</header>
@@ -102,7 +85,7 @@
             <!-- Creation Date input -->
             <div class="input-group mb-4" style="width: 60%;">
               <span class="input-group-text" style="width: 30%; font-size: 15px;">Creation Date</span>
-              <input type="Date" id="CurrentDate" name="date" class="form-control" style="width: 30%; font-size: 15px;" readonly value=""/>
+              <input type="Date" id="CurrentDate" name="date" class="form-control" style="width: 30%; font-size: 15px;"  value=""/>
             </div>
             <div class="input-group mb-4" style="width: 60%;">
               <span class="input-group-text" style="width: 30%; visibility: hidden;font-size: 15px;">theUtenteObjectKey</span>
@@ -172,7 +155,7 @@ function loadRecentOrder(e) {
 		var theUtenteObjectKey = 1;
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reactionFirst;
-		httpRequest.open("GET", "http://localhost:8080/store/ordine/findByTheUtente/"+theUtenteObjectKey, true);
+		httpRequest.open("GET", "http://localhost:8080/store/ordine/current-ordine/"+theUtenteObjectKey, true);
 		httpRequest.send();
 	}
 	function reactionFirst(e) {
@@ -180,17 +163,12 @@ function loadRecentOrder(e) {
 			var i = 0;
 			var json = e.target.responseText;
 			var jsonparse = JSON.parse(json)
-			loadProductOfLastOrder(jsonparse.content)
+			loadProductOfLastOrder(jsonparse)
 		}
 	}
 	function loadProductOfLastOrder(content) {
-      var indexSelected
-		for (var i = 0; i < content.length; i++) {
-         if (content[i].date == null)
-            indexSelected = i
-		}
       //Ultimo Ordine
-      objectKeyOrdine = content[indexSelected].objectKey
+      objectKeyOrdine = content.ordineId
       var ordineIdInput = document.getElementById("ordineIdInput")
       ordineIdInput.value=objectKeyOrdine
       //------------------------
@@ -350,40 +328,41 @@ function putDataInTheInput(content) {
 </script>
 <script type="text/javascript">
 function updateCurrentOrder(){
-	var date = moment().format("yyyy-MM-DDTHH:mm:ss.SSS")
+	var date = document.getElementById("CurrentDate")
 	var userId = document.getElementById("theUtenteObjectKey")
 	var totalCostInput = document.getElementById("totalCostInput")
 	var address =document.getElementById("addres")
     var ordineIdInput = document.getElementById("ordineIdInput")
-	const body = '{"theUtenteObjectKey":'
-		+ userId.value
-		+ ',"address":"'
-		+ address.value
-		+ '","theUtenteObjectKey":'
-		+ userId.value
-		+ ',"totalCost":'
-		+ totalCostInput.value
-		+ ',"date":"'
-		+ date
-		+ '","ordineId":'
-		+ ordineIdInput.value
-		+ '}';
-		console.log(body)
+// 	const body = '{"ordineId":'
+// 		+ ordineIdInput.value
+// 		+ ',"address":"'
+// 		+ address.value
+// 		+ '","theUtenteObjectKey":'
+// 		+ userId.value
+// 		+ ',"totalCost":'
+// 		+ totalCostInput.value
+// 		+ ',"date":"'
+// 		+ date
+// 		+ '","theOrderItem":'
+// 		+ "[]"
+// 		+ '}';
+// 		console.log(body)
 
 	$.ajax({
-		type : "POST",
-		url : "http://localhost:8080/store/ordine/buy",
-		data : body,
-		contentType : "application/json",
+		type : "get",
+		url : "http://localhost:8080/store/ordine/buy/"+ordineIdInput.value+"/"+date.value,
+// 		data : body,
+// 		contentType : "application/json",
 		success : function(
 				result) {
 			console.log("ajax: Abbiamo ricevuto correttamente l'ordine")
+			window.location.replace("http://localhost:8080/home");
 		},
 		error : function(e) {
-			alert("Errore" + e);
+			alert("Errore - non è stato possibile effettuare l'ordine RIPROVARE" + e);
 		}
 	})
-	window.location.replace("http://localhost:8080/home");
+	
 
 }
 

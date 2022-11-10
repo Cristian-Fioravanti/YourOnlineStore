@@ -6,9 +6,8 @@ INSERT INTO PRODUCT VALUES(5, 50);
 INSERT INTO PRODUCT VALUES(6, 25);
 INSERT INTO UTENTE VALUES(1, 'paolo99.caruso@gmail.com', 'true', 'Paolo', '1', 'Caruso');
 
-INSERT INTO ORDINE VALUES( null,null, null, null, 1);
-INSERT INTO ORDINE VALUES( null,'Prima porta', '2022-10-30', 120, 1);
-INSERT INTO ORDINE VALUES( null,'Manzoni, 2', '2022-09-30', 10, 1);
+INSERT INTO ORDINE VALUES( 1,'via sdcwed ', null, null, 1);
+
 
 INSERT INTO ORDER_ITEM VALUES(1, 1, 10);
 INSERT INTO ORDER_ITEM VALUES(1, 2, 4);
