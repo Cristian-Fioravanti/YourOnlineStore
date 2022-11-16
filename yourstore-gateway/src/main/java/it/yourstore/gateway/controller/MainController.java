@@ -1,5 +1,7 @@
 package it.yourstore.gateway.controller;
 
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Controller;
@@ -9,28 +11,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class MainController {
 	private static final Logger LOGGER = LogManager.getLogger(MainController.class);
-	@GetMapping("/login")
-	public String prova() {
-		return "login";
-	}
 
+	@GetMapping("/home/{id:.+}")
+	public String getHome(@PathVariable String id) {
+		return "home";
+	}
+	
 	@GetMapping("/home")
-	public String getHome() {
+	public String getHomeNoId() {
 		return "home";
 	}
 
-	@GetMapping("/cart")
-	public String getCarello() {
+	@GetMapping("/cart/{id:.+}")
+	public String getCarello(@PathVariable String id) {
 		return "cart";
 	}
 
-	@GetMapping("/product/{id:.+}")
-	public String getProdotto(@PathVariable String id) {
+	@GetMapping(value= {"/product/{id:.+}", "/product/{utenteId:.+}/{id:.+}"})
+	public String getProdotto(@PathVariable(name = "utenteId", required = false) String userId, @PathVariable(name = "id") String id) {
 		return "product";
 	}
 
-	@GetMapping("/shipping")
-	public String getShipping() {
+	@GetMapping("/shipping/{id:.+}")
+	public String getShipping(@PathVariable String id) {
 		return "shipping";
 	}
 	
@@ -39,7 +42,7 @@ public class MainController {
 		return "addProduct";
 	}
 	
-	@GetMapping("/Analytics")
+	@GetMapping("/analytics")
     public String getAnalytics() {
         return "adminAnalytics";
     }

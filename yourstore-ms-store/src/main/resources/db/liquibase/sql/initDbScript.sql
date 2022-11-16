@@ -4,7 +4,7 @@ INSERT INTO PRODUCT VALUES(3, 15);
 INSERT INTO PRODUCT VALUES(4, 120);
 INSERT INTO PRODUCT VALUES(5, 50);
 INSERT INTO PRODUCT VALUES(6, 25);
-INSERT INTO UTENTE VALUES(1, 'paolo99.caruso@gmail.com', 'true', 'Paolo', '1', 'Caruso');
+INSERT INTO UTENTE VALUES(1, 'paolo99.caruso@gmail.com', 'true', 'Paolo', '113075988806136472546', 'Caruso');
 
 INSERT INTO ORDINE VALUES( 1,'via sdcwed ', null, null, 1);
 

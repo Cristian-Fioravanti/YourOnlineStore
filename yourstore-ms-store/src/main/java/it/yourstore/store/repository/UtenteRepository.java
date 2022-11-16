@@ -14,7 +14,9 @@ import it.yourstore.store.domain.Utente;
 public interface UtenteRepository extends JpaRepository<Utente, Integer>, JpaSpecificationExecutor<Utente> {
 
 	Optional<Utente> findByUtenteId(Integer id);
-
+	
+	Optional<Utente> findByOauthId(String oauthId);
+	
 	@Query("DELETE FROM Utente WHERE utenteId IN ?1")
 	void deleteByIdIn(Collection<Integer> ids);
 }
