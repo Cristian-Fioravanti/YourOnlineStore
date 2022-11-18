@@ -6,6 +6,9 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+
 import java.util.Collection;
 import java.util.ArrayList;
 import javax.persistence.OneToMany;
@@ -43,10 +46,11 @@ public class Utente extends GenericEntity implements Serializable {
 
 	// ATTRIBUTES
 	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "utente_id", columnDefinition = "INTEGER")
 	private Integer utenteId;
-	@Column(name = "oauth_id", columnDefinition = "INTEGER")
-	private Integer oauthId;
+	@Column(name = "oauth_id", columnDefinition = "VARCHAR(80)")
+	private String oauthId;
 	@Column(name = "name", columnDefinition = "VARCHAR(80)")
 	private String name;
 	@Column(name = "surname", columnDefinition = "VARCHAR(80)")

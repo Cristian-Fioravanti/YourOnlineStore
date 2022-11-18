@@ -1,44 +1,31 @@
 package it.yourstore.store.service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
-
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
-
 import org.springframework.stereotype.Service;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
+import it.yourstore.store.domain.GenericEntity;
+import it.yourstore.store.domain.OrderItem;
 import it.yourstore.store.domain.Ordine;
 import it.yourstore.store.domain.Product;
 import it.yourstore.store.domain.Utente;
 import it.yourstore.store.exception.DisponibilityException;
 import it.yourstore.store.jmsClient.ToDatabaseJMSProducer;
 import it.yourstore.store.repository.OrdineRepository;
-
 import lombok.RequiredArgsConstructor;
-
-import java.util.stream.Collectors;
-
-import it.yourstore.store.domain.OrderItem;
-import it.yourstore.store.domain.GenericEntity;
 
 @RequiredArgsConstructor
 @Service
