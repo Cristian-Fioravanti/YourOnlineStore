@@ -43,5 +43,13 @@ public class MainController {
     public String getAnalytics() {
         return "adminAnalytics";
     }
+	@GetMapping("/listOrder")
+    public String getListOrder() {
+        return "listaOrdini";
+    }
+	@GetMapping("/order/{id:.+}")
+    public String getOrder(@PathVariable String id) {
+        return "order";
+    }
 
 }

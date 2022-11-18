@@ -196,8 +196,9 @@
 				const content = result.content
 				for (var i = 0; i < content.length; i++){
 					if (listProductId.includes(content[i].theProductObjectKey)){
-						listAmount[i] += content[i].amount
-						totalAmount += content[i].amount
+						let indice = listProductId.findIndex(element => element == content[i].theProductObjectKey)
+						listAmount[indice] += content[indice].amount
+						totalAmount += content[indice].amount
 					}
 					else{
 						listProductId.push(content[i].theProductObjectKey)
