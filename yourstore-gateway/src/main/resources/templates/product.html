@@ -392,14 +392,18 @@
               contentAllProduct[i].productId
             );
           }
+          var bodyjson = '{'
+        		    +'"userId": "1","itemId":"9"' +'}'
           $.ajax({
             type: "GET",
             url: "http://localhost:5000/recommend",
+            data : JSON.stringify(bodyjson),
+    		contentType : "application/json",
             success: function (result) {
               //TODO da modificare con result
               result = JSON.parse(resultProva);
               const json = '{"ciao": 1, "hola": 2}';
-              console.log(mapAllProduct);
+              console.log("Sono dentro al recommend");
               var mapResultEngine = new Map();
               const obj = JSON.parse(resultProva, (key, value) => {
                 mapResultEngine.set(value, key);
@@ -443,11 +447,10 @@
                 map.set(value, key);
                 return value;
               });
-              const sortedMap = new Map([map].sort());
               const iterator = map.keys();
               var res = iterator.next().value;
               while (res >= 0) {
-                console.log(map.get(res));
+                console.log(e);
                 tabellaReleatedProduct.insertAdjacentHTML(
                   "beforeend",
                   '<div class="col-sm-6 col-md-4 col-lg-4">' +
@@ -455,7 +458,7 @@
                     '<div class="option_container">' +
                     '<div class="options">' +
                     '<a href="" class="option1"> Add to Cart</a> <a href="/product/' +
-                    mapAllProduct.get(mapResultEngine.get(res)) +
+                    map.get(map.get(res)) +
                     '" ' +
                     'class="option2"> View The Product </a>' +
                     "</div>" +

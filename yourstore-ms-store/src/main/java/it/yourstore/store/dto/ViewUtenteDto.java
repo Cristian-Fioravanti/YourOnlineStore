@@ -2,6 +2,9 @@ package it.yourstore.store.dto;
 
 import lombok.Setter;
 import lombok.Getter;
+
+import java.math.BigInteger;
+
 import lombok.EqualsAndHashCode;
 
 /**
@@ -20,7 +23,7 @@ public class ViewUtenteDto extends BaseDto {
 
 	private Integer utenteId;
 
-	private Integer oauthId;
+	private BigInteger oauthId;
 
 	private String name;
 

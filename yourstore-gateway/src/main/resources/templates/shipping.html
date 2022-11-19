@@ -152,12 +152,19 @@
 <script type="text/javascript">
 var objectKeyOrdine
 function loadRecentOrder(e) {
-		var theUtenteObjectKey = 1;
+	var theUtenteObjectKey = null;
+	const url = window.location.href
+	const urlStrip = url.split('/');
+	if (urlStrip.length == 5) {
+		theUtenteObjectKey = urlStrip.at(-1);
+	}
+	if (theUtenteObjectKey!= null){
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reactionFirst;
 		httpRequest.open("GET", "http://localhost:8080/store/ordine/current-ordine/"+theUtenteObjectKey, true);
 		httpRequest.send();
 	}
+}
 	function reactionFirst(e) {
 		if (e.target.readyState == XMLHttpRequest.DONE) {
 			var i = 0;
@@ -299,12 +306,17 @@ function loadRecentOrder(e) {
 </script>
 <!-- Script per acquisire i dati dell'utente  -->
 <script type="text/javascript">
-var UserID = 1;
+let theUtenteObjectKey = null;
+const url = window.location.href
+const urlStrip = url.split('/');
+if (urlStrip.length == 5) {
+	theUtenteObjectKey = urlStrip.at(-1);
+}
 function loadUserDetails(e) {
 	
 	var httpRequest = new XMLHttpRequest();
 	httpRequest.onreadystatechange = reaction;
-	httpRequest.open("GET", "http://localhost:8080/store/utente/"+UserID, true);
+	httpRequest.open("GET", "http://localhost:8080/store/utente/"+theUtenteObjectKey, true);
 	httpRequest.send();
 }
 function reaction(e) {
@@ -312,7 +324,12 @@ function reaction(e) {
 		var i = 0;
 		var json = e.target.responseText;
 		var jsonparse = JSON.parse(json)
-		putDataInTheInput(jsonparse)
+		if (jsonparse.reasonPhrase =="NotFoundException"){
+			window.location.replace("http://localhost:8090/store/login");
+			window.alert("You have first to login in with your google account")
+		}
+		else
+			putDataInTheInput(jsonparse)
 	}
 }
 function putDataInTheInput(content) {
@@ -323,7 +340,7 @@ function putDataInTheInput(content) {
 	var date = document.getElementById("CurrentDate")
 	date.value = new Date().toISOString().split('T')[0]
 	var userId = document.getElementById("theUtenteObjectKey")
-	userId.value = UserID
+	userId.value = theUtenteObjectKey
 }
 </script>
 <script type="text/javascript">

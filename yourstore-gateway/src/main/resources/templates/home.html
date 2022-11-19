@@ -36,7 +36,7 @@
 
 </head>
 
-<body onload="loadProduct(),loadRecentOrder()">
+<body onload="loadProduct(),loadRecentOrder(),aggiornaHrefShipping(),aggiornaHrefListaOrdini()">
 
 	<div class="">
 		<!-- header section strats -->
@@ -65,6 +65,9 @@
 									class="glyphicon glyphicon-plus"></span>
 								</a>
 							</div>
+							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2" id="HistoryOrdersDIV">
+								<a href="/listOrder" class="btn btn-lg" id="HistoryOrdersATT">History Orders</a>
+							</div>
 							<div id="carello" class="mr-sm-2">
 
 								<div class=" dropdown dropdown-item" onclick="">
@@ -79,8 +82,8 @@
 													style="width: 300px; overflow-y: auto; white-space: nowrap;">
 
 												</div>
-										</li> <a href="/shipping" class="btn btn-primary"
-											style="margin-top: 10px; margin-left: 10px;">Go to the
+										</li> <a href="" class="btn btn-primary"
+											style="margin-top: 10px; margin-left: 10px;" id="BottoneGoToTheCart">Go to the
 											cart</a>
 									</div>
 								</div>
@@ -132,6 +135,55 @@
 	<script src="/js/bootstrap.js"></script>
 	<!-- custom js -->
 	<script src="/js/custom.js"></script>
+	<!-- script generale per aggiornamenti href -->
+	<script>
+	var theUtenteObjectKey = null;
+	const url = window.location.href
+	const urlStrip = url.split('/');
+	if (urlStrip.length == 5) {
+		theUtenteObjectKey = urlStrip.at(-1);
+	}
+	function aggiornaHrefShipping(){
+		var BottoneGoToTheCart = document.getElementById("BottoneGoToTheCart");
+		if (theUtenteObjectKey!=null && theUtenteObjectKey!="" ){
+		BottoneGoToTheCart.href = "/shipping/"+theUtenteObjectKey
+		}
+		else{
+			var dropDownCart = document.getElementById("dropDownCart");
+			
+			BottoneGoToTheCart.style = "visibility: hidden"
+			dropDownCart.innerHTML = '<p class="fs-1">Login for see your cart</p>'
+		}
+	}
+	function aggiornaHrefListaOrdini(){
+		var HistoryOrdersATT = document.getElementById("HistoryOrdersATT");
+		if (theUtenteObjectKey!=null && theUtenteObjectKey!="" ){
+			HistoryOrdersATT.href = "/listOrder/"+theUtenteObjectKey
+		}
+		else{
+			var HistoryOrdersDIV = document.getElementById("HistoryOrdersDIV");
+			HistoryOrdersDIV.remove()
+		}
+	}
+// 	if (theUtenteObjectKey!= null ){
+// 	$.ajax({
+// 		type : "GET",
+// 		url : "http://localhost:8080/store/utente/"+theUtenteObjectKey,
+// 		success : function(
+// 				result) {
+// 		},
+// 		error : function(e) {
+// 			window.location.assign("http://localhost:8090/store/login");
+// 			window.alert("This user not exist, Please login in ")
+// 			}
+// 	})
+	
+// 	}
+	
+		
+	
+	</script>
+
 </body>
 <!-- Script per caricare i prodotti all'interno della home  -->
 
@@ -280,136 +332,140 @@
 		const urlStrip = url.split('/');
 		if (urlStrip.length == 5) {
 			theUtenteObjectKey = urlStrip.at(-1);
-		}
-		$
-				.ajax({
-					type : "GET",
-					url : "http://localhost:8080/store/ordine/current-ordine/"
-							+ theUtenteObjectKey,
-					success : function(result) {
-						// 						var indexSelected
-						// 						for (var i = 0; i < content.length; i++) {
-						// 							if (content[i].date == null)
-						// 								indexSelected = i
-						// 						}
-						objectKeyOrdine = result.ordineId
-						console.log(result)
-						console.log("questo è l'ordine corrente: "
-								+ objectKeyOrdine)
-						console.log(products[idIndex].productId)
-						$
-								.ajax({
-									type : "GET",
-									url : "http://localhost:8080/store/order-item/findByTheProduct/"
-											+ products[idIndex].productId,
-									success : function(result) {
-										console
-												.log("http://localhost:8080/store/order-item/findByTheProduct/")
-										console.log(result)
-										var amount = 1
-										if (result.content.length > 0
-												&& result.content[result.content.length - 1].objectKey
-														.substring(0, 2) == objectKeyOrdine
-														+ "~") {
-											//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
-											const content = result.content[result.content.length - 1]
+			$
+			.ajax({
+				type : "GET",
+				url : "http://localhost:8080/store/ordine/current-ordine/"
+						+ theUtenteObjectKey,
+				success : function(result) {
+					// 						var indexSelected
+					// 						for (var i = 0; i < content.length; i++) {
+					// 							if (content[i].date == null)
+					// 								indexSelected = i
+					// 						}
+					objectKeyOrdine = result.ordineId
+					console.log(result)
+					console.log("questo è l'ordine corrente: "
+							+ objectKeyOrdine)
+					console.log(products[idIndex].productId)
+					$
+							.ajax({
+								type : "GET",
+								url : "http://localhost:8080/store/order-item/findByTheProduct/"
+										+ products[idIndex].productId,
+								success : function(result) {
+									console
+											.log("http://localhost:8080/store/order-item/findByTheProduct/")
+									console.log(result)
+									var amount = 1
+									if (result.content.length > 0
+											&& result.content[result.content.length - 1].objectKey
+													.substring(0, 2) == objectKeyOrdine
+													+ "~") {
+										//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
+										const content = result.content[result.content.length - 1]
 
-											amount = content.amount + 1
-											const body = '{"amount":'
-													+ amount
-													+ ',"theOrdineObjectKey":'
-													+ objectKeyOrdine
-													+ ',"theProductObjectKey":'
-													+ products[idIndex].productId
-													+ '}';
-											//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
-											$
-													.ajax({
-														type : "PUT",
-														url : "http://localhost:8080/store/order-item",
-														data : body,
-														contentType : "application/json",
-														success : function(
-																result) {
-															console
-																	.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
-																			+ result.amount
-																			+ " + 1")
-															loadRecentOrder()
-														},
-														error : function(e) {
-															alert("Errore" + e);
-														}
-													})
-										} else if (result.content.length > 0
-												&& result.content[result.content.length - 1].objectKey
-														.substring(0, 2) != objectKeyOrdine
-														+ "~") {
-											amount = 1
-											const body = '{"amount":'
-													+ amount
-													+ ',"theOrdineObjectKey":'
-													+ objectKeyOrdine
-													+ ',"theProductObjectKey":'
-													+ products[idIndex].productId
-													+ '}';
-											$
-													.ajax({
-														type : "PUT",
-														url : "http://localhost:8080/store/order-item",
-														data : body,
-														contentType : "application/json",
-														success : function(
-																result) {
-															console
-																	.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
-																			+ result.amount
-																			+ " + 1")
-															loadRecentOrder()
-														},
-														error : function(e) {
-															alert("Errore" + e);
-														}
-													})
+										amount = content.amount + 1
+										const body = '{"amount":'
+												+ amount
+												+ ',"theOrdineObjectKey":'
+												+ objectKeyOrdine
+												+ ',"theProductObjectKey":'
+												+ products[idIndex].productId
+												+ '}';
+										//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
+										$
+												.ajax({
+													type : "PUT",
+													url : "http://localhost:8080/store/order-item",
+													data : body,
+													contentType : "application/json",
+													success : function(
+															result) {
+														console
+																.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																		+ result.amount
+																		+ " + 1")
+														loadRecentOrder()
+													},
+													error : function(e) {
+														alert("Errore" + e);
+													}
+												})
+									} else if (result.content.length > 0
+											&& result.content[result.content.length - 1].objectKey
+													.substring(0, 2) != objectKeyOrdine
+													+ "~") {
+										amount = 1
+										const body = '{"amount":'
+												+ amount
+												+ ',"theOrdineObjectKey":'
+												+ objectKeyOrdine
+												+ ',"theProductObjectKey":'
+												+ products[idIndex].productId
+												+ '}';
+										$
+												.ajax({
+													type : "PUT",
+													url : "http://localhost:8080/store/order-item",
+													data : body,
+													contentType : "application/json",
+													success : function(
+															result) {
+														console
+																.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																		+ result.amount
+																		+ " + 1")
+														loadRecentOrder()
+													},
+													error : function(e) {
+														alert("Errore" + e);
+													}
+												})
 
-										} else {
-											const body = '{"amount":'
-													+ amount
-													+ ',"theOrdineObjectKey":'
-													+ objectKeyOrdine
-													+ ',"theProductObjectKey":'
-													+ products[idIndex].productId
-													+ '}';
-											//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
-											$
-													.ajax({
-														type : "POST",
-														url : "http://localhost:8080/store/order-item",
-														data : body,
-														contentType : "application/json",
-														success : function(
-																result) {
-															console
-																	.log("ajax: Abbiamo aggiunto il prodotto all'interno dell'ordine")
-															loadRecentOrder()
-														},
-														error : function(e) {
-															alert("Errore non è stato possibile aggiungere il prodotto"
-																	+ e);
-														}
-													})
-										}
-
-									},
-									error : function(e) {
-										alert("Errore" + e);
+									} else {
+										const body = '{"amount":'
+												+ amount
+												+ ',"theOrdineObjectKey":'
+												+ objectKeyOrdine
+												+ ',"theProductObjectKey":'
+												+ products[idIndex].productId
+												+ '}';
+										//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
+										$
+												.ajax({
+													type : "POST",
+													url : "http://localhost:8080/store/order-item",
+													data : body,
+													contentType : "application/json",
+													success : function(
+															result) {
+														console
+																.log("ajax: Abbiamo aggiunto il prodotto all'interno dell'ordine")
+														loadRecentOrder()
+													},
+													error : function(e) {
+														alert("Errore non è stato possibile aggiungere il prodotto"
+																+ e);
+													}
+												})
 									}
-								})
-					},
-					error : function(e) {
-						alert("Errore" + e);
-					}
-				})
+
+								},
+								error : function(e) {
+									alert("Errore" + e);
+								}
+							})
+				},
+				error : function(e) {
+					alert("Errore" + e);
+				}
+			})
+		}
+		else{
+			window.alert("Non puoi aggiungere al carello, se non hai effettuato il login")
+		}
+			
 	}
 </script>
 
