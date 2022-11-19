@@ -36,8 +36,7 @@
 
 </head>
 
-<body onload="loadProduct(),loadRecentOrder(),aggiornaHrefShipping(),aggiornaHrefListaOrdini()">
-
+<body>
 	<div class="">
 		<!-- header section strats -->
 		<header class="header_section"
@@ -59,14 +58,21 @@
 
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav">
-							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2">
-								<a href="/addProduct" class="btn btn-lg">Aggiungi Prodotto <span
+							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 admin">
+								<a href="/addProduct" class="btn btn-lg admin" style="display: none">Aggiungi Prodotto <span
 									style="color: rgb(43, 43, 43);"
 									class="glyphicon glyphicon-plus"></span>
 								</a>
 							</div>
-							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2" id="HistoryOrdersDIV">
-								<a href="/listOrder" class="btn btn-lg" id="HistoryOrdersATT">History Orders</a>
+							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 authenticated" id="HistoryOrdersDIV">
+								<a href="/listOrder" class="btn btn-lg authenticated" id="HistoryOrdersATT" style="display: none">History Orders</a>
+							</div>
+							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
+								<a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
+							</div>
+							<div class="authenticated" id="loginAuthDiv">
+								<span id="user"></span>
+								<button onClick="logout()" class="btn btn-primary authenticated" style="display: none">Logout</button>
 							</div>
 							<div id="carello" class="mr-sm-2">
 
@@ -82,7 +88,7 @@
 													style="width: 300px; overflow-y: auto; white-space: nowrap;">
 
 												</div>
-										</li> <a href="" class="btn btn-primary"
+										</li> <a href="/shipping" class="btn btn-primary"
 											style="margin-top: 10px; margin-left: 10px;" id="BottoneGoToTheCart">Go to the
 											cart</a>
 									</div>
@@ -102,8 +108,8 @@
 									</button>
 								</form>
 							</div>
-					</div>
-					</ul>
+						</ul>
+					</div>	
 			</div>
 			</nav>
 	</div>
@@ -135,59 +141,58 @@
 	<script src="/js/bootstrap.js"></script>
 	<!-- custom js -->
 	<script src="/js/custom.js"></script>
-	<!-- script generale per aggiornamenti href -->
-	<script>
-	var theUtenteObjectKey = null;
-	const url = window.location.href
-	const urlStrip = url.split('/');
-	if (urlStrip.length == 5) {
-		theUtenteObjectKey = urlStrip.at(-1);
-	}
-	function aggiornaHrefShipping(){
-		var BottoneGoToTheCart = document.getElementById("BottoneGoToTheCart");
-		if (theUtenteObjectKey!=null && theUtenteObjectKey!="" ){
-		BottoneGoToTheCart.href = "/shipping/"+theUtenteObjectKey
-		}
-		else{
-			var dropDownCart = document.getElementById("dropDownCart");
-			
-			BottoneGoToTheCart.style = "visibility: hidden"
-			dropDownCart.innerHTML = '<p class="fs-1">Login for see your cart</p>'
-		}
-	}
-	function aggiornaHrefListaOrdini(){
-		var HistoryOrdersATT = document.getElementById("HistoryOrdersATT");
-		if (theUtenteObjectKey!=null && theUtenteObjectKey!="" ){
-			HistoryOrdersATT.href = "/listOrder/"+theUtenteObjectKey
-		}
-		else{
-			var HistoryOrdersDIV = document.getElementById("HistoryOrdersDIV");
-			HistoryOrdersDIV.remove()
-		}
-	}
-// 	if (theUtenteObjectKey!= null ){
-// 	$.ajax({
-// 		type : "GET",
-// 		url : "http://localhost:8080/store/utente/"+theUtenteObjectKey,
-// 		success : function(
-// 				result) {
-// 		},
-// 		error : function(e) {
-// 			window.location.assign("http://localhost:8090/store/login");
-// 			window.alert("This user not exist, Please login in ")
-// 			}
-// 	})
-	
-// 	}
-	
-		
-	
-	</script>
 
 </body>
 <!-- Script per caricare i prodotti all'interno della home  -->
+<script type="text/javascript">
+    
+</script>
+
+
 
 <script type="text/javascript">
+	//-------------------------Utente----------------------------------------------------
+	var theUtenteObjectKey = ""
+	var isAdmin = false;
+	$.get("/store/user", function(data) {
+		if(data) {
+			console.log(data);
+			$("#user").html(data.name);
+        	$(".unauthenticated").hide()
+        	$(".authenticated").show()
+			$.get("/store/utenteId?id=" + data.id, function(utente) {
+				console.log("Id Utente: " + utente.id);
+				theUtenteObjectKey = utente.id;
+				if(utente.isAdmin) {
+					isAdmin = utente.isAdmin;
+					$(".admin").show()
+				}
+				onLoad();
+			});
+		}
+		else {
+			$(".authenticated").hide()
+        	$(".unauthenticated").show()
+			onLoad();
+		}        
+    });
+	
+
+	var logout = function() {
+    $.post("/store/logout", function() {
+        $("#user").html('');
+        $(".unauthenticated").show();
+        $(".authenticated").hide();
+    })
+    return true;
+	}
+
+	function onLoad() {
+		loadProduct();
+		loadRecentOrder();
+		aggiornaHrefShipping();
+	}
+	
 	//------------------------------------loadProduct---------------------------------------------------
 	var products
 	function loadProduct(e) {
@@ -323,17 +328,12 @@
 	//------------------------------------insertProductToCart--------------------------------------------------------
 
 	var objectKeyOrdine = ""
-	var theUtenteObjectKey = ""
 	function insertProductToCart(idIndex) {
 		console.log("questo è l'idIndedx del prodotto aggiunto: " + idIndex)
 		var dropDownCart = document.getElementById("dropDownCart");
 		dropDownCart.innerHTML = ""
-		const url = window.location.href
-		const urlStrip = url.split('/');
-		if (urlStrip.length == 5) {
-			theUtenteObjectKey = urlStrip.at(-1);
-			$
-			.ajax({
+		if (theUtenteObjectKey!="") {
+			$.ajax({
 				type : "GET",
 				url : "http://localhost:8080/store/ordine/current-ordine/"
 						+ theUtenteObjectKey,
@@ -467,17 +467,10 @@
 		}
 			
 	}
-</script>
-
-<!-- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente  -->
-<script type="text/javascript">
+	// ------------- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente 
 	var objectKeyOrdine
-	var theUtenteObjectKey
 	function loadRecentOrder(e) {
-		const url = window.location.href
-		const urlStrip = url.split('/');
-		if (urlStrip.length == 5) {
-			theUtenteObjectKey = urlStrip.at(-1);
+		if (theUtenteObjectKey != "") {
 			currentOrdineRequest();
 		}
 
@@ -600,6 +593,37 @@
 		})
 
 	}
+
+	// Aggiorna href
+	function aggiornaHrefShipping(){
+		var BottoneGoToTheCart = document.getElementById("BottoneGoToTheCart");
+		if (theUtenteObjectKey==""){
+			var dropDownCart = document.getElementById("dropDownCart");
+			BottoneGoToTheCart.style = "visibility: hidden"
+			dropDownCart.innerHTML = '<p class="fs-1">Login to see your cart</p>'
+		} else {
+			// BottoneGoToTheCart.href = "/shipping/"+theUtenteObjectKey;
+		}
+	}
+// 	if (theUtenteObjectKey!= null ){
+// 	$.ajax({
+// 		type : "GET",
+// 		url : "http://localhost:8080/store/utente/"+theUtenteObjectKey,
+// 		success : function(
+// 				result) {
+// 		},
+// 		error : function(e) {
+// 			window.location.assign("http://localhost:8090/store/login");
+// 			window.alert("This user not exist, Please login in ")
+// 			}
+// 	})
+	
+// 	}
+</script>
+
+
+<script type="text/javascript">
+	
 </script>
 
 </html>

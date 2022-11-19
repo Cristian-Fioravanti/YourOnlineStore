@@ -57,10 +57,20 @@
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav">
-						<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2">
-							<a href="addProduct" class="btn btn-lg">Aggiungi Prodotto <span
+						<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 admin">
+							<a href="addProduct" class="btn btn-lg admin" style="display: none" >Aggiungi Prodotto <span
 								style="color: rgb(43, 43, 43);" class="glyphicon glyphicon-plus"></span>
 							</a>
+						</div>
+						<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 authenticated" id="HistoryOrdersDIV">
+							<a href="/listOrder" class="btn btn-lg authenticated" id="HistoryOrdersATT" style="display: none">History Orders</a>
+						</div>
+						<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
+							<a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
+						</div>
+						<div class="authenticated" id="loginAuthDiv">
+							<span id="user"></span>
+							<button onClick="logout()" class="btn btn-primary authenticated" style="display: none">Logout</button>
 						</div>
 						<div id="carello" class="mr-sm-2">
 							<div class=" dropdown dropdown-item">
@@ -136,63 +146,83 @@
 							</div>
 						</div>
 					</div>
-					<script src="/js/moment.js"></script>
+				</div>
+			</div>
+		</div>
+	</section>
+	<script src="/js/moment.js"></script>
 
-					<script>
-						let theUtenteObjectKey = null;
-						const url = window.location.href
-						const urlStrip = url.split('/');
-						if (urlStrip.length == 5) {
-							theUtenteObjectKey = urlStrip.at(-1);
+	<script>
+		var theUtenteObjectKey = ""
+		var isAdmin = false;
+		$.get("/store/user", function(data) {
+			if(data) {
+				console.log(data);
+				$("#user").html(data.name);
+				$(".unauthenticated").hide()
+				$(".authenticated").show()
+				$.get("/store/utenteId?id=" + data.id, function(utente) {
+					console.log("Id Utente: " + utente.id);
+					theUtenteObjectKey = utente.id;
+					if(utente.isAdmin) {
+						isAdmin = utente.isAdmin;
+						$(".admin").show()
+					}
+					onLoad();
+				});
+			}
+			else {
+				$(".authenticated").hide()
+				$(".unauthenticated").show()
+				onLoad();
+			}        
+		});
+		if (theUtenteObjectKey != "") {
+			$.ajax({
+					type : "GET",
+					url : "http://localhost:8080/store/ordine/findByTheUtente/"+theUtenteObjectKey,
+					success : function(result) {
+						const content = result.content
+						for (var i = 0; i < content.length; i++) {
+							if (content[i].date != null)
+								putOrder(content[i])
 						}
-						if (theUtenteObjectKey != null
-								&& theUtenteObjectKey != "") {
-							$
-									.ajax({
-										type : "GET",
-										url : "http://localhost:8080/store/ordine/findByTheUtente/"+theUtenteObjectKey,
-										success : function(result) {
-											const content = result.content
-											for (var i = 0; i < content.length; i++) {
-												if (content[i].date != null)
-													putOrder(content[i])
-											}
-										},
-										error : function(e) {
-											alert("Errore" + e);
-										}
-									})
-							function putOrder(ordine) {
-								let tabellaOrdini = document
-										.getElementById("tabellaOrdini");
-								const m = moment(new Date(ordine.date));
-								tabellaOrdini
-										.insertAdjacentHTML(
-												"beforeend",
-												'<hr><a href="/order/'+ordine.ordineId+'" style="color: #cecece;"><div class="card mb-3 btn btn-light">'
-														+ '<div class="card-body">'
-														+ '<div class="d-flex justify-content-between">'
-														+ '<div class="d-flex flex-row align-items-center">'
-														+ '<div class="ms-3">'
-														+ '<h1 id="dateOrder">'
-														+ m
-																.format('MMMM Do YYYY, h:mm:ss a')
-														+ '</h1>'
-														+ '</div>'
-														+ '</div>'
-														+ '<div class="d-flex flex-row align-items-center">'
-														+ '<div style="width: 80px;">'
-														+ '<h3 class="mb-0" id="totalCostOrder">'
-														+ ordine.totalCost
-														+ '€</h3>'
-														+ '</div>'
-														+ '<i'
-										+'class="fas fa-trash-alt"></i>'
-														+ '</div>' + '</div>'
-														+ '</div>' + '</div></a>')
-							}
-						}
-					</script>
+					},
+					error : function(e) {
+						alert("Errore" + e);
+					}
+				})
+			function putOrder(ordine) {
+				let tabellaOrdini = document
+						.getElementById("tabellaOrdini");
+				const m = moment(new Date(ordine.date));
+				tabellaOrdini
+						.insertAdjacentHTML(
+								"beforeend",
+								'<hr><a href="/order/'+ordine.ordineId+'" style="color: #cecece;"><div class="card mb-3 btn btn-light">'
+										+ '<div class="card-body">'
+										+ '<div class="d-flex justify-content-between">'
+										+ '<div class="d-flex flex-row align-items-center">'
+										+ '<div class="ms-3">'
+										+ '<h1 id="dateOrder">'
+										+ m
+												.format('MMMM Do YYYY, h:mm:ss a')
+										+ '</h1>'
+										+ '</div>'
+										+ '</div>'
+										+ '<div class="d-flex flex-row align-items-center">'
+										+ '<div style="width: 80px;">'
+										+ '<h3 class="mb-0" id="totalCostOrder">'
+										+ ordine.totalCost
+										+ '€</h3>'
+										+ '</div>'
+										+ '<i'
+						+'class="fas fa-trash-alt"></i>'
+										+ '</div>' + '</div>'
+										+ '</div>' + '</div></a>')
+			}
+		}
+	</script>
 </body>
 </html>
 

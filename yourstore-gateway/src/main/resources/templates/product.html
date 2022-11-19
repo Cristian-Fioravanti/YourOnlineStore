@@ -33,7 +33,7 @@
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
   </head>
-  <body onload="loadProduct(),loadReleatedProduct(), loadRecentOrder()">
+  <body>
     <div class="">
       <!-- header section strats -->
       <header class="header_section"
@@ -55,14 +55,23 @@
 
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav">
-							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2">
-								<a href="/addProduct" class="btn btn-lg">Aggiungi Prodotto <span
+							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 admin">
+								<a href="/addProduct" class="btn btn-lg admin" style="display: none">Aggiungi Prodotto <span
 									style="color: rgb(43, 43, 43);"
 									class="glyphicon glyphicon-plus"></span>
 								</a>
 							</div>
+              <div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 authenticated" id="HistoryOrdersDIV">
+								<a href="/listOrder" class="btn btn-lg authenticated" id="HistoryOrdersATT" style="display: none">History Orders</a>
+							</div>
+							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
+								<a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
+							</div>
+							<div class="mr-sm-2 authenticated">
+                <span id="user"></span>
+								<button onClick="logout()" class="btn btn-primary authenticated" style="display: none">Logout</button>
+							</div>
 							<div id="carello" class="mr-sm-2">
-
 								<div class=" dropdown dropdown-item" onclick="">
 									<li class="fa fa-shopping-cart " type="button"
 										style="font-size: 30px; margin-right: 10px" id="dropdownMenu2"
@@ -73,7 +82,6 @@
 												style="width: max-content;">
 												<div class="row" id="dropDownCart"
 													style="width: 300px; overflow-y: auto; white-space: nowrap;">
-
 												</div>
 										</li> <a href="/shipping" class="btn btn-primary"
 											style="margin-top: 10px; margin-left: 10px;">Go to the
@@ -157,149 +165,43 @@
   </body>
   <!-- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente  -->
   <script type="text/javascript">
-    var objectKeyOrdine;
-    var theUtenteObjectKey;
-    function loadRecentOrder(e) {
-      const url = window.location.href;
-      const urlStrip = url.split("/");
-      objectKeyOrdine = urlStrip.at(-1);
-      if ((urlStrip.length = 6)) {
-        theUtenteObjectKey = urlStrip.at(-2);
-      }
-      var httpRequest = new XMLHttpRequest();
-      httpRequest.onreadystatechange = reactionFirst;
-      httpRequest.open(
-        "GET",
-        "http://localhost:8080/store/ordine/current-ordine/" +
-          theUtenteObjectKey,
-        true
-      );
-      httpRequest.send();
-    }
-    function reactionFirst(e) {
-      if (e.target.readyState == XMLHttpRequest.DONE) {
-        var i = 0;
-        var json = e.target.responseText;
-        var jsonparse = JSON.parse(json);
-        putTheProductOnPage(jsonparse);
-      }
-    }
-    //lista ID prodotti dell'ultimo ordine
-    var productsId = [];
-    var totalCostNumber = Number("0");
-    function putTheProductOnPage(content) {
-      objectKeyOrdine = content.ordineId;
-      console.log(objectKeyOrdine);
-      console.log(content);
-      $.ajax({
-        type: "GET",
-        url:
-          "http://localhost:8080/store/order-item/findByTheOrdine/" +
-          objectKeyOrdine,
-        success: function (result) {
-          console.log(
-            "http://localhost:8080/store/order-item/findByTheOrdine/"
-          );
-          console.log(result.content);
-          for (var i = 0; i < result.content.length; i++) {
-            if (result.content[i].theOrdineObjectKey == objectKeyOrdine) {
-              console.log(objectKeyOrdine);
-              productsId.push(result.content[i].theProductObjectKey);
-            }
+    var theUtenteObjectKey = "";
+    var isAdmin = false;
+    var objectKeyOrdine = "";
+    var url = window.location.href;
+    var urlStrip = url.split("/");
+    var id = urlStrip.at(-1);
+	  $.get("/store/user", function(data) {
+      if(data) {
+        console.log(data);
+        $("#user").html(data.name);
+            $(".unauthenticated").hide()
+            $(".authenticated").show()
+        $.get("/store/utenteId?id=" + data.id, function(utente) {
+          console.log("Id Utente: " + utente.id);
+          theUtenteObjectKey = utente.id;
+          if(utente.isAdmin) {
+            isAdmin = utente.isAdmin;
+            $(".admin").show()
           }
-          console.log(productsId);
-
-          // // 		//chiamata allo stock per prendere i dati dei prodotti, in modo tale da poterli raffigurare front-end
-          for (var i = 0; i < productsId.length; i++) {
-            $.ajax({
-              type: "GET",
-              url: "http://localhost:8080/database/product/" + productsId[i],
-              success: function (result) {
-                console.log(result);
-                addProductToForm(result);
-              },
-              error: function (e) {
-                alert("Errore" + e);
-              },
-            });
-          }
-          productsId = [];
-        },
-        error: function (e) {
-          alert("Errore" + e);
-        },
-      });
+          onLoad();
+        });
+      }
+      else {
+        $(".authenticated").hide()
+            $(".unauthenticated").show()
+        onLoad();
+      }        
+    });
+    
+    function onLoad() {
+      
+      loadProduct();
+      loadReleatedProduct();
+      loadRecentOrder();
     }
 
-    function addProductToForm(productDetail) {
-      var dropDownCart = document.getElementById("dropDownCart");
-      dropDownCart.insertAdjacentHTML(
-        "beforeend",
-        '<div class="col-sm-6 col-md-4 col-lg-4 mt-2" id="ProductOnCart' +
-          productDetail.productId +
-          '">' +
-          '<div class="box">' +
-          '<div class="img-box">' +
-          '	<img src="' +
-          productDetail.imageUrl +
-          '" width="50px"' +
-          '		style="margin-left: 20px;">' +
-          "	</div>" +
-          "</div>" +
-          "</div>" +
-          '<div class=" col-lg-4" style="overflow-x: auto;white-space: nowrap;width: 50px;">' +
-          '<div class="box" >' +
-          '	<div class=" detail-box" >' +
-          "		<h5>" +
-          productDetail.productName +
-          "</h5>" +
-          "		<h5>" +
-          productDetail.cost +
-          "€</h5>" +
-          "	</div>" +
-          "	</div>" +
-          "</div>" +
-          '<div class=" col-lg-4">' +
-          '<div class="detail-box" >' +
-          '<h5 id="AmountOnCart' +
-          productDetail.productId +
-          '">' +
-          "x " +
-          "</div>" +
-          "</h5>" +
-          "	</div>" +
-          "	</div>"
-      );
-      RefreshAmount(productDetail.productId);
-    }
-
-    function RefreshAmount(productId) {
-      $.ajax({
-        type: "GET",
-        url:
-          "http://localhost:8080/store/order-item/" +
-          objectKeyOrdine +
-          "~" +
-          productId,
-        success: function (result) {
-          const AmountProductOnCart = document.getElementById(
-            "AmountOnCart" + productId
-          );
-          AmountProductOnCart.innerHTML = "x " + result.amount;
-        },
-        error: function (e) {
-          alert("Errore" + e);
-        },
-      });
-    }
-  </script>
-
-  <script>
-    const url = window.location.href;
-    const urlStrip = url.split("/");
-    const id = urlStrip.at(-1);
-    console.log("Questo è l'id del prodotto:" + id);
-
+    // LOAD PRODUCT
     function loadProduct(e) {
       var httpRequest = new XMLHttpRequest();
       httpRequest.onreadystatechange = reaction;
@@ -307,7 +209,7 @@
         "GET",
         "http://localhost:8080/database/product/" + id,
         true
-      ); //TODO http://localhost:8080/database/product/{id}
+      );
       httpRequest.send();
     }
     function reaction(e) {
@@ -373,9 +275,141 @@
       );
       console.info(sond);
     }
-    console.log("ciao pippo2");
-  </script>
-  <script>
+
+    // LOAD RECENT ORDER
+    function loadRecentOrder(e) {
+      if(theUtenteObjectKey != "") {
+        var httpRequest = new XMLHttpRequest();
+        httpRequest.onreadystatechange = reactionFirst;
+        httpRequest.open(
+          "GET",
+          "http://localhost:8080/store/ordine/current-ordine/" +
+            theUtenteObjectKey,
+          true
+        );
+        httpRequest.send();
+      } else {
+
+      }
+    }
+    function reactionFirst(e) {
+      if (e.target.readyState == XMLHttpRequest.DONE) {
+        var i = 0;
+        var json = e.target.responseText;
+        var jsonparse = JSON.parse(json);
+        putTheProductOnPage(jsonparse);
+      }
+    }
+    //lista ID prodotti dell'ultimo ordine
+    var productsId = [];
+    var totalCostNumber = Number("0");
+    function putTheProductOnPage(content) {
+      objectKeyOrdine = content.ordineId;
+      console.log(objectKeyOrdine);
+      console.log(content);
+      $.ajax({
+        type: "GET",
+        url:
+          "http://localhost:8080/store/order-item/findByTheOrdine/" +
+          objectKeyOrdine,
+        success: function (result) {
+          console.log(
+            "http://localhost:8080/store/order-item/findByTheOrdine/"
+          );
+          console.log(result.content);
+          for (var i = 0; i < result.content.length; i++) {
+            if (result.content[i].theOrdineObjectKey == objectKeyOrdine) {
+              console.log(objectKeyOrdine);
+              productsId.push(result.content[i].theProductObjectKey);
+            }
+          }
+          console.log(productsId);
+
+          // // 		//chiamata allo stock per prendere i dati dei prodotti, in modo tale da poterli raffigurare front-end
+          for (var i = 0; i < productsId.length; i++) {
+            $.ajax({
+              type: "GET",
+              url: "http://localhost:8080/database/product/" + productsId[i],
+              success: function (result) {
+                console.log(result);
+                addProductToForm(result);
+              },
+              error: function (e) {
+                console.log("Errore" + e);
+              },
+            });
+          }
+          productsId = [];
+        },
+        error: function (e) {
+          console.log("Errore" + e);
+        },
+      });
+    }
+
+    function addProductToForm(productDetail) {
+      var dropDownCart = document.getElementById("dropDownCart");
+      dropDownCart.insertAdjacentHTML(
+        "beforeend",
+        '<div class="col-sm-6 col-md-4 col-lg-4 mt-2" id="ProductOnCart' +
+          productDetail.productId +
+          '">' +
+          '<div class="box">' +
+          '<div class="img-box">' +
+          '	<img src="' +
+          productDetail.imageUrl +
+          '" width="50px"' +
+          '		style="margin-left: 20px;">' +
+          "	</div>" +
+          "</div>" +
+          "</div>" +
+          '<div class=" col-lg-4" style="overflow-x: auto;white-space: nowrap;width: 50px;">' +
+          '<div class="box" >' +
+          '	<div class=" detail-box" >' +
+          "		<h5>" +
+          productDetail.productName +
+          "</h5>" +
+          "		<h5>" +
+          productDetail.cost +
+          "€</h5>" +
+          "	</div>" +
+          "	</div>" +
+          "</div>" +
+          '<div class=" col-lg-4">' +
+          '<div class="detail-box" >' +
+          '<h5 id="AmountOnCart' +
+          productDetail.productId +
+          '">' +
+          "x " +
+          "</div>" +
+          "</h5>" +
+          "	</div>" +
+          "	</div>"
+      );
+      RefreshAmount(productDetail.productId);
+    }
+
+    function RefreshAmount(productId) {
+      $.ajax({
+        type: "GET",
+        url:
+          "http://localhost:8080/store/order-item/" +
+          objectKeyOrdine +
+          "~" +
+          productId,
+        success: function (result) {
+          const AmountProductOnCart = document.getElementById(
+            "AmountOnCart" + productId
+          );
+          AmountProductOnCart.innerHTML = "x " + result.amount;
+        },
+        error: function (e) {
+          console.log("Errore" + e);
+        },
+      });
+    }
+    
+    // RELATED PRODUCT
     function loadReleatedProduct() {
       var tabellaReleatedProduct = document.getElementById(
         "tabellaReleatedProduct"

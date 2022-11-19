@@ -12,13 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class MainController {
 	private static final Logger LOGGER = LogManager.getLogger(MainController.class);
 
-	@GetMapping("/home/{id:.+}")
-	public String getHome(@PathVariable String id) {
-		return "home";
-	}
-	
 	@GetMapping("/home")
-	public String getHomeNoId() {
+	public String getHome() {
 		return "home";
 	}
 
@@ -27,13 +22,13 @@ public class MainController {
 		return "cart";
 	}
 
-	@GetMapping(value= {"/product/{id:.+}", "/product/{utenteId:.+}/{id:.+}"})
-	public String getProdotto(@PathVariable(name = "utenteId", required = false) String userId, @PathVariable(name = "id") String id) {
+	@GetMapping(value= {"/product/{id:.+}"})
+	public String getProdotto(@PathVariable(name = "id") String id) {
 		return "product";
 	}
 
-	@GetMapping("/shipping/{id:.+}")
-	public String getShipping(@PathVariable String id) {
+	@GetMapping("/shipping")
+	public String getShipping() {
 		return "shipping";
 	}
 	
@@ -46,8 +41,8 @@ public class MainController {
     public String getAnalytics() {
         return "adminAnalytics";
     }
-	@GetMapping("/listOrder/{id:.+}")
-    public String getListOrder(@PathVariable String id) {
+	@GetMapping("/listOrder")
+    public String getListOrder() {
         return "listaOrdini";
     }
 	@GetMapping("/order/{id:.+}")
