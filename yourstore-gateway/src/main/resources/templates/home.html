@@ -46,6 +46,7 @@
 					width="150px
                      " src="/images/logo.png" /></a>
 			</div>
+			
 			<div class="form-group">
 
 				<nav style="display: flex; justify-content: center;"
@@ -58,6 +59,7 @@
 
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav">
+						
 							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 admin">
 								<a href="/addProduct" class="btn btn-lg admin" style="display: none">Aggiungi Prodotto <span
 									style="color: rgb(43, 43, 43);"
@@ -70,9 +72,8 @@
 							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
 								<a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
 							</div>
-							<div class="authenticated" id="loginAuthDiv">
-								<span id="user"></span>
-								<button onClick="logout()" class="btn btn-primary authenticated" style="display: none">Logout</button>
+							<div class="authenticated" id="loginAuthDiv" style="background-color: rgb(215, 58, 51);">
+								<button  onClick="logout()" class="btn btn-lg authenticated" style="display: none; background-color: rgb(215, 58, 51);">Logout</button>
 							</div>
 							<div id="carello" class="mr-sm-2">
 
@@ -120,6 +121,8 @@
 	<section class="product_section layout_padding">
 		<div class="container">
 			<div class="heading_center">
+				<p align="center" id="user" style="font-size: 45px; margin-top: -60px; font-style: Farmstand"></p>
+				<br>
 				<p align="center" style="font-size: 40px;">Our products</p>
 				<hr
 					style="height: 2px; border-width: 2; color: #000000; background-color: #f7444e; box-shadow: 5px #000000;">
@@ -157,7 +160,7 @@
 	$.get("/store/user", function(data) {
 		if(data) {
 			console.log(data);
-			$("#user").html(data.name);
+			$("#user").html("Benvenuto " + data.name);
         	$(".unauthenticated").hide()
         	$(".authenticated").show()
 			$.get("/store/utenteId?id=" + data.id, function(utente) {

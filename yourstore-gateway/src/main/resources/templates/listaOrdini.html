@@ -153,6 +153,10 @@
 	<script src="/js/moment.js"></script>
 
 	<script>
+	function onLoad() {
+		loadHistory();
+	}
+	
 		var theUtenteObjectKey = ""
 		var isAdmin = false;
 		$.get("/store/user", function(data) {
@@ -177,6 +181,7 @@
 				onLoad();
 			}        
 		});
+	function loadHistory(){
 		if (theUtenteObjectKey != "") {
 			$.ajax({
 					type : "GET",
@@ -222,6 +227,7 @@
 										+ '</div>' + '</div></a>')
 			}
 		}
+	}
 	</script>
 </body>
 </html>

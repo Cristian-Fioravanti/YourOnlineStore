@@ -1,42 +1,40 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <!-- Mobile Metas -->
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
-    <!-- Site Metas -->
-    <meta name="keywords" content="" />
-    <meta name="description" content="" />
-    <meta name="author" content="" />
-    <link
-      rel="stylesheet"
-      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
-    />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="shortcut icon" href="/images/logo.png" type="" />
-    <title>YourOnlineShop - Product</title>
-    <!-- bootstrap core css -->
-    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
-    <!-- font awesome style -->
-    <link href="/css/font-awesome.min.css" rel="stylesheet" />
-    <!-- Custom styles for this template -->
-    <link href="/css/style.css" rel="stylesheet" />
-    <!-- responsive style -->
-    <link href="/css/responsive.css" rel="stylesheet" />
-	<script
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<!-- Mobile Metas -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+<!-- Site Metas -->
+<meta name="keywords" content="" />
+<meta name="description" content="" />
+<meta name="author" content="" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="shortcut icon" href="/images/logo.png" type="" />
+<title>YourOnlineShop - Product</title>
+<!-- bootstrap core css -->
+<link rel="stylesheet" type="text/css" href="/css/bootstrap.css" />
+<!-- font awesome style -->
+<link href="/css/font-awesome.min.css" rel="stylesheet" />
+<!-- Custom styles for this template -->
+<link href="/css/style.css" rel="stylesheet" />
+<!-- responsive style -->
+<link href="/css/responsive.css" rel="stylesheet" />
+<script
 	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
 	integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
 	crossorigin="anonymous"></script>
-  </head>
-  <body>
-    <div class="">
-      <!-- header section strats -->
-      <header class="header_section"
+</head>
+<body>
+	<div class="">
+		<!-- header section strats -->
+		<header class="header_section"
 			style="background-color: rgb(162, 38, 36); box-shadow: 5px 5px 2px; height: 200px;">
 			<div class="container heading_center" style="">
 				<a class="navbar-brand" href="/home"> <img
@@ -55,21 +53,28 @@
 
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav">
-							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 admin">
-								<a href="/addProduct" class="btn btn-lg admin" style="display: none">Aggiungi Prodotto <span
+							<div style="background-color: rgb(215, 58, 51);"
+								class="mr-sm-2 admin">
+								<a href="/addProduct" class="btn btn-lg admin"
+									style="display: none">Aggiungi Prodotto <span
 									style="color: rgb(43, 43, 43);"
 									class="glyphicon glyphicon-plus"></span>
 								</a>
 							</div>
-              <div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 authenticated" id="HistoryOrdersDIV">
-								<a href="/listOrder" class="btn btn-lg authenticated" id="HistoryOrdersATT" style="display: none">History Orders</a>
+							<div style="background-color: rgb(215, 58, 51);"
+								class="mr-sm-2 authenticated" id="HistoryOrdersDIV">
+								<a href="/listOrder" class="btn btn-lg authenticated"
+									id="HistoryOrdersATT" style="display: none">History Orders</a>
 							</div>
-							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
-								<a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
+							<div style="background-color: rgb(215, 58, 51);"
+								class="mr-sm-2 unauthenticated" id="loginDiv">
+								<a href="http://localhost:8090/store/login" class="btn btn-lg"
+									id="loginAtt">Login</a>
 							</div>
 							<div class="mr-sm-2 authenticated">
-                <span id="user"></span>
-								<button onClick="logout()" class="btn btn-primary authenticated" style="display: none">Logout</button>
+								<span id="user"></span>
+								<button onClick="logout()" class="btn btn-primary authenticated"
+									style="display: none">Logout</button>
 							</div>
 							<div id="carello" class="mr-sm-2">
 								<div class=" dropdown dropdown-item" onclick="">
@@ -108,63 +113,28 @@
 			</div>
 			</nav>
 	</div>
-	</header>		
-      <!-- end header section -->
-    </div>
-    <div id="selectionProduct"></div>
-    <section class="product_section layout_padding">
-      <div class="container">
-        <h2>Releated Product</h2>
+	</header>
+	<!-- end header section -->
+	</div>
+	<div id="selectionProduct"></div>
+	<section class="product_section layout_padding">
+		<div class="container">
+			<h2>Releated Product</h2>
 
-        <div class="row" id="tabellaReleatedProduct">
-          <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="box">
-              <div class="option_container">
-                <div class="options">
-                  <a href="" class="option1"> Men's Shirt </a>
-                  <a href="" class="option2"> Buy Now </a>
-                </div>
-              </div>
-              <div class="img-box">
-                <img src="/images/p1.png" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>Men's Shirt</h5>
-                <h6>$75</h6>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-md-4 col-lg-4">
-            <div class="box">
-              <div class="option_container">
-                <div class="options">
-                  <a href="" class="option1"> Add To Cart </a>
-                  <a href="" class="option2"> Buy Now </a>
-                </div>
-              </div>
-              <div class="img-box">
-                <img src="/images/p2.png" alt="" />
-              </div>
-              <div class="detail-box">
-                <h5>Men's Shirt</h5>
-                <h6>$80</h6>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- jQery -->
-    <script src="/js/jquery-3.4.1.min.js"></script>
-    <!-- popper js -->
-    <script src="/js/popper.min.js"></script>
-    <!-- bootstrap js -->
-    <script src="/js/bootstrap.js"></script>
-    <!-- custom js -->
-    <script src="/js/custom.js"></script>
-  </body>
-  <!-- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente  -->
-  <script type="text/javascript">
+			<div class="row" id="tabellaReleatedProduct"></div>
+		</div>
+	</section>
+	<!-- jQery -->
+	<script src="/js/jquery-3.4.1.min.js"></script>
+	<!-- popper js -->
+	<script src="/js/popper.min.js"></script>
+	<!-- bootstrap js -->
+	<script src="/js/bootstrap.js"></script>
+	<!-- custom js -->
+	<script src="/js/custom.js"></script>
+</body>
+<!-- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente  -->
+<script type="text/javascript">
     var theUtenteObjectKey = "";
     var isAdmin = false;
     var objectKeyOrdine = "";
@@ -195,10 +165,10 @@
     });
     
     function onLoad() {
-      
       loadProduct();
       loadReleatedProduct();
       loadRecentOrder();
+//       insertProductToCart()
     }
 
     // LOAD PRODUCT
@@ -261,11 +231,11 @@
           "" +
           "                     </p>" +
           '                     <div style="width: 100px; margin-top: 50px;" >' +
-          '                        <input style="width: 200px; font-size:20px;" type="number" aria-label="First name" class="form-control quantita" value="1" >' +
+          '                        <input style="width: 200px; font-size:20px;" id="AmountSelezionato" type="number" aria-label="First name" class="form-control quantita"  value="1">' +
           "                     </div>" +
           '                     <div style="width: 250px;">' +
           "                        <hr>" +
-          '                        <input style="width: 200px; font-size:20px;" type="button" aria-label="First name" class="form-control btn-primary " value="Add to Cart">' +
+          '                        <input style="width: 200px; font-size:20px;" id="addToCart" onclick="insertProductToCart()" type="button" aria-label="First name" class="form-control btn-primary " value="Add to Cart">' +
           "                     </div>" +
           "                  </div>" +
           "               </div>" +
@@ -419,59 +389,65 @@
         url: "http://localhost:8080/database/product/all",
         success: function (result) {
           const contentAllProduct = result;
-          var mapAllProduct = new Map();
-          for (var i = 0; i < contentAllProduct.length; i++) {
-            mapAllProduct.set(
-              contentAllProduct[i].productName,
-              contentAllProduct[i].productId
-            );
-          }
-          var bodyjson = '{'
-        		    +'"userId": "1","itemId":"9"' +'}'
+          var bodyjson = '{'+'"userId": "'+theUtenteObjectKey+'","itemId":"'+id+'"' +'}'
           $.ajax({
-            type: "GET",
+            type: "POST",
             url: "http://localhost:5000/recommend",
-            data : JSON.stringify(bodyjson),
+            data : bodyjson,
     		contentType : "application/json",
-            success: function (result) {
+            success: function (resultRecom) {
               //TODO da modificare con result
-              result = JSON.parse(resultProva);
-              const json = '{"ciao": 1, "hola": 2}';
               console.log("Sono dentro al recommend");
-              var mapResultEngine = new Map();
-              const obj = JSON.parse(resultProva, (key, value) => {
-                mapResultEngine.set(value, key);
-                return value;
-              });
-              mapResultEngine = mapResultEngine.sort();
-              const iterator = mapResultEngine.keys();
-              var res = iterator.next().value;
-              while (res != null) {
-                console.log(mapResultEngine.get(res));
-                tabellaReleatedProduct.insertAdjacentHTML(
-                  "beforeend",
-                  '<div class="col-sm-6 col-md-4 col-lg-4">' +
-                    '<div class="box">' +
-                    '<div class="option_container">' +
-                    '<div class="options">' + //fa in modo di prendere l'id attraverso il nome del prodotto
-                    '<a href="" class="option1"> Add to Cart</a> <a href="/product/' +
-                    mapAllProduct.get(mapResultEngine.get(res)) +
-                    '" ' +
-                    'class="option2"> View The Product </a>' +
-                    "</div>" +
-                    "</div>" +
-                    '<div class="img-box">' +
-                    '<img src="/images/p1.png" alt="">' +
-                    "</div>" +
-                    '<div class="detail-box">' +
-                    "<h5>" +
-                    mapResultEngine.get(res) +
-                    "</h5>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>"
-                );
-                res = iterator.next().value;
+              var listResultEngine = [];
+              var aux = JSON.stringify(resultRecom)
+              for(var key in resultRecom){
+            	  listResultEngine.push(key)
+              }
+//               const obj = JSON.parse(aux, (key, value) => {if(value!= "" && value!=null){
+//                 mapResultEngine.set(value, key);
+//              	}
+//                 return value;
+//               });
+			  var infoProduct = null
+              for (var idProduct in resultRecom) {
+            	  $.ajax({
+          	        type: "GET",
+          	        url:"http://localhost:8080/database/product/" + idProduct ,
+          	        success: function (result) {
+          	        	var prod = result
+          	        	 tabellaReleatedProduct.insertAdjacentHTML(
+          	                   "beforeend",
+								'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
+								+ '<div class="box">'
+								+ '<div class="option_container">'
+								+ '<div class="options">'
+								+ '<p style=" font-size:15px;" class="option3 detail-box ">Disponibility: '
+								+ prod.disponibility
+								+ '</p>'
+								+ '<a style=" font-size:15px;" onclick="insertProductToCartWithId('
+								+ prod.productId
+								+ ')" class="option1 btn" id="'
+								+ prod.productId
+								+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
+								+ '</div>'
+								+ '</div>'
+								+ '<div class="img-box">'
+								+ '<img src="'+prod.imageUrl+'" alt="">'
+								+ '</div>'
+								+ '<div class="detail-box">'
+								+ '<h5>'
+								+ prod.productName
+								+ '</h5>'
+								+ '<h5>'
+								+ prod.cost
+								+ '€</h5>'
+								+ '</div>' + '</div>' + '</div>');
+          	        },
+          	        error: function (e) {
+          	          console.log("Errore" + e);
+          	        },
+          	      });
+               
               }
             },
             error: function (e) {
@@ -519,5 +495,264 @@
         },
       });
     }
+    //----------------------------------ADD TO CART ---------------------------------------------
+    
+    //si potrbbe migliorare ma funziona (copiata da home) utilizzata per i prodotti releted dell'engine
+    function insertProductToCartWithId(idProduct) {
+		console.log("questo è l'idIndedx del prodotto aggiunto: " + idProduct)
+		var dropDownCart = document.getElementById("dropDownCart");
+		dropDownCart.innerHTML = ""
+		if (theUtenteObjectKey!="") {
+			$.ajax({
+				type : "GET",
+				url : "http://localhost:8080/store/ordine/current-ordine/"
+						+ theUtenteObjectKey,
+				success : function(result) {
+					// 						var indexSelected
+					// 						for (var i = 0; i < content.length; i++) {
+					// 							if (content[i].date == null)
+					// 								indexSelected = i
+					// 						}
+					objectKeyOrdine = result.ordineId
+					console.log(result)
+					console.log("questo è l'ordine corrente: "
+							+ objectKeyOrdine)
+					$
+							.ajax({
+								type : "GET",
+								url : "http://localhost:8080/store/order-item/findByTheProduct/"
+										+ idProduct,
+								success : function(result) {
+									console
+											.log("http://localhost:8080/store/order-item/findByTheProduct/")
+									console.log(result)
+									var amount = 1
+									if (result.content.length > 0
+											&& result.content[result.content.length - 1].objectKey
+													.substring(0, 2) == objectKeyOrdine
+													+ "~") {
+										//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
+										const content = result.content[result.content.length - 1]
+
+										amount =  parseInt(content.amount) + parseInt(amount)
+										const body = '{"amount":'
+												+ amount
+												+ ',"theOrdineObjectKey":'
+												+ objectKeyOrdine
+												+ ',"theProductObjectKey":'
+												+ idProduct
+												+ '}';
+										//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
+										$
+												.ajax({
+													type : "PUT",
+													url : "http://localhost:8080/store/order-item",
+													data : body,
+													contentType : "application/json",
+													success : function(
+															result) {
+														console
+																.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																		+ result.amount
+																		+ " + 1")
+														loadRecentOrder()
+													},
+													error : function(e) {
+														alert("Errore" + e);
+													}
+												})
+									} else if (result.content.length > 0
+											&& result.content[result.content.length - 1].objectKey
+													.substring(0, 2) != objectKeyOrdine
+													+ "~") {
+										amount = 1
+										const body = '{"amount":'
+												+ amount
+												+ ',"theOrdineObjectKey":'
+												+ objectKeyOrdine
+												+ ',"theProductObjectKey":'
+												+ idProduct
+												+ '}';
+										$
+												.ajax({
+													type : "PUT",
+													url : "http://localhost:8080/store/order-item",
+													data : body,
+													contentType : "application/json",
+													success : function(
+															result) {
+														console
+																.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+																		+ result.amount
+																		+ " + 1")
+														loadRecentOrder()
+													},
+													error : function(e) {
+														alert("Errore" + e);
+													}
+												})
+
+									} else {
+										const body = '{"amount":'
+												+ amount
+												+ ',"theOrdineObjectKey":'
+												+ objectKeyOrdine
+												+ ',"theProductObjectKey":'
+												+ idProduct
+												+ '}';
+										//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
+										$
+												.ajax({
+													type : "POST",
+													url : "http://localhost:8080/store/order-item",
+													data : body,
+													contentType : "application/json",
+													success : function(
+															result) {
+														console
+																.log("ajax: Abbiamo aggiunto il prodotto all'interno dell'ordine")
+														loadRecentOrder()
+													},
+													error : function(e) {
+														alert("Errore non è stato possibile aggiungere il prodotto"
+																+ e);
+													}
+												})
+									}
+
+								},
+								error : function(e) {
+									alert("Errore" + e);
+								}
+							})
+				},
+				error : function(e) {
+					alert("Errore" + e);
+				}
+			})
+		}
+		else{
+			window.alert("Non puoi aggiungere al carello, se non hai effettuato il login")
+		}
+			
+	}
+    //senza l'attributo id perchè è la funzione per il bottone Add to Cart
+    function insertProductToCart() {
+    		var amountSelezionato = document.getElementById("AmountSelezionato");
+    		var amount = parseInt(amountSelezionato.value)
+    		var dropDownCart = document.getElementById("dropDownCart");
+    		dropDownCart.innerHTML = ""
+    		if (theUtenteObjectKey!="") {
+    					$.ajax({
+    								type : "GET",
+    								url : "http://localhost:8080/store/order-item/findByTheProduct/"
+    										+ id,
+    								success : function(result) {
+    									console
+    											.log("http://localhost:8080/store/order-item/findByTheProduct/")
+    									console.log(result)
+    									
+    									if (result.content.length > 0
+    											&& result.content[result.content.length - 1].objectKey
+    													.substring(0, 2) == objectKeyOrdine
+    													+ "~") {
+    										//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
+    										const content = result.content[result.content.length - 1]
+
+    										amount = parseInt(content.amount) + parseInt(amount)
+    										const body = '{"amount":'
+    												+ amount
+    												+ ',"theOrdineObjectKey":'
+    												+ objectKeyOrdine
+    												+ ',"theProductObjectKey":'
+    												+ id
+    												+ '}';
+    											$.ajax({
+    													type : "PUT",
+    													url : "http://localhost:8080/store/order-item",
+    													data : body,
+    													contentType : "application/json",
+    													success : function(
+    															result) {
+    														console
+    																.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+    																		+ result.amount
+    																		+ " + 1")
+    														loadRecentOrder()
+    													},
+    													error : function(e) {
+    														alert("Errore" + e);
+    													}
+    												})
+    									} else if (result.content.length > 0
+    											&& result.content[result.content.length - 1].objectKey
+    													.substring(0, 2) != objectKeyOrdine
+    													+ "~") {
+    										amount = parseInt(content.amount) + parseInt(amount)
+    										const body = '{"amount":'
+    												+ amount
+    												+ ',"theOrdineObjectKey":'
+    												+ objectKeyOrdine
+    												+ ',"theProductObjectKey":'
+    												+ id
+    												+ '}';
+    											$.ajax({
+    													type : "PUT",
+    													url : "http://localhost:8080/store/order-item",
+    													data : body,
+    													contentType : "application/json",
+    													success : function(
+    															result) {
+    														console
+    																.log("ajax: abbiamo modificato l'amount del prodotto adesso è: "
+    																		+ result.amount
+    																		+ " + 1")
+    														loadRecentOrder()
+    													},
+    													error : function(e) {
+    														alert("Errore" + e);
+    													}
+    												})
+
+    									} else {
+    										const body = '{"amount":'
+    												+ amount
+    												+ ',"theOrdineObjectKey":'
+    												+ objectKeyOrdine
+    												+ ',"theProductObjectKey":'
+    												+ id
+    												+ '}';
+    										//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
+    										$
+    												.ajax({
+    													type : "POST",
+    													url : "http://localhost:8080/store/order-item",
+    													data : body,
+    													contentType : "application/json",
+    													success : function(
+    															result) {
+    														console
+    																.log("ajax: Abbiamo aggiunto il prodotto all'interno dell'ordine")
+    														loadRecentOrder()
+    													},
+    													error : function(e) {
+    														alert("Errore non è stato possibile aggiungere il prodotto"
+    																+ e);
+    													}
+    												})
+    									}
+
+    							
+    				},
+    				error : function(e) {
+    					alert("Errore" + e);
+    				}
+    			})
+    		}
+    		else{
+    			window.alert("Non puoi aggiungere al carello, se non hai effettuato il login")
+    		}
+    	};
+    
   </script>
 </html>
