@@ -214,7 +214,7 @@
 		var elencop = document.getElementById(tableID);
 		products = content
 		for (var i = 0; i < content.length; i++) {
-			if (i == 2)
+			if (i == 3)
 				break
 			var prod = content[i];
 			// 			if (d.length >= 31)
@@ -284,43 +284,43 @@
 	//----------------------ViewAllProduct---------------------------------------------------
 
 	function addProductAll(tableID) {
-		var elencop = document.getElementById("lastProduct");
+		var elencop = document.getElementById("elencop");
 		var bnt = document.getElementById("ViewAllProduct");
 		var content = products
 		for (var i = 0; i < content.length; i++) {
-			if (i < 2) {
+			if (i < 3) {
 			} else {
 				var prod = content[i];
 				// 			if (d.length >= 31)
 				// 				d = d.substring(0, 28) + "...";
 				elencop
 						.insertAdjacentHTML(
-								"afterend",
-								'<div class="col-sm-6 col-md-4 col-lg-4" >'
-										+ '<div class="box">'
-										+ '<div class="option_container">'
-										+ '<div class="options">'
-										+ '<p style=" font-size:15px;" class="option3 detail-box ">Disponibility: '
-										+ prod.disponibility
-										+ '</p>'
-										+ '<a style=" font-size:15px;" onclick="insertProductToCart('
-										+ i
-										+ ')" class="option1 btn" id="'
-										+ i
-										+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
-										+ '</div>'
-										+ '</div>'
-										+ '<div class="img-box">'
-										+ '<img src="'+prod.imageUrl+'" alt="">'
-										+ '</div>'
-										+ '<div class="detail-box">'
-										+ '<h5>'
-										+ prod.productName
-										+ '</h5>'
-										+ '<h5>'
-										+ prod.cost
-										+ '€</h5>'
-										+ '</div>' + '</div>' + '</div>');
+								"beforeend",
+								'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
+								+ '<div class="box">'
+								+ '<div class="option_container">'
+								+ '<div class="options">'
+								+ '<p style=" font-size:15px;" class="option3 detail-box ">Disponibility: '
+								+ prod.disponibility
+								+ '</p>'
+								+ '<a style=" font-size:15px;" onclick="insertProductToCart('
+								+ i
+								+ ')" class="option1 btn" id="'
+								+ i
+								+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
+								+ '</div>'
+								+ '</div>'
+								+ '<div class="img-box">'
+								+ '<img src="'+prod.imageUrl+'" alt="">'
+								+ '</div>'
+								+ '<div class="detail-box">'
+								+ '<h5>'
+								+ prod.productName
+								+ '</h5>'
+								+ '<h5>'
+								+ prod.cost
+								+ '€</h5>'
+								+ '</div>' + '</div>' + '</div>');
 			}
 		}
 		bnt.style.visibility = "hidden"
