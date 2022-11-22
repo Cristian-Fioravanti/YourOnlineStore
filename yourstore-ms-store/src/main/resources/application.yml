@@ -27,13 +27,14 @@ spring:
        show-sql: true
        ddl-auto: update
        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
-     database-platform: org.hibernate.dialect.H2Dialect
-#Usare questo dialect x MYSQL     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
   datasource:
-     driverClassName: org.h2.Driver
-     url: jdbc:h2:mem:store;MODE=MYSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-     username: store
-     password:
+     driverClassName: com.mysql.jdbc.Driver
+     url: jdbc:mysql://${DSSTORE_URL:localhost}:${DSSTORE_PORT:3306}/${DSSTORE_NAME:store}
+     username: ${DSSTORE_USERNAME:root}
+     password: ${DSSTORE_PASSWORD:}
+     liquibase:
+       changeLog: classpath:db/liquibase/update.xml
 
   h2:
    console:

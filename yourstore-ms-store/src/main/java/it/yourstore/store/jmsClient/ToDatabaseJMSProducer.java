@@ -37,7 +37,7 @@ public class ToDatabaseJMSProducer implements MessageListener {
 	MessageConsumer responseConsumer = null;
 
 	public void start() {
-		connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61626");
+		connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:6166");
 		try {
 			connection = connectionFactory.createConnection();
 			connection.start();
@@ -53,7 +53,7 @@ public class ToDatabaseJMSProducer implements MessageListener {
 		}
 	}
 
-	public void sendCheckProductAvailabilityRequest(Integer productId, Integer amount) {
+	public void sendCheckProductAvailabilityRequest(Integer productId, Integer amount) throws Exception {
 		try {
 			Destination tempDest = session.createTemporaryQueue();
 			MessageConsumer responseConsumer = session.createConsumer(tempDest);
@@ -73,6 +73,7 @@ public class ToDatabaseJMSProducer implements MessageListener {
 				producer.send(message);
 			} catch (Exception err) {
 				err.printStackTrace();
+				throw new Exception();
 			}
 		} catch (JMSException e) {
 			LOG.error("JMSException occurred: " + e);

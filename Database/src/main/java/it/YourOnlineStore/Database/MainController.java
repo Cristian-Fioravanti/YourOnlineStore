@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller // This means that this class is a Controller
 @RequestMapping(path="/product") // This means URL's start with /Database (after Application path)
@@ -26,7 +27,7 @@ public class MainController {
     private ToStoreJMSProducer producer;
     
     @PostMapping(path="/add") // Map ONLY POST Requests
-    public @ResponseBody void addNewProduct (@RequestParam String productName
+    public @ResponseBody RedirectView addNewProduct (@RequestParam String productName
             , @RequestParam Float cost, @RequestParam Integer disponibility, @RequestParam String imageUrl, @RequestParam String description) {
         // @ResponseBody means the returned String is the response, not a view name
         // @RequestParam means it is a parameter from the GET or POST request
@@ -42,7 +43,9 @@ public class MainController {
 		} catch (NamingException | JMSException | InterruptedException e) {
 			e.printStackTrace();
 		}
-        
+        RedirectView redirectView = new RedirectView();
+		redirectView.setUrl("http://localhost:8080/home");
+		return redirectView;
     }
 
     @GetMapping(path="/all")

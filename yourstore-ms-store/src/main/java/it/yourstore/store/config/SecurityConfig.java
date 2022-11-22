@@ -11,7 +11,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.headers().frameOptions().sameOrigin().and().csrf().ignoringAntMatchers("/h2-console/**").and()
+        http.headers().frameOptions().sameOrigin().and().csrf().disable()
         .authorizeRequests()
         .antMatchers("/ordine/**", "/order-item/**","/product/**","/utente/**", "/error", "/user/**", "/logout/**", "/h2-console/**").permitAll()
          .anyRequest().authenticated()
@@ -21,9 +21,6 @@ public class SecurityConfig {
          .failureUrl("/loginFailure")
          .and()
          .logout(l -> l.logoutSuccessUrl("/").permitAll())
-         .csrf(c -> c
-                 .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-             )
          ;
 //        .anyRequest().permitAll();
         return http.build();
