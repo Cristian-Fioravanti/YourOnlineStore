@@ -37,7 +37,7 @@ public class FromStoreJMSListener implements MessageListener {
 
 	public void start() {
 		try {
-			connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61626");
+			connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
 			connection = connectionFactory.createConnection();
 			connection.start();
 			this.session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
