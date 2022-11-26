@@ -95,7 +95,7 @@ function loadRecentOrder(e) {
 		var theUtenteObjectKey = 1;
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reactionFirst;
-		httpRequest.open("GET", "http://localhost:8080/store/ordine/current-ordine/"+theUtenteObjectKey, true);
+		httpRequest.open("GET", "http://localhost:8080/store/ordine/"+theUtenteObjectKey, true);
 		httpRequest.send();
 	}
 	function reactionFirst(e) {
@@ -114,7 +114,7 @@ function loadRecentOrder(e) {
       //chiamata allo store per prendere i prodotti dell'ultimo ordine
 		var httpRequest = new XMLHttpRequest();
 		httpRequest.onreadystatechange = reactionSecond;
-		httpRequest.open("GET", "http://localhost:8080/store/order-item", true);
+		httpRequest.open("GET", "http://localhost:8080/store/order-item/findByTheOrdine/"+objectKeyOrdine, true);
 		httpRequest.send();
       //------------------------
 	}

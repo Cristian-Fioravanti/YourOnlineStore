@@ -62,22 +62,18 @@
 				  <div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
 					  <a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
 				  </div>
-				  <div class="authenticated" id="loginAuthDiv">
-					  <span id="user"></span>
-					  <button onClick="logout()" class="btn btn-primary authenticated" style="display: none">Logout</button>
-				  </div>
 				  <div id="carello" class="mr-sm-2">
 
-					  <div class=" dropdown dropdown-item" onclick="">
+					  <div style="visibility: hidden;" class=" dropdown dropdown-item" onclick="">
 						  <li class="fa fa-shopping-cart " type="button"
-							  style="font-size: 30px; margin-right: 10px" id="dropdownMenu2"
+							  style="font-size: 30px; margin-right: 10px;visibility: hidden;" id="dropdownMenu2"
 							  data-bs-toggle="dropdown" aria-expanded="false"></li>
 						  <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
 							  <li class="">
 								  <div class="container dropdown-item"
 									  style="width: max-content;">
 									  <div class="row" id="dropDownCart"
-										  style="width: 300px; overflow-y: auto; white-space: nowrap;">
+										  style="width: 300px; overflow-y: auto; white-space: nowrap; ">
 
 									  </div>
 							  </li> <a href="" class="btn btn-primary"
@@ -273,7 +269,7 @@
 		//chiamata allo store per prendere i prodotti dell'ultimo ordine
 			var httpRequest = new XMLHttpRequest();
 			httpRequest.onreadystatechange = reactionSecond;
-			httpRequest.open("GET", "http://localhost:8080/store/order-item", true);
+			httpRequest.open("GET", "http://localhost:8080/store/order-item/findByTheOrdine/"+objectKeyOrdine, true);
 			httpRequest.send();
 		//------------------------
 		}
@@ -452,7 +448,7 @@
 
 		$.ajax({
 			type : "get",
-			url : "http://localhost:8080/store/ordine/buy/"+ordineIdInput.value+"/"+date.value,
+			url : "http://localhost:8080/store/ordine/buy/"+ordineIdInput.value+"/"+date.value+"/"+totalCostInput.value,
 	// 		data : body,
 	// 		contentType : "application/json",
 			success : function(

@@ -147,11 +147,6 @@
 
 </body>
 <!-- Script per caricare i prodotti all'interno della home  -->
-<script type="text/javascript">
-    
-</script>
-
-
 
 <script type="text/javascript">
 	//-------------------------Utente----------------------------------------------------
@@ -186,7 +181,10 @@
         $("#user").html('');
         $(".unauthenticated").show();
         $(".authenticated").hide();
+        
+        
     })
+    location.reload();
     return true;
 	}
 
@@ -606,26 +604,9 @@
 			dropDownCart.innerHTML = '<p class="fs-1">Login to see your cart</p>'
 		}
 	}
-// 	if (theUtenteObjectKey!= null ){
-// 	$.ajax({
-// 		type : "GET",
-// 		url : "http://localhost:8080/store/utente/"+theUtenteObjectKey,
-// 		success : function(
-// 				result) {
-// 		},
-// 		error : function(e) {
-// 			window.location.assign("http://localhost:8090/store/login");
-// 			window.alert("This user not exist, Please login in ")
-// 			}
-// 	})
-	
-// 	}
+
 </script>
 
-
-<script type="text/javascript">
-	
-</script>
 
 </html>
 <!----[

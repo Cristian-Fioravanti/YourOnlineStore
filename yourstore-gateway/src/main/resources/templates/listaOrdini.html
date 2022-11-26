@@ -62,15 +62,8 @@
 								style="color: rgb(43, 43, 43);" class="glyphicon glyphicon-plus"></span>
 							</a>
 						</div>
-						<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 authenticated" id="HistoryOrdersDIV">
-							<a href="/listOrder" class="btn btn-lg authenticated" id="HistoryOrdersATT" style="display: none">History Orders</a>
-						</div>
 						<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
 							<a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
-						</div>
-						<div class="authenticated" id="loginAuthDiv">
-							<span id="user"></span>
-							<button onClick="logout()" class="btn btn-primary authenticated" style="display: none">Logout</button>
 						</div>
 						<div id="carello" class="mr-sm-2">
 							<div class=" dropdown dropdown-item">
@@ -82,22 +75,8 @@
 										<div class="container dropdown-item"
 											style="width: max-content;">
 											<div class="row" id="dropDownCart" style="width: 300px">
-												<div class="col-sm-6 col-md-4 col-lg-4 mt-2">
-													<div class="box">
-														<div class="img-box">
-															<img src="/images/p1.png" width="50px"
-																style="margin-left: 20px;">
-														</div>
-													</div>
-												</div>
-												<div class=" col-lg-8">
-													<div class="box">
-														<div class=" detail-box">
-															<h5>Men's Shirt</h5>
-															<h6>$80</h6>
-														</div>
-													</div>
-												</div>
+											
+											
 											</div>
 									</li> <a href="shipping" class="btn btn-primary"
 										style="margin-top: 10px; margin-left: 10px;">Go to the
@@ -155,6 +134,8 @@
 	<script>
 	function onLoad() {
 		loadHistory();
+		loadRecentOrder();
+		aggiornaHrefShipping();
 	}
 	
 		var theUtenteObjectKey = ""
@@ -229,6 +210,153 @@
 		}
 	}
 	</script>
+<script type="text/javascript">
+//------------- Script per acquisire i prodotti dell'ultimo ordine (non ancora acquistato) di uno specifico utente 
+var objectKeyOrdine
+function loadRecentOrder(e) {
+	if (theUtenteObjectKey != "") {
+		currentOrdineRequest();
+	}
+
+}
+function currentOrdineRequest() {
+	var httpRequest = new XMLHttpRequest();
+	httpRequest.onreadystatechange = reactionFirst;
+	httpRequest.open("GET",
+			"http://localhost:8080/store/ordine/current-ordine/"
+					+ theUtenteObjectKey, true);
+	httpRequest.send();
+}
+function reactionFirst(e) {
+	if (e.target.readyState == XMLHttpRequest.DONE) {
+		var i = 0;
+		var json = e.target.responseText;
+		var jsonparse = JSON.parse(json)
+		putTheProductOnPage(jsonparse)
+	}
+}
+//lista ID prodotti dell'ultimo ordine
+var productsId = []
+var totalCostNumber = Number("0")
+function putTheProductOnPage(content) {
+	objectKeyOrdine = content.ordineId
+	console.log(objectKeyOrdine)
+	console.log(content)
+	$
+			.ajax({
+				type : "GET",
+				url : "http://localhost:8080/store/order-item/findByTheOrdine/"
+						+ objectKeyOrdine,
+				success : function(result) {
+					console
+							.log("http://localhost:8080/store/order-item/findByTheOrdine/")
+					console.log(result.content)
+					for (var i = 0; i < result.content.length; i++) {
+						if (result.content[i].theOrdineObjectKey == objectKeyOrdine) {
+							console.log(objectKeyOrdine)
+							productsId
+									.push(result.content[i].theProductObjectKey)
+						}
+					}
+					console.log(productsId)
+
+					// // 		//chiamata allo stock per prendere i dati dei prodotti, in modo tale da poterli raffigurare front-end
+					for (var i = 0; i < productsId.length; i++) {
+
+						$.ajax({
+							type : "GET",
+							url : "http://localhost:8080/database/product/"
+									+ productsId[i],
+							success : function(result) {
+								console.log(result)
+								addProductToForm(result)
+							},
+							error : function(e) {
+								alert("Errore" + e);
+							}
+						})
+					}
+					productsId = []
+				},
+				error : function(e) {
+					alert("Errore" + e);
+				}
+			})
+
+}
+
+function addProductToForm(productDetail) {
+	var dropDownCart = document.getElementById("dropDownCart");
+	dropDownCart
+			.insertAdjacentHTML(
+					"beforeend",
+					'<div class="col-sm-6 col-md-4 col-lg-4 mt-2" id="ProductOnCart'+productDetail.productId+'">'
+							+ '<div class="box">'
+							+ '<div class="img-box">'
+							+ '	<img src="'+productDetail.imageUrl+'" width="50px"'
+									+'		style="margin-left: 20px;">'
+							+ '	</div>'
+							+ '</div>'
+							+ '</div>'
+							+ '<div class=" col-lg-4" style="overflow-x: auto;white-space: nowrap;width: 50px;">'
+							+ '<div class="box" >'
+							+ '	<div class=" detail-box" >'
+							+ '		<h5>'
+							+ productDetail.productName
+							+ '</h5>'
+							+ '		<h5>'
+							+ productDetail.cost
+							+ '€</h5>'
+							+ '	</div>'
+							+ '	</div>'
+							+ '</div>'
+							+ '<div class=" col-lg-4">'
+							+ '<div class="detail-box" >'
+							+ '<h5 id="AmountOnCart'+productDetail.productId+'">'
+							+ "x "
+							+ '</div>'
+							+ '</h5>'
+							+ '	</div>'
+							+ '	</div>')
+	RefreshAmount(productDetail.productId)
+}
+
+function RefreshAmount(productId) {
+	$.ajax({
+		type : "GET",
+		url : "http://localhost:8080/store/order-item/" + objectKeyOrdine
+				+ "~" + productId,
+		success : function(result) {
+			const AmountProductOnCart = document
+					.getElementById("AmountOnCart" + productId);
+			AmountProductOnCart.innerHTML = "x " + result.amount
+		},
+		error : function(e) {
+			alert("Errore" + e);
+		}
+	})
+
+}
+
+// Aggiorna href
+function aggiornaHrefShipping(){
+	var BottoneGoToTheCart = document.getElementById("BottoneGoToTheCart");
+	if (theUtenteObjectKey==""){
+		var dropDownCart = document.getElementById("dropDownCart");
+		BottoneGoToTheCart.style = "visibility: hidden"
+		dropDownCart.innerHTML = '<p class="fs-1">Login to see your cart</p>'
+	}
+}
+</script>	
+	
+	<!-- jQery -->
+	<script src="/js/jquery-3.4.1.min.js"></script>
+	<!-- popper js -->
+	<script src="/js/popper.min.js"></script>
+	<!-- bootstrap js -->
+	<script src="/js/bootstrap.js"></script>
+	<!-- custom js -->
+	<script src="/js/custom.js"></script>
 </body>
 </html>
 

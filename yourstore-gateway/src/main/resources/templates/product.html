@@ -71,11 +71,7 @@
 								<a href="http://localhost:8090/store/login" class="btn btn-lg"
 									id="loginAtt">Login</a>
 							</div>
-							<div class="mr-sm-2 authenticated">
-								<span id="user"></span>
-								<button onClick="logout()" class="btn btn-primary authenticated"
-									style="display: none">Logout</button>
-							</div>
+							
 							<div id="carello" class="mr-sm-2">
 								<div class=" dropdown dropdown-item" onclick="">
 									<li class="fa fa-shopping-cart " type="button"
@@ -117,7 +113,7 @@
 	<!-- end header section -->
 	</div>
 	<div id="selectionProduct"></div>
-	<section class="product_section layout_padding">
+	<section class="product_section layout_padding" id="sectionReleatedProduct">
 		<div class="container">
 			<h2>Releated Product</h2>
 
@@ -168,6 +164,7 @@
       loadProduct();
       loadReleatedProduct();
       loadRecentOrder();
+     
 //       insertProductToCart()
     }
 
@@ -244,6 +241,10 @@
           "         </section>"
       );
       console.info(sond);
+      if (theUtenteObjectKey == ""){
+          var addToCart = document.getElementById("addToCart");
+          addToCart.disabled =true;
+          }
     }
 
     // LOAD RECENT ORDER
@@ -259,7 +260,8 @@
         );
         httpRequest.send();
       } else {
-
+          var addToCart = document.getElementById("carello");
+          addToCart.style.visibility ="hidden";
       }
     }
     function reactionFirst(e) {
@@ -381,119 +383,128 @@
     
     // RELATED PRODUCT
     function loadReleatedProduct() {
-      var tabellaReleatedProduct = document.getElementById(
-        "tabellaReleatedProduct"
-      );
-      $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/database/product/all",
-        success: function (result) {
-          const contentAllProduct = result;
-          var bodyjson = '{'+'"userId": "'+theUtenteObjectKey+'","itemId":"'+id+'"' +'}'
-          $.ajax({
-            type: "POST",
-            url: "http://localhost:5000/recommend",
-            data : bodyjson,
-    		contentType : "application/json",
-            success: function (resultRecom) {
-              //TODO da modificare con result
-              console.log("Sono dentro al recommend");
-              var listResultEngine = [];
-              var aux = JSON.stringify(resultRecom)
-              for(var key in resultRecom){
-            	  listResultEngine.push(key)
-              }
-//               const obj = JSON.parse(aux, (key, value) => {if(value!= "" && value!=null){
-//                 mapResultEngine.set(value, key);
-//              	}
-//                 return value;
-//               });
-			  var infoProduct = null
-              for (var idProduct in resultRecom) {
-            	  $.ajax({
-          	        type: "GET",
-          	        url:"http://localhost:8080/database/product/" + idProduct ,
-          	        success: function (result) {
-          	        	var prod = result
-          	        	 tabellaReleatedProduct.insertAdjacentHTML(
-          	                   "beforeend",
-								'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
-								+ '<div class="box">'
-								+ '<div class="option_container">'
-								+ '<div class="options">'
-								+ '<p style=" font-size:15px;" class="option3 detail-box ">Disponibility: '
-								+ prod.disponibility
-								+ '</p>'
-								+ '<a style=" font-size:15px;" onclick="insertProductToCartWithId('
-								+ prod.productId
-								+ ')" class="option1 btn" id="'
-								+ prod.productId
-								+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
-								+ '</div>'
-								+ '</div>'
-								+ '<div class="img-box">'
-								+ '<img src="'+prod.imageUrl+'" alt="">'
-								+ '</div>'
-								+ '<div class="detail-box">'
-								+ '<h5>'
-								+ prod.productName
-								+ '</h5>'
-								+ '<h5>'
-								+ prod.cost
-								+ '€</h5>'
-								+ '</div>' + '</div>' + '</div>');
-          	        },
-          	        error: function (e) {
-          	          console.log("Errore" + e);
-          	        },
-          	      });
-               
-              }
-            },
-            error: function (e) {
-              resultProva = "{" + '"Scarpe": 1,' + '"Pizza": 0.2' + "}";
-              const map = new Map();
-              const obj = JSON.parse(resultProva, (key, value) => {
-                map.set(value, key);
-                return value;
-              });
-              const iterator = map.keys();
-              var res = iterator.next().value;
-              while (res >= 0) {
-                console.log(e);
-                tabellaReleatedProduct.insertAdjacentHTML(
-                  "beforeend",
-                  '<div class="col-sm-6 col-md-4 col-lg-4">' +
-                    '<div class="box">' +
-                    '<div class="option_container">' +
-                    '<div class="options">' +
-                    '<a href="" class="option1"> Add to Cart</a> <a href="/product/' +
-                    map.get(map.get(res)) +
-                    '" ' +
-                    'class="option2"> View The Product </a>' +
-                    "</div>" +
-                    "</div>" +
-                    '<div class="img-box">' +
-                    '<img src="/images/p1.png" alt="">' +
-                    "</div>" +
-                    '<div class="detail-box">' +
-                    "<h5>" +
-                    map.get(res) +
-                    "</h5>" +
-                    "</div>" +
-                    "</div>" +
-                    "</div>"
-                );
-                res = iterator.next().value;
-                alert("Errore" + e);
-              }
-            },
-          });
-        },
-        error: function (e) {
-          alert("Errore" + e);
-        },
-      });
+    	var tabellaReleatedProduct = document.getElementById(
+    	        "tabellaReleatedProduct"
+    	      );
+    	var sectionReleatedProduct = document.getElementById(
+    	        "sectionReleatedProduct"
+    	      );
+	    if (theUtenteObjectKey!=""){
+	      
+	      $.ajax({
+	        type: "GET",
+	        url: "http://localhost:8080/database/product/all",
+	        success: function (result) {
+	          const contentAllProduct = result;
+	          var bodyjson = '{'+'"userId": "'+theUtenteObjectKey+'","itemId":"'+id+'"' +'}'
+	          $.ajax({
+	            type: "POST",
+	            url: "http://localhost:5000/recommend",
+	            data : bodyjson,
+	    		contentType : "application/json",
+	            success: function (resultRecom) {
+	              //TODO da modificare con result
+	              console.log("Sono dentro al recommend");
+	              var listResultEngine = [];
+	              var aux = JSON.stringify(resultRecom)
+	              for(var key in resultRecom){
+	            	  listResultEngine.push(key)
+	              }
+	//               const obj = JSON.parse(aux, (key, value) => {if(value!= "" && value!=null){
+	//                 mapResultEngine.set(value, key);
+	//              	}
+	//                 return value;
+	//               });
+				  var infoProduct = null
+	              for (var idProduct in resultRecom) {
+	            	  $.ajax({
+	          	        type: "GET",
+	          	        url:"http://localhost:8080/database/product/" + idProduct ,
+	          	        success: function (result) {
+	          	        	var prod = result
+	          	        	 tabellaReleatedProduct.insertAdjacentHTML(
+	          	                   "beforeend",
+									'<div class="col-sm-6 col-md-4 col-lg-4" id="lastProduct">'
+									+ '<div class="box">'
+									+ '<div class="option_container">'
+									+ '<div class="options">'
+									+ '<p style=" font-size:15px;" class="option3 detail-box ">Disponibility: '
+									+ prod.disponibility
+									+ '</p>'
+									+ '<a style=" font-size:15px;" onclick="insertProductToCartWithId('
+									+ prod.productId
+									+ ')" class="option1 btn" id="'
+									+ prod.productId
+									+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
+									+ '</div>'
+									+ '</div>'
+									+ '<div class="img-box">'
+									+ '<img src="'+prod.imageUrl+'" alt="">'
+									+ '</div>'
+									+ '<div class="detail-box">'
+									+ '<h5>'
+									+ prod.productName
+									+ '</h5>'
+									+ '<h5>'
+									+ prod.cost
+									+ '€</h5>'
+									+ '</div>' + '</div>' + '</div>');
+	          	        },
+	          	        error: function (e) {
+	          	          console.log("Errore" + e);
+	          	        },
+	          	      });
+	               
+	              }
+	            },
+	            error: function (e) {
+	              resultProva = "{" + '"Scarpe": 1,' + '"Pizza": 0.2' + "}";
+	              const map = new Map();
+	              const obj = JSON.parse(resultProva, (key, value) => {
+	                map.set(value, key);
+	                return value;
+	              });
+	              const iterator = map.keys();
+	              var res = iterator.next().value;
+	              while (res >= 0) {
+	                console.log(e);
+	                tabellaReleatedProduct.insertAdjacentHTML(
+	                  "beforeend",
+	                  '<div class="col-sm-6 col-md-4 col-lg-4">' +
+	                    '<div class="box">' +
+	                    '<div class="option_container">' +
+	                    '<div class="options">' +
+	                    '<a href="" class="option1"> Add to Cart</a> <a href="/product/' +
+	                    map.get(map.get(res)) +
+	                    '" ' +
+	                    'class="option2"> View The Product </a>' +
+	                    "</div>" +
+	                    "</div>" +
+	                    '<div class="img-box">' +
+	                    '<img src="/images/p1.png" alt="">' +
+	                    "</div>" +
+	                    '<div class="detail-box">' +
+	                    "<h5>" +
+	                    map.get(res) +
+	                    "</h5>" +
+	                    "</div>" +
+	                    "</div>" +
+	                    "</div>"
+	                );
+	                res = iterator.next().value;
+	                alert("Errore" + e);
+	              }
+	            },
+	          });
+	        },
+	        error: function (e) {
+	          alert("Errore" + e);
+	        },
+	      });
+	    }
+	    else{
+	    	sectionReleatedProduct.style.visibility="hidden";
+	    }
     }
     //----------------------------------ADD TO CART ---------------------------------------------
     
@@ -659,7 +670,7 @@
     										//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
     										const content = result.content[result.content.length - 1]
 
-    										amount = parseInt(content.amount) + parseInt(amount)
+    										amount = parseInt(result.content[result.content.length - 1].amount) + parseInt(amount)
     										const body = '{"amount":'
     												+ amount
     												+ ',"theOrdineObjectKey":'
@@ -688,7 +699,7 @@
     											&& result.content[result.content.length - 1].objectKey
     													.substring(0, 2) != objectKeyOrdine
     													+ "~") {
-    										amount = parseInt(content.amount) + parseInt(amount)
+    										amount = parseInt(result.content[result.content.length - 1].amount) + parseInt(amount)
     										const body = '{"amount":'
     												+ amount
     												+ ',"theOrdineObjectKey":'

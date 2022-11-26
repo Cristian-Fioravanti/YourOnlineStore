@@ -101,10 +101,10 @@ public class OrdineController {
 		}
 	}
 
-	@GetMapping("/buy/{objectKey}/{date}")
+	@GetMapping("/buy/{objectKey}/{date}/{totalCost}")
 	@Transactional
 	@Operation(summary = "Buy an Ordine")
-	public ResponseEntity<ViewOrdineDto> buy(@PathVariable String objectKey, @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+	public ResponseEntity<ViewOrdineDto> buy(@PathVariable String objectKey, @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") Date date, @PathVariable Float totalCost) {
 		LOGGER.info(objectKey);
 		LOGGER.info(date);
 		Optional<Ordine> entityOptional = ordineService.findByObjectKey(objectKey);
@@ -117,6 +117,7 @@ public class OrdineController {
 			} catch (DisponibilityException e) {
 				throw e;
 			}
+			entity.setTotalCost(totalCost);
 			entity = ordineService.buy(entity);
 			ViewOrdineDto dto = ordineMappers.map(entity);
 			return ResponseEntity.ok(dto);
