@@ -1,5 +1,6 @@
 package it.YourOnlineStore.Database;
 
+import javax.annotation.PostConstruct;
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
@@ -14,6 +15,7 @@ import javax.jms.TextMessage;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 
 public class FromStoreJMSListener implements MessageListener {
@@ -26,7 +28,10 @@ public class FromStoreJMSListener implements MessageListener {
 	private Destination queue = null;
 	private MessageProducer producer = null;
 	ActiveMQConnectionFactory connectionFactory = null;
-
+	
+	@Value("${activeMq.baseUrl}")
+	public String activeMqBaseUrl;
+	
 	public void stop() {
 		try {
 			connection.stop();
@@ -34,10 +39,11 @@ public class FromStoreJMSListener implements MessageListener {
 			err.printStackTrace();
 		}
 	}
-
+	
+	@PostConstruct
 	public void start() {
 		try {
-			connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+			connectionFactory = new ActiveMQConnectionFactory(activeMqBaseUrl);
 			connection = connectionFactory.createConnection();
 			connection.start();
 			this.session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);

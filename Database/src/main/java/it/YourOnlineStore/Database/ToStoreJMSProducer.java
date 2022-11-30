@@ -4,6 +4,7 @@
  */
 package it.YourOnlineStore.Database;
 
+import javax.annotation.PostConstruct;
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
@@ -17,6 +18,7 @@ import javax.naming.NamingException;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,8 +36,12 @@ public class ToStoreJMSProducer {
 	String destinationName = "StockToStore";
 	MessageConsumer responseConsumer = null;
 	
+	@Value("${activeMq.baseUrl}")
+	public String activeMqBaseUrl;
+	
+	@PostConstruct
 	public void start() {
-		connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+		connectionFactory = new ActiveMQConnectionFactory(activeMqBaseUrl);
         try {
 			connection = connectionFactory.createConnection();
 			connection.start();

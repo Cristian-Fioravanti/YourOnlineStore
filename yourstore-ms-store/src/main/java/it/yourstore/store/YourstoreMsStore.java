@@ -16,17 +16,17 @@ public class YourstoreMsStore {
 		SpringApplication.run(YourstoreMsStore.class, args);
 	}
 	
-	@Bean
-	public FromDatabaseJMSListener jMSListener() throws Exception {
-		FromDatabaseJMSListener listener = new FromDatabaseJMSListener();
-		listener.start();
-		return listener;
-	}
-	
-	@Bean
-	public ToDatabaseJMSProducer jMSProducer() throws Exception {
-		ToDatabaseJMSProducer producer = new ToDatabaseJMSProducer();
-		producer.start();
-		return producer;
-	}
+//	@Bean
+//	public FromDatabaseJMSListener jMSListener() throws Exception {
+//		FromDatabaseJMSListener listener = new FromDatabaseJMSListener();
+//		listener.start();
+//		return listener;
+//	}
+//	
+//	@Bean
+//	public ToDatabaseJMSProducer jMSProducer() throws Exception {
+//		ToDatabaseJMSProducer producer = new ToDatabaseJMSProducer();
+//		producer.start();
+//		return producer;
+//	}
 }

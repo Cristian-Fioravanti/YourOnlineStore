@@ -1,5 +1,5 @@
 server:
-  port: ${PORT:8090}
+  port: ${PORT:8014}
   servlet:
    context-path: /store
 
@@ -63,3 +63,6 @@ springdoc:
 
 spring.security.oauth2.client.registration.google.client-id: 263224732023-25e5gb80mpcm2niaq8240gmbqasmjvsb.apps.googleusercontent.com
 spring.security.oauth2.client.registration.google.client-secret: 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
+
+activeMq:
+  baseUrl: ${ACTIVEMQ_URL:tcp://localhost:61616}

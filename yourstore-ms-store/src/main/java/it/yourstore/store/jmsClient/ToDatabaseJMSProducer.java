@@ -6,6 +6,7 @@ package it.yourstore.store.jmsClient;
 
 import java.util.Random;
 
+import javax.annotation.PostConstruct;
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
@@ -19,6 +20,7 @@ import javax.jms.TextMessage;
 import javax.naming.Context;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,9 +37,13 @@ public class ToDatabaseJMSProducer implements MessageListener {
 	MessageProducer producer = null;
 	String destinationName = "StoreToStock";
 	MessageConsumer responseConsumer = null;
-
+	
+	@Value("${activeMq.baseUrl}")
+	public String activeMqBaseUrl;
+	
+	@PostConstruct
 	public void start() {
-		connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:6166");
+		connectionFactory = new ActiveMQConnectionFactory(activeMqBaseUrl);
 		try {
 			connection = connectionFactory.createConnection();
 			connection.start();

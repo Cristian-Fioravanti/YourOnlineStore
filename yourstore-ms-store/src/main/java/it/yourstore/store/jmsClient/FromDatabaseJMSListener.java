@@ -1,5 +1,6 @@
 package it.yourstore.store.jmsClient;
 
+import javax.annotation.PostConstruct;
 import javax.jms.Connection;
 import javax.jms.DeliveryMode;
 import javax.jms.Destination;
@@ -13,6 +14,7 @@ import javax.jms.Session;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import it.yourstore.store.domain.Product;
 import it.yourstore.store.service.ProductService;
@@ -29,10 +31,14 @@ public class FromDatabaseJMSListener implements MessageListener {
 	private Destination queue = null;
 	private MessageProducer producer = null;
 	ActiveMQConnectionFactory connectionFactory = null;
-
+	
+	@Value("${activeMq.baseUrl}")
+	public String activeMqBaseUrl;
+	
+	@PostConstruct
 	public void start() {
 		try {
-			connectionFactory = new ActiveMQConnectionFactory("tcp://localhost:61616");
+			connectionFactory = new ActiveMQConnectionFactory(activeMqBaseUrl);
 			connection = connectionFactory.createConnection();
 			connection.start();
 			this.session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);

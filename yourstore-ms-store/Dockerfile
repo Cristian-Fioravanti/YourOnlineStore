@@ -1,6 +1,6 @@
 FROM openjdk:11.0-jdk
-ADD /modules/yourstore-ms-store-be/target/yourstore-ms-store.jar /
-EXPOSE 8080
+ADD /target/yourstore-ms-store.jar /
+EXPOSE 8014
 RUN apt-get update
 RUN apt-get install dos2unix
 

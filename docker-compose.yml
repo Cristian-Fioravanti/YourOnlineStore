@@ -1,5 +1,14 @@
 version: '3'
 services:
+  activemq:
+    image: webcenter/activemq
+    networks:
+      - net
+    ports:
+      - 61616:61616
+      - 8161:8161
+    restart: always
+
   db:
     image: mysql:5.7
     command: --lower_case_table_names=1
@@ -52,20 +61,6 @@ services:
         max-file: 5
         max-size: 20m
 
-  agent:
-    image: portainer/agent
-    environment:
-      AGENT_CLUSTER_ADDR: tasks.agent
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /var/lib/docker/volumes:/var/lib/docker/volumes
-    networks:
-      - net
-    deploy:
-      mode: global
-      placement:
-        constraints: [ node.platform.os == linux ]
-
   portainer:
     image: portainer/portainer
     command: -H tcp://tasks.agent:9001 --tlsskipverify
@@ -84,7 +79,13 @@ services:
   yourstore-ms-store:
     image: yourstore-ms-store:0.0.1-SNAPSHOT
     environment:
-      PORT: 8080
+      PORT: 8014
+      DSSTORE_URL: db
+      DSSTORE_PORT: 3306
+      DSSTORE_NAME: store
+      DSSTORE_USERNAME: root
+      DSSTORE_PASSWORD: root
+      ACTIVEMQ_URL: tcp://activemq:61616
     networks:
       - net
     deploy:
@@ -93,15 +94,19 @@ services:
       placement:
         constraints: [ node.platform.os == linux ]
     ports:
-      - "8081:8080/tcp"
+      - "8014:8014/tcp"
     build:
       context: yourstore-ms-store
       dockerfile: Dockerfile
+  
   yourstore-gateway:
     image: yourstore-gateway:0.0.1-SNAPSHOT
     environment:
+      PORT: 8080
       STORE_URL: yourstore-ms-store
-      STORE_PORT: 8080
+      STORE_PORT: 8014
+      DATABASE_URL: yourstore-database
+      DATABASE_PORT: 8015
     networks:
       - net
     deploy:
@@ -113,6 +118,29 @@ services:
       - "8090:8080/tcp"
     build:
       context: yourstore-gateway
+      dockerfile: Dockerfile
+      
+  yourstore-database:
+    image: Database-0.0.1-SNAPSHOT
+    environment:
+      PORT: 8015
+      ACTIVEMQ_URL: tcp://activemq:61616
+      DSDATABASE_URL: db
+      DSDATABASE_PORT: 3306
+      DSDATABASE_NAME: yos_database
+      DSDATABASE_USERNAME: root
+      DSDATABASE_PASSWORD: root
+    networks:
+      - net
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [ node.platform.os == linux ]
+    ports:
+      - "8015:8015/tcp"
+    build:
+      context: Database
       dockerfile: Dockerfile
 
 volumes:

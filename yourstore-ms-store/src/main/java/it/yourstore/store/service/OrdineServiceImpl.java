@@ -35,7 +35,7 @@ public class OrdineServiceImpl implements OrdineService {
 	// CHILD SERVICES
 	private final OrderItemService orderItemService;
 	@Autowired
-	@Qualifier("jMSProducer")
+//	@Qualifier("jMSProducer")
 	private ToDatabaseJMSProducer producer;
 
 	@SuppressWarnings("unused")
