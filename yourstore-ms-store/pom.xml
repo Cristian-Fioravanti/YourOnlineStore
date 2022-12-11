@@ -128,7 +128,6 @@
 					</compilerArgs>
 				</configuration>
 			</plugin>
-			
 		</plugins>
 	</build> <!-- PROFILES -->
 	<profiles>
@@ -140,7 +139,7 @@
 			<dependencies>
 				<dependency>
 					<groupId>com.h2database</groupId>
-					<artifactId>h2</artifactId> 
+					<artifactId>h2</artifactId>
 				</dependency>
 			</dependencies>
 			<properties>
