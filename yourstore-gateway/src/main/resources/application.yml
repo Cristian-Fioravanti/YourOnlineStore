@@ -1,5 +1,10 @@
 server:
   port: ${PORT:8080}
+  max-http-header-size: 10MB
+  tomcat:
+    max-http-header-size: 8192
+    max-threads: 1000
+    accept-count: 1000
 
 spring:
   main:
@@ -26,7 +31,7 @@ spring:
       routes:
 
         - id: ms-store
-          uri: http://${STORE_URL:127.0.0.1}:${STORE_PORT:8080}
+          uri: http://${STORE_URL:127.0.0.1}:${STORE_PORT:8014}
           predicates:
             - Path=/store/**
         

@@ -98,7 +98,7 @@ services:
       PORT: 8080
       STORE_URL: yourstore-ms-store
       STORE_PORT: 8014
-      DATABASE_URL: yourstore-database
+      DATABASE_URL: yourstore-ms-database
       DATABASE_PORT: 8015
     networks:
       - net

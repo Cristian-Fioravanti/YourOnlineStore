@@ -80,6 +80,15 @@ public class LoginController {
 
 		RedirectView redirectView = new RedirectView();
 		redirectView.setUrl("http://localhost:8080/home");
+		System.out.println("SUCCESS");
+		return redirectView;
+	}
+	
+	@RequestMapping(value = "/loginFailure", method = RequestMethod.GET)
+	public RedirectView loginFailure(Model model, OAuth2AuthenticationToken authentication) {
+		RedirectView redirectView = new RedirectView();
+		redirectView.setUrl("http://localhost:8080/home");
+		System.out.println("FAILURE");
 		return redirectView;
 	}
 
