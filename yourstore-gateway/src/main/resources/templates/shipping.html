@@ -60,7 +60,7 @@
 					  <a href="/listOrder" class="btn btn-lg authenticated" id="HistoryOrdersATT" style="display: none">History Orders</a>
 				  </div>
 				  <div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 unauthenticated" id="loginDiv">
-					  <a href="http://localhost:8090/store/login" class="btn btn-lg" id="loginAtt">Login</a>
+					  <a href="http://localhost:8080/store/login" class="btn btn-lg" id="loginAtt">Login</a>
 				  </div>
 				  <div id="carello" class="mr-sm-2">
 
@@ -406,7 +406,7 @@
 			var json = e.target.responseText;
 			var jsonparse = JSON.parse(json)
 			if (jsonparse.reasonPhrase =="NotFoundException"){
-				window.location.replace("http://localhost:8090/store/login");
+				window.location.replace("http://localhost:8080/store/login");
 				window.alert("You have first to login in with your google account")
 			}
 			else

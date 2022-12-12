@@ -10,14 +10,14 @@ services:
     # restart: always
 
   db:
-    image: mysql:5.7
+    image: mysql:latest
     command: --lower_case_table_names=1
     # restart: always
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: root
-      # MYSQL_USER: root
-      # MYSQL_PASSWORD: root
+      MYSQL_DATABASE: prova
+      MYSQL_USER: prova
+      MYSQL_PASSWORD: prova
     networks:
       - net
     ports:
@@ -25,7 +25,7 @@ services:
     volumes:
       - ./databases/store.sql:/docker-entrypoint-initdb.d/store.sql
       - ./databases/yos_database.sql:/docker-entrypoint-initdb.d/yos_database.sql
-      - databases:/var/lib/mysql
+      #- databases:/var/lib/mysql
     deploy:
       # restart_policy:
       #   condition: any
@@ -50,8 +50,8 @@ services:
       PMA_HOSTS: db
     networks:
       - net
-    environment:
-      MYSQL_ROOT_PASSWORD: root
+#    environment:
+#      MYSQL_ROOT_PASSWORD: root
     deploy:
       # restart_policy:
       #   condition: any
@@ -69,11 +69,11 @@ services:
     image: yourstore-ms-store:0.0.1-SNAPSHOT
     environment:
       PORT: 8014
-      DSSTORE_URL: "db"
+      DSSTORE_URL: db
       DSSTORE_PORT: 3306
-      DSSTORE_NAME: "store"
-      DSSTORE_USERNAME: "root"
-      DSSTORE_PASSWORD: "root"
+      DSSTORE_NAME: store
+      DSSTORE_USERNAME: root
+      DSSTORE_PASSWORD: root
       ACTIVEMQ_URL: "tcp://activemq:61616"
     depends_on:
       - db
@@ -87,9 +87,10 @@ services:
         constraints: [ node.platform.os == linux ]
     ports:
       - "8014:8014/tcp"
-    # build:
-    #   context: yourstore-ms-store
-    #   dockerfile: Dockerfile
+    command: ./wait-for-it.sh db:3306
+    build:
+      context: yourstore-ms-store
+      dockerfile: Dockerfile
   
   yourstore-gateway:
     image: yourstore-gateway:0.0.1-SNAPSHOT
@@ -107,12 +108,12 @@ services:
       placement:
         constraints: [ node.platform.os == linux ]
     ports:
-      - "8090:8080/tcp"
-    # build:
-    #   context: yourstore-gateway
-    #   dockerfile: Dockerfile
+      - "8080:8080/tcp"
+    build:
+      context: yourstore-gateway
+      dockerfile: Dockerfile
       
-  yourstore-database:
+  yourstore-ms-database:
     image: database
     environment:
       PORT: 8015
@@ -120,8 +121,8 @@ services:
       DSDATABASE_URL: db
       DSDATABASE_PORT: 3306
       DSDATABASE_NAME: yos_database
-      DSDATABASE_USERNAME: root
-      DSDATABASE_PASSWORD: root
+      DSDATABASE_USERNAME: prova
+      DSDATABASE_PASSWORD: prova
     depends_on:
       - db
       - activemq
@@ -134,9 +135,9 @@ services:
         constraints: [ node.platform.os == linux ]
     ports:
       - "8015:8015/tcp"
-    # build:
-    #   context: database
-    #   dockerfile: Dockerfile
+    build:
+      context: database
+      dockerfile: Dockerfile
 
 volumes:
   portainer_data:

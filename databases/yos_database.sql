@@ -27,7 +27,7 @@ CREATE DATABASE IF NOT EXISTS yos_database;
 -- Struttura della tabella `product`
 --
 
-CREATE TABLE `product` (
+CREATE TABLE yos_database.`product` (
   `product_id` int(11) NOT NULL,
   `cost` float DEFAULT NULL,
   `description` varchar(255) DEFAULT NULL,
@@ -43,7 +43,7 @@ CREATE TABLE `product` (
 --
 -- Indici per le tabelle `product`
 --
-ALTER TABLE `product`
+ALTER TABLE yos_database.`product`
   ADD PRIMARY KEY (`product_id`);
 
 --
@@ -53,7 +53,7 @@ ALTER TABLE `product`
 --
 -- AUTO_INCREMENT per la tabella `product`
 --
-ALTER TABLE `product`
+ALTER TABLE yos_database.`product`
   MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 

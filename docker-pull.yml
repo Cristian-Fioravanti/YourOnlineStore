@@ -113,7 +113,7 @@ services:
       placement:
         constraints: [ node.platform.os == linux ]
     ports:
-      - "8090:8080/tcp"
+      - "8080:8080/tcp"
     build:
       context: yourstore-gateway
       dockerfile: Dockerfile

@@ -5,6 +5,9 @@ RUN apt-get update
 RUN apt-get install dos2unix
 
 ADD  s_start.sh /
+ADD wait-for-it.sh /
 RUN dos2unix s_start.sh 
 RUN chmod +x /s_start.sh
-CMD cd / && ./s_start.sh
+# CMD cd / && ./wait-for-it.sh db:3306 
+#CMD ./s_start.sh
+ENTRYPOINT ["./wait-for-it.sh", "db:3306", "--", "java", "-jar", "yourstore-ms-store.jar"]
