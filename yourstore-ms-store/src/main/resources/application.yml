@@ -32,7 +32,8 @@ spring:
      driverClassName: com.mysql.jdbc.Driver
      url: jdbc:mysql://${DSSTORE_URL:localhost}:${DSSTORE_PORT:3306}/${DSSTORE_NAME:store}
      username: ${DSSTORE_USERNAME:root}
-     password: ${DSSTORE_PASSWORD:}
+     password: ${DSSTORE_PASSWORD:root}
+#     password: ${DSSTORE_PASSWORD:}
      liquibase:
        changeLog: classpath:db/liquibase/update.xml
 

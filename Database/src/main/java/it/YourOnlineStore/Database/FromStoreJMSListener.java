@@ -16,8 +16,9 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
-
+@Service
 public class FromStoreJMSListener implements MessageListener {
 	private static final org.slf4j.Logger LOG = LoggerFactory.getLogger(FromStoreJMSListener.class);
 	@Autowired

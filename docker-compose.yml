@@ -25,7 +25,7 @@ services:
     volumes:
       - ./databases/store.sql:/docker-entrypoint-initdb.d/store.sql
       - ./databases/yos_database.sql:/docker-entrypoint-initdb.d/yos_database.sql
-      #- databases:/var/lib/mysql
+      - mysql_database:/var/lib/mysql
     deploy:
       # restart_policy:
       #   condition: any
@@ -121,8 +121,8 @@ services:
       DSDATABASE_URL: db
       DSDATABASE_PORT: 3306
       DSDATABASE_NAME: yos_database
-      DSDATABASE_USERNAME: prova
-      DSDATABASE_PASSWORD: prova
+      DSDATABASE_USERNAME: root
+      DSDATABASE_PASSWORD: root
     depends_on:
       - db
       - activemq
@@ -138,10 +138,23 @@ services:
     build:
       context: database
       dockerfile: Dockerfile
+  
+  recommend-engine:
+    image: kanton99/recommend-engine
+    networks:
+      - net
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints: [ node.platform.os == linux ]
+    ports:
+      - "5000:5000/tcp"
 
+  
 volumes:
   portainer_data:
-  databases:
+  mysql_database:
 
 networks:
   net:
