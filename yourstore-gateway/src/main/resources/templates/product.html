@@ -539,9 +539,7 @@
 									console.log(result)
 									var amount = 1
 									if (result.content.length > 0
-											&& result.content[result.content.length - 1].objectKey
-													.substring(0, 2) == objectKeyOrdine
-													+ "~") {
+											&& result.content[result.content.length - 1].theOrdineObjectKey == objectKeyOrdine) {
 										//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
 										const content = result.content[result.content.length - 1]
 
@@ -573,10 +571,7 @@
 													}
 												})
 									} else if (result.content.length > 0
-											&& result.content[result.content.length - 1].objectKey
-													.substring(0, 2) != objectKeyOrdine
-													+ "~") {
-										amount = 1
+											&& result.content[result.content.length - 1].theOrdineObjectKey != objectKeyOrdine) {
 										const body = '{"amount":'
 												+ amount
 												+ ',"theOrdineObjectKey":'
@@ -586,7 +581,7 @@
 												+ '}';
 										$
 												.ajax({
-													type : "PUT",
+													type : "POST",
 													url : "http://localhost:8080/store/order-item",
 													data : body,
 													contentType : "application/json",
@@ -664,13 +659,11 @@
     									console.log(result)
     									
     									if (result.content.length > 0
-    											&& result.content[result.content.length - 1].objectKey
-    													.substring(0, 2) == objectKeyOrdine
-    													+ "~") {
+    											&& result.content[result.content.length - 1].theOrdineObjectKey == objectKeyOrdine) {
     										//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
     										const content = result.content[result.content.length - 1]
 
-    										amount = parseInt(result.content[result.content.length - 1].amount) + parseInt(amount)
+    										amount = parseInt(content.amount) + parseInt(amount)
     										const body = '{"amount":'
     												+ amount
     												+ ',"theOrdineObjectKey":'
@@ -696,10 +689,8 @@
     													}
     												})
     									} else if (result.content.length > 0
-    											&& result.content[result.content.length - 1].objectKey
-    													.substring(0, 2) != objectKeyOrdine
-    													+ "~") {
-    										amount = parseInt(result.content[result.content.length - 1].amount) + parseInt(amount)
+    											&& result.content[result.content.length - 1].theOrdineObjectKey != objectKeyOrdine) {
+    										amount =  parseInt(amount)
     										const body = '{"amount":'
     												+ amount
     												+ ',"theOrdineObjectKey":'
@@ -708,7 +699,7 @@
     												+ id
     												+ '}';
     											$.ajax({
-    													type : "PUT",
+    													type : "POST",
     													url : "http://localhost:8080/store/order-item",
     													data : body,
     													contentType : "application/json",
@@ -726,6 +717,7 @@
     												})
 
     									} else {
+    										amount =  parseInt(amount)
     										const body = '{"amount":'
     												+ amount
     												+ ',"theOrdineObjectKey":'

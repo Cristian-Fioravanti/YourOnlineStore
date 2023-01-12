@@ -232,7 +232,7 @@
 										+ prod.disponibility
 										+ '</p>'
 										+ '<a style=" font-size:15px;" onclick="insertProductToCart('
-										+ i
+										+ prod.productId
 										+ ')" class="option1 btn" id="'
 										+ i
 										+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
@@ -261,7 +261,7 @@
 										+ prod.disponibility
 										+ '</p>'
 										+ '<a style=" font-size:15px;" onclick="insertProductToCart('
-										+ i
+										+ prod.productId
 										+ ')" class="option1 btn" id="'
 										+ i
 										+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
@@ -305,7 +305,7 @@
 								+ prod.disponibility
 								+ '</p>'
 								+ '<a style=" font-size:15px;" onclick="insertProductToCart('
-								+ i
+								+ prod.productId
 								+ ')" class="option1 btn" id="'
 								+ i
 								+ '"> Add to cart </a><a style=" font-size:15px;" href="/product/'+prod.productId+'"  class="option2 btn " >View The Product</a>'
@@ -329,8 +329,8 @@
 	//------------------------------------insertProductToCart--------------------------------------------------------
 
 	var objectKeyOrdine = ""
-	function insertProductToCart(idIndex) {
-		console.log("questo è l'idIndedx del prodotto aggiunto: " + idIndex)
+		function insertProductToCart(idProduct) {
+		console.log("questo è l'idIndedx del prodotto aggiunto: " + idProduct)
 		var dropDownCart = document.getElementById("dropDownCart");
 		dropDownCart.innerHTML = ""
 		if (theUtenteObjectKey!="") {
@@ -348,31 +348,28 @@
 					console.log(result)
 					console.log("questo è l'ordine corrente: "
 							+ objectKeyOrdine)
-					console.log(products[idIndex].productId)
 					$
 							.ajax({
 								type : "GET",
 								url : "http://localhost:8080/store/order-item/findByTheProduct/"
-										+ products[idIndex].productId,
+										+ idProduct,
 								success : function(result) {
 									console
 											.log("http://localhost:8080/store/order-item/findByTheProduct/")
 									console.log(result)
 									var amount = 1
 									if (result.content.length > 0
-											&& result.content[result.content.length - 1].objectKey
-													.substring(0, 2) == objectKeyOrdine
-													+ "~") {
+											&& result.content[result.content.length - 1].theOrdineObjectKey == objectKeyOrdine) {
 										//l'ultimo elemento della lista è sempre quello aggiunto nel nuovo ordine
 										const content = result.content[result.content.length - 1]
 
-										amount = content.amount + 1
+										amount =  parseInt(content.amount) + parseInt(amount)
 										const body = '{"amount":'
 												+ amount
 												+ ',"theOrdineObjectKey":'
 												+ objectKeyOrdine
 												+ ',"theProductObjectKey":'
-												+ products[idIndex].productId
+												+ idProduct
 												+ '}';
 										//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
 										$
@@ -394,20 +391,17 @@
 													}
 												})
 									} else if (result.content.length > 0
-											&& result.content[result.content.length - 1].objectKey
-													.substring(0, 2) != objectKeyOrdine
-													+ "~") {
-										amount = 1
+											&& result.content[result.content.length - 1].theOrdineObjectKey != objectKeyOrdine) {
 										const body = '{"amount":'
 												+ amount
 												+ ',"theOrdineObjectKey":'
 												+ objectKeyOrdine
 												+ ',"theProductObjectKey":'
-												+ products[idIndex].productId
+												+ idProduct
 												+ '}';
 										$
 												.ajax({
-													type : "PUT",
+													type : "POST",
 													url : "http://localhost:8080/store/order-item",
 													data : body,
 													contentType : "application/json",
@@ -430,7 +424,7 @@
 												+ ',"theOrdineObjectKey":'
 												+ objectKeyOrdine
 												+ ',"theProductObjectKey":'
-												+ products[idIndex].productId
+												+ idProduct
 												+ '}';
 										//const body = "{amount:1,theOrdineObjectKey:"+userId+",\n\"theProductObjectKey\":"+products[idIndex].productId+"}"
 										$
