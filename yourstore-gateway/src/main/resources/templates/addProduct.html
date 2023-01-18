@@ -39,47 +39,7 @@
 					data-target="#navbarSupportedContent"
 					aria-controls="navbarSupportedContent" aria-expanded="false"
 					aria-label="Toggle navigation"></button>
-				<div class="collapse navbar-collapse" id="navbarSupportedContent">
-					<ul class="navbar-nav">
-						<li class="nav-item"><a class="nav-link" href="home">Home
-								<span class="sr-only">(current)</span>
-						</a></li>
-						<div id="carello" class="mr-sm-2">
 
-							<div class=" dropdown dropdown-item" onclick="">
-								<li class="fa fa-shopping-cart " type="button"
-									style="font-size: 30px; margin-right: 10px" id="dropdownMenu2"
-									data-bs-toggle="dropdown" aria-expanded="false"></li>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-									<li class="">
-										<div class="container dropdown-item"
-											style="width: max-content;">
-											<div class="row" id="dropDownCart"
-												style="width: 300px; overflow-y: auto; white-space: nowrap;">
-
-											</div>
-									</li> <a href="/shipping" class="btn btn-primary"
-										style="margin-top: 10px; margin-left: 10px;">Go to the
-										cart</a>
-								</div>
-							</div>
-						</div>
-						<div
-							style="display: -ms-flexbox; display: flex; -ms-flex-align: center; align-items: center; visibility: hidden;">
-							<form class="input-group">
-
-								<input style="width: 180px;" class="form-control mr-sm-2 "
-									type="search" placeholder="Search" aria-label="Search">
-								<button
-									style="width: 70px; color: rgb(215, 58, 51); border-color: rgb(215, 58, 51);"
-									class=" form-control btn btn-outline-info my-2 my-sm-0"
-									type="submit">
-									<span style="color: black">Search 
-								</button>
-							</form>
-						</div>
-					</ul>
-				</div>
 			</nav>
 		</div>
 	</header>
@@ -152,6 +112,31 @@
 
 </body>
 <script type="text/javascript">
+	const localStoData = localStorage.getItem("isAdmin")
+	$(function() {
+		$.ajax({
+			type : "GET",
+			url : "http://localhost:8080/store/utente/",
+			success : function(result) {
+				var isAdmin = false
+	        	const localStoData = localStorage.getItem("isAdmin")
+	        	for (var i=0; i< result.content.length; i++ ){
+	        		if (result.content[i].oauthId==localStoData && result.content[i].isAdmin){
+	        			isAdmin = true
+	        			document.getElementById("aggiungiProdotto").remove();
+	        			
+	        		}
+	        	}
+	        	if (!isAdmin){
+	        		window.location.replace("http://localhost:8080/home")
+	        	}
+			},
+			error : function(e) {
+				alert("Errore" + e);
+			}
+		})
+	});
+
 	function goToHome() {
 		window.location.replace("http://localhost:8080/home")
 	}

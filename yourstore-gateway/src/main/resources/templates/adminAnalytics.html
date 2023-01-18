@@ -42,43 +42,10 @@
 
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav">
-						<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2">
-							<a href="addProduct" class="btn btn-lg">Aggiungi Prodotto <span
-								style="color: rgb(43, 43, 43);" class="glyphicon glyphicon-plus"></span>
+						<div style="background-color: rgb(215, 58, 51); visibility: hidden;" class="mr-sm-2" id="aggiungiProdotto2" >
+							<a href="addProduct" class="btn btn-lg" id="aggiungiProdotto" style="visibility: hidden;">Aggiungi Prodotto + <span
+								style="color: rgb(43, 43, 43);"  class="glyphicon glyphicon-plus"></span>
 							</a>
-						</div>
-						<div id="carello" class="mr-sm-2">
-							<div class=" dropdown dropdown-item">
-								<li class="fa fa-shopping-cart " type="button"
-									style="font-size: 30px; margin-right: 10px" id="dropdownMenu2"
-									data-bs-toggle="dropdown" aria-expanded="false"></li>
-								<div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-									<li class="">
-										<div class="container dropdown-item"
-											style="width: max-content;">
-											<div class="row" id="dropDownCart" style="width: 300px">
-												<div class="col-sm-6 col-md-4 col-lg-4 mt-2">
-													<div class="box">
-														<div class="img-box">
-															<img src="/images/p1.png" width="50px"
-																style="margin-left: 20px;">
-														</div>
-													</div>
-												</div>
-												<div class=" col-lg-8">
-													<div class="box">
-														<div class=" detail-box">
-															<h5>Men's Shirt</h5>
-															<h6>$80</h6>
-														</div>
-													</div>
-												</div>
-											</div>
-									</li> <a href="shipping" class="btn btn-primary"
-										style="margin-top: 10px; margin-left: 10px;">Go to the
-										cart</a>
-								</div>
-							</div>
 						</div>
 						<div
 							style="display: -ms-flexbox; display: flex; -ms-flex-align: center; align-items: center; visibility: hidden;">
@@ -181,148 +148,193 @@
     </script>
 	<!--script per ricevere i dati per la statistica-->
 	<script type="text/javascript">
-	var listProductId = []
-	var listAmount = []
-	var totalAmount= 0
-	$(function(){	
-		$.ajax({
 	
-			type : "GET",
-			url : "http://localhost:8080/store/order-item",
-			success : function(result) {
-				console.log("ajax: ricevuto tutti i prodotti ")
-				console.log(result)
+	$.ajax({
+		  type: "GET",
+	        url: "http://localhost:8080/store/utente/",
+	        success: function(result){
+	        	var isAdmin = false
+	        	const localStoData = localStorage.getItem("isAdmin")
+	        	for (var i=0; i< result.content.length; i++ ){
+	        		if (result.content[i].oauthId==localStoData && result.content[i].isAdmin){
+	        			isAdmin = true
+	        			document.getElementById("aggiungiProdotto").style.visibility ="visible" ;
+	        			document.getElementById("aggiungiProdotto2").style.visibility ="visible" ;
+	        		}
+	        	}
+	        	if (isAdmin){
+	        		var listProductId = []
+	        		var listAmount = []
+	        		var totalAmount= 0
+	        		$(function(){	
+	        			$.ajax({
+	        		
+	        				type : "GET",
+	        				url : "http://localhost:8080/store/order-item",
+	        				success : function(result) {
+	        					console.log("ajax: ricevuto tutti i prodotti ")
+	        					console.log(result)
 
-				const content = result.content
-				for (var i = 0; i < content.length; i++){
-					if (listProductId.includes(content[i].theProductObjectKey)){
-						let indice = listProductId.findIndex(element => element == content[i].theProductObjectKey)
-						listAmount[indice] += content[indice].amount
-						totalAmount += content[indice].amount
-					}
-					else{
-						listProductId.push(content[i].theProductObjectKey)
-						listAmount.push(content[i].amount)
-						totalAmount += content[i].amount
-					}
-				}
-				$.ajax({
-					type : "GET",
-					url : "http://localhost:8080/database/product/all",
-					success : function(result) {
-						const content = result
-						
-						var dizProductId_Name = {}
-						for ( var i = 0 ; i < content.length; i++){
-							dizProductId_Name[content[i].productId]= content[i].productName
-						}
-						var bars = document.getElementById("bars1");
-						var listaPercentuali = listAmount.map( elem => elem/totalAmount )
+	        					const content = result.content
+	        					for (var i = 0; i < content.length; i++){
+	        						if (listProductId.includes(content[i].theProductObjectKey)){
+	        							let indice = listProductId.findIndex(element => element == content[i].theProductObjectKey)
+	        							listAmount[indice] += content[indice].amount
+	        							totalAmount += content[indice].amount
+	        						}
+	        						else{
+	        							listProductId.push(content[i].theProductObjectKey)
+	        							listAmount.push(content[i].amount)
+	        							totalAmount += content[i].amount
+	        						}
+	        					}
+	        					$.ajax({
+	        						type : "GET",
+	        						url : "http://localhost:8080/database/product/all",
+	        						success : function(result) {
+	        							const content = result
+	        							
+	        							var dizProductId_Name = {}
+	        							for ( var i = 0 ; i < content.length; i++){
+	        								dizProductId_Name[content[i].productId]= content[i].productName
+	        							}
+	        							var bars = document.getElementById("bars1");
+	        							var listaPercentuali = listAmount.map( elem => elem/totalAmount )
 
-						for (var j = 0; j < listProductId.length; j++){
-							//controlla se j == {all'indice del valore massimo nell'array}
-							if (j == listaPercentuali.findIndex(elem => elem == Math.max.apply(Math,listaPercentuali)) )
-								bars.insertAdjacentHTML("beforeend",'<li><div class="bar" data-percentage="'+Math.floor(listaPercentuali[j]*100+1)+'" ></div><span >'+dizProductId_Name[listProductId[j]]+'</span></li>')
-							else
-								bars.insertAdjacentHTML("beforeend",'<li><div id="Product'+listProductId[j]+'"class="bar" data-percentage="'+Math.floor(listaPercentuali[j]*100)+'" ></div><span >'+dizProductId_Name[listProductId[j]]+'</span></li>')
+	        							for (var j = 0; j < listProductId.length; j++){
+	        								//controlla se j == {all'indice del valore massimo nell'array}
+	        								if (j == listaPercentuali.findIndex(elem => elem == Math.max.apply(Math,listaPercentuali)) )
+	        									bars.insertAdjacentHTML("beforeend",'<li><div class="bar" data-percentage="'+Math.floor(listaPercentuali[j]*100+1)+'" ></div><span >'+dizProductId_Name[listProductId[j]]+'</span></li>')
+	        								else
+	        									bars.insertAdjacentHTML("beforeend",'<li><div id="Product'+listProductId[j]+'"class="bar" data-percentage="'+Math.floor(listaPercentuali[j]*100)+'" ></div><span >'+dizProductId_Name[listProductId[j]]+'</span></li>')
 
-						}
-						//<!--script per far muovere le barre start-->
-						$(function(){
-						      $('.bars li .bar').each(function(key, bar){
-						        var percentage = $(this).data('percentage');
-						        $(this).animate({
-						          'height' : percentage + '%'
-						        },1000);
-						      });
-						    });
-						//<!--fine script-->
-					},
-					error : function(e) {
-						alert("Errore" + e);
-					}
-				})
-			},
-			error : function(e) {
-				alert("Errore" + e);
-			}
-		})
+	        							}
+	        							//<!--script per far muovere le barre start-->
+	        							$(function(){
+	        							      $('.bars li .bar').each(function(key, bar){
+	        							        var percentage = $(this).data('percentage');
+	        							        $(this).animate({
+	        							          'height' : percentage + '%'
+	        							        },1000);
+	        							      });
+	        							    });
+	        							//<!--fine script-->
+	        						},
+	        						error : function(e) {
+	        							alert("Errore" + e);
+	        						}
+	        					})
+	        				},
+	        				error : function(e) {
+	        					alert("Errore" + e);
+	        				}
+	        			})
+	        		})
+	        	}
+		},
+		error : function(e) {
+			alert("Errore" + e);
+		}
 	})
+	
 	
 	</script>
  	<script type="text/javascript">
- 	var userDiz = {}
-	var contentUser
-	var listUserId = []
- 	$(function(){
- 		
- 		$.ajax({
-			type : "GET",
-			url : "http://localhost:8080/store/ordine",
-			success : function(result) {
-				var totalOrdini	= result.content.length
-				
-				$.ajax({
-					
-					type : "GET",
-					url : "http://localhost:8080/store/utente",
-					success : function(result) {
-						contentUser = result.content
-						var bars = document.getElementById("bars2");
-						
-						for (var i=0; i< contentUser.length; i++ ){
-							
-							$.ajax({
-								type : "GET",
-								url : "http://localhost:8080/store/ordine/findByTheUtente/"+contentUser[i].objectKey,
-								success : function(result) {
-									if (result.content.length > 0){
-									var userId = result.content[0].objectKey
-									var name = result.content[0].theUtenteObjectTitle
-// 									userDiz[userId] = result.content.length
-// 									// se l'id non c'è nell'array
-// 									if (listUserId.findIndex(elem => elem == userId ) != -1 ) {
-// 										listUserId.push(userId)
-// 									}
-									console.log("valore numero ordini: "+result.content.length)
-									console.log("valore totalOrdini: "+totalOrdini)
-									var bars = document.getElementById("bars2");
-									
-									bars.insertAdjacentHTML("beforeend",'<li><div class="bar"  data-percentage="'+Math.floor(parseInt(result.content.length)/totalOrdini)*100+'" ></div><span >'+name+'</span></li>')
-									//<!--script per far muovere le barre start-->
-									$(function(){
-									      $('.bars li .bar').each(function(key, bar){
-									        var percentage = $(this).data('percentage');
-									        $(this).animate({
-									          'height' : percentage + '%'
-									        },1000);
-									      });
-									    });
-									//	<!--fine script-->
-									}
-								},
-								error : function(e) {
-									alert("Errore" + e);
-								}
-							})
-							
-						}
-					},
-					error : function(e) {
-						alert("Errore" + e);
-					}
-				})
-				
-				
-				
-			},
-			error : function(e) {
-				alert("Errore" + e);
-			}
-		})
- 		
-		
- 	})
+ 	$.ajax({
+        type: "GET",
+        url: "http://localhost:8080/store/utente/",
+        success: function(result){
+        	var isAdmin = false
+        	const localStoData = localStorage.getItem("isAdmin")
+        	for (var i=0; i< result.content.length; i++ ){
+        		if (result.content[i].oauthId==localStoData && result.content[i].isAdmin){
+        			isAdmin = true
+        			document.getElementById("aggiungiProdotto").style.visibility ="visible" ;
+        			document.getElementById("aggiungiProdotto2").style.visibility ="visible" ;
+
+        		}
+        	}
+        	if (isAdmin){
+        		var userDiz = {}
+        		var contentUser
+        		var listUserId = []
+        	 	$(function(){
+        	 		
+        	 		$.ajax({
+        				type : "GET",
+        				url : "http://localhost:8080/store/ordine",
+        				success : function(result) {
+        					var totalOrdini	= result.content.length
+        					
+        					$.ajax({
+        						
+        						type : "GET",
+        						url : "http://localhost:8080/store/utente",
+        						success : function(result) {
+        							contentUser = result.content
+        							var bars = document.getElementById("bars2");
+        							
+        							for (var i=0; i< contentUser.length; i++ ){
+        								
+        								$.ajax({
+        									type : "GET",
+        									url : "http://localhost:8080/store/ordine/findByTheUtente/"+contentUser[i].objectKey,
+        									success : function(result) {
+        										if (result.content.length > 0){
+        										var userId = result.content[0].objectKey
+        										var name = result.content[0].theUtenteObjectTitle
+//        	 									userDiz[userId] = result.content.length
+//        	 									// se l'id non c'è nell'array
+//        	 									if (listUserId.findIndex(elem => elem == userId ) != -1 ) {
+//        	 										listUserId.push(userId)
+//        	 									}
+        										const prePercentuale =  parseInt(result.content.length)/totalOrdini
+        										console.log("valore numero ordini: "+result.content.length)
+        										console.log("valore totalOrdini: "+totalOrdini)
+        										var bars = document.getElementById("bars2");
+        										
+        										bars.insertAdjacentHTML("beforeend",'<li><div class="bar"  data-percentage="'+Math.floor(prePercentuale*100)+'" ></div><span >'+name+'</span></li>')
+        										//<!--script per far muovere le barre start-->
+        										$(function(){
+        										      $('.bars li .bar').each(function(key, bar){
+        										        var percentage = $(this).data('percentage');
+        										        $(this).animate({
+        										          'height' : percentage + '%'
+        										        },1000);
+        										      });
+        										    });
+        										//	<!--fine script-->
+        										}
+        									},
+        									error : function(e) {
+        										alert("Errore" + e);
+        									}
+        								})
+        								
+        							}
+        						},
+        						error : function(e) {
+        							alert("Errore" + e);
+        						}
+        					})
+        					
+        					
+        					
+        				},
+        				error : function(e) {
+        					alert("Errore" + e);
+        				}
+        			})
+        	 		
+        			
+        	 	})
+        	}
+        },
+        error: function(e){
+            alert("Errore"+e);
+        }
+    })
+ 	
  	
  	
  	</script>

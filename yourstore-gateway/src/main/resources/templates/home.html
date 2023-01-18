@@ -59,7 +59,10 @@
 
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav">
-						
+							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 admin">
+								<a href="/analytics" class="btn btn-lg admin" style="display: none">Admin Analytics
+								</a>
+							</div>
 							<div style="background-color: rgb(215, 58, 51);" class="mr-sm-2 admin">
 								<a href="/addProduct" class="btn btn-lg admin" style="display: none">Aggiungi Prodotto <span
 									style="color: rgb(43, 43, 43);"
@@ -150,6 +153,7 @@
 
 <script type="text/javascript">
 	//-------------------------Utente----------------------------------------------------
+	localStorage.removeItem("isAdmin");
 	var theUtenteObjectKey = ""
 	var isAdmin = false;
 	$.get("/store/user", function(data) {
@@ -161,9 +165,11 @@
 			$.get("/store/utenteId?id=" + data.id, function(utente) {
 				console.log("Id Utente: " + utente.id);
 				theUtenteObjectKey = utente.id;
+				localStorage.setItem("isAdmin", data.id)
 				if(utente.isAdmin) {
 					isAdmin = utente.isAdmin;
 					$(".admin").show()
+					
 				}
 				onLoad();
 			});
