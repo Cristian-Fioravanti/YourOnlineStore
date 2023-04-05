@@ -1,69 +1,24 @@
-## Docker 
-1) Generare tutti gli artefatti
+## YourOnlineStore 
+### Project structure:
+- README.md
+- docekr-compose.yml
+- Database
+- yourstore-gateway
+- yourstore-ms-store
 
-2) Eseguire ```mvn install```
+### Project goals
+This is a project for Laboratory of Advanced Programming at Sapienza University of Rome by Caruso Paolo, Fioravanti Cristian, Volkov Anton.
+The purpose of the project is to build a website, both front-end and back-end, where to sell whatever product the admin wants to sell.
+The website provides a way for customers to find, inspect and buy Products with ease, it also learns from a user and provides suggestions to which products are best for the user.
+It also provides statistics and other information to the seller to see how a product is selling.
 
-3) Compilazione
+### How to run
+The needed steps to build and deploy the system on your platform using a IAC approach are the following ones:
+  - Install Docker Desktop on your device.
+  - Download the zip of the project from GitHub at 'https://github.com/Cristian-Fioravanti/YourOnlineStore'.
+  - Unzip the project and open a terminal inside it.
+  - Execute ```docker-compose up -d```
+  - From a Browser digit ```localhost:8080/home``` to access the website.
+  - Stop executing ```docker compose down```.
 
-Automatica
-
-	Eseguire il bat buildNdeploy.bat dalla directory del progetto
-
-In locale
-	
-	docker-compose build
-
-Per push in remoto
-
-	docker-compose -f ./docker-push.yml build
-	docker-compose -f ./docker-push.yml push
-
-
-4) Eseguire 
-
-In locale
- 
-	docker stack deploy -c docker-compose.yml yourstore (``` docker stack rm yourstore`` per rimuovere lo stack).
-
-Per pull
-
-	docker stack deploy -c docker-pull.yml yourstore
-
-
-##Spring Boot Admin
-
-Per accedere all'interfaccia Spring Boot Admin recarsi al path:
-
-http://{url}:{port}/admin/
-
-Es: http://localhost:8015/admin/
-
-Username di default:
-admin
-
-Password di default:
-admin
-
-
-##Esecuzione applicazione da Server Tomcat
-
-Aggiungere la seguente variabile per settare lo spring profile nel tab "Arguments" della "Launch configuration" di tomcat (Doppio click sul server -> Open Launch configuration"). 
-
--Dspring.profiles.active="prod"
-
-
-##Build da Eclipse
-
-Da Eclipse raggiungere la configurazione per utilizzare tool esterni di build
-
-![Build and Run Project](buildRun.png)
-
-Configurare lo script build and run.cmd valorizzando i campi come in immagine
-
-![Build and Run Project](buildRun2.png)
-
-Cliccare "Apply" e poi "Run"
-
-Stessa procedura per Angular
-
-![Run Angular Project](angularRun.png)
+The GitHub link contains all the source code, configuration files, docker compose files and dockerfiles.

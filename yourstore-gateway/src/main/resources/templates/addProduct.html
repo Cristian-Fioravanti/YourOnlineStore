@@ -112,31 +112,6 @@
 
 </body>
 <script type="text/javascript">
-	const localStoData = localStorage.getItem("isAdmin")
-	$(function() {
-		$.ajax({
-			type : "GET",
-			url : "http://localhost:8080/store/utente/",
-			success : function(result) {
-				var isAdmin = false
-	        	const localStoData = localStorage.getItem("isAdmin")
-	        	for (var i=0; i< result.content.length; i++ ){
-	        		if (result.content[i].oauthId==localStoData && result.content[i].isAdmin){
-	        			isAdmin = true
-	        			document.getElementById("aggiungiProdotto").remove();
-	        			
-	        		}
-	        	}
-	        	if (!isAdmin){
-	        		window.location.replace("http://localhost:8080/home")
-	        	}
-			},
-			error : function(e) {
-				alert("Errore" + e);
-			}
-		})
-	});
-
 	function goToHome() {
 		window.location.replace("http://localhost:8080/home")
 	}

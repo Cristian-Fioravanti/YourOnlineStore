@@ -431,35 +431,49 @@
 		var totalCostInput = document.getElementById("totalCostInput")
 		var address =document.getElementById("addres")
 		var ordineIdInput = document.getElementById("ordineIdInput")
-	// 	const body = '{"ordineId":'
-	// 		+ ordineIdInput.value
-	// 		+ ',"address":"'
-	// 		+ address.value
-	// 		+ '","theUtenteObjectKey":'
-	// 		+ userId.value
-	// 		+ ',"totalCost":'
-	// 		+ totalCostInput.value
-	// 		+ ',"date":"'
-	// 		+ date
-	// 		+ '","theOrderItem":'
-	// 		+ "[]"
-	// 		+ '}';
-	// 		console.log(body)
+		var amountsArray = []
+		for(var i=0; i<productsId.length; i++) {
+			const AmountProductOnCart = document.getElementById("AmountProductOnCart"+productsId[i]);
+			amountsArray.push(AmountProductOnCart.innerHTML.split(' ')[1]);
+		}
 
+		const body = '{"productIds":'
+			+ '['+productsId+']'
+			+ ',"amounts":'
+			+ '['+amountsArray+']'
+			+ '}';
+			console.log(body)
 		$.ajax({
-			type : "get",
-			url : "http://localhost:8080/store/ordine/buy/"+ordineIdInput.value+"/"+date.value+"/"+totalCostInput.value,
-	// 		data : body,
-	// 		contentType : "application/json",
+			type : "post",
+			url : "http://localhost:8080/database/product/checkDisponibility/",
+			data : body,
+			contentType : "application/json",
 			success : function(
 					result) {
-				console.log("ajax: Abbiamo ricevuto correttamente l'ordine")
-				window.location.replace("http://localhost:8080/home");
+						if(result) {
+							$.ajax({
+							type : "get",
+							url : "http://localhost:8080/store/ordine/buy/"+ordineIdInput.value+"/"+date.value+"/"+totalCostInput.value,
+					// 		data : body,
+					// 		contentType : "application/json",
+							success : function(
+									result) {
+								console.log("ajax: Abbiamo ricevuto correttamente l'ordine")
+								window.location.replace("http://localhost:8080/home");
+							},
+							error : function(e) {
+								alert("Errore - non è stato possibile effettuare l'ordine RIPROVARE" + e);
+							}
+						})
+					} else {
+						alert("Errore - non è stato possibile effettuare l'ordine RIPROVARE");
+					}
 			},
 			error : function(e) {
 				alert("Errore - non è stato possibile effettuare l'ordine RIPROVARE" + e);
 			}
 		})
+		
 		
 
 	}
