@@ -17,7 +17,8 @@ The needed steps to build and deploy the system on your platform using a IAC app
   - Install Docker Desktop on your device.
   - Download the zip of the project from GitHub at 'https://github.com/Cristian-Fioravanti/YourOnlineStore'.
   - Unzip the project and open a terminal inside it.
-  - Execute ```docker-compose up -d```
+  - Execute ```mvn clean install```
+  - Execute ```docker-compose up --build -d```
   - From a Browser digit ```localhost:8080/home``` to access the website.
   - Stop executing ```docker compose down```.
 
