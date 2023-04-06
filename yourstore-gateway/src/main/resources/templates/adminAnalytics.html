@@ -137,14 +137,7 @@
     <!--chart end-->
 	
 <!--     <script type="text/javascript"> -->
-//     $(function(){
-//       $('.bars li .bar').each(function(key, bar){
-//         var percentage = $(this).data('percentage');
-//         $(this).animate({
-//           'height' : percentage + '%'
-//         },1000);
-//       });
-//     });
+
     </script>
 	<!--script per ricevere i dati per la statistica-->
 	<script type="text/javascript">
@@ -264,7 +257,7 @@
         				type : "GET",
         				url : "http://localhost:8080/store/ordine",
         				success : function(result) {
-        					var totalOrdini	= result.content.length
+        					var totalOrdini	= result.totalElements
         					
         					$.ajax({
         						
@@ -288,8 +281,8 @@
 //        	 									if (listUserId.findIndex(elem => elem == userId ) != -1 ) {
 //        	 										listUserId.push(userId)
 //        	 									}
-        										const prePercentuale =  parseInt(result.content.length)/totalOrdini
-        										console.log("valore numero ordini: "+result.content.length)
+        										const prePercentuale =  parseInt(result.totalElements)/totalOrdini
+        										console.log("valore numero ordini: "+result.totalElements)
         										console.log("valore totalOrdini: "+totalOrdini)
         										var bars = document.getElementById("bars2");
         										
